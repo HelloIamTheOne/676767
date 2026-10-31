@@ -1128,18 +1128,21 @@ async function adminLogin(){
  // SECRETO CELESTE:
  // NO INICIA SESIÓN NI CONCEDE PERMISOS.
 
- if(rawEmail==='Celeste' && password==='Celeste'){
+ if(
+ rawEmail.trim().toLowerCase()==='celeste' &&
+ password.trim().toLowerCase()==='celeste'
+){
 
-  document.getElementById('adminEmail').value='';
-  document.getElementById('adminPassword').value='';
-  document.getElementById('loginPanel').style.display='none';
+ document.getElementById('adminEmail').value='';
+ document.getElementById('adminPassword').value='';
+ document.getElementById('loginPanel').style.display='none';
 
-  show('secret2');
-  return;
+ show('secret2');
+ return;
 
- }
-
- const email=rawEmail.trim();
+}
+ 
+const email=rawEmail.trim();
 
  if(!email||!password){
   loginMessage('Escribe tu correo y contraseña','#ff2020');
