@@ -1590,29 +1590,45 @@ async function addDoc(){
 
 async function deleteDoc(doc){
 
- if(!isAdmin||!db)return;
+ if(!isAdmin||!db||!doc?.id)return;
 
  if(!confirm('¿Eliminar este documento?'))return;
 
+ const paths=[
+  doc.file_path,
+  doc.cover_path
+ ].filter(path=>typeof path==='string'&&path.trim()!=='');
+
  try{
 
-  const {error}=await db
-   .from('documents')
-   .delete()
-   .eq('id',doc.id);
-
-  if(error)throw error;
-
-  const paths=[doc.file_path,doc.cover_path].filter(Boolean);
-
+  // Primero eliminar los archivos de Storage
   if(paths.length){
 
    const {error:storageError}=await db.storage
     .from('documentos')
     .remove(paths);
 
-   if(storageError)console.error(storageError);
+   if(storageError){
+    throw new Error(
+     'No se pudieron eliminar los archivos. '+
+     'El registro se conservará. '+
+     storageError.message
+    );
+   }
 
+  }
+
+  // Después eliminar el registro de la base de datos
+  const {error:dbError}=await db
+   .from('documents')
+   .delete()
+   .eq('id',doc.id);
+
+  if(dbError){
+   throw new Error(
+    'Los archivos fueron eliminados, pero no se pudo '+
+    'eliminar el registro. '+dbError.message
+   );
   }
 
   alert('Documento eliminado correctamente');
@@ -1621,12 +1637,16 @@ async function deleteDoc(doc){
 
  }catch(error){
 
-  console.error(error);
+  console.error('Error al eliminar documento:',error);
+
   alert('Error al eliminar: '+error.message);
+
+  await loadDocs();
 
  }
 
 }
+
 
 // =====================================
 // DETECTOR DE PROXIMIDAD
