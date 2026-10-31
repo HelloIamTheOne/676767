@@ -1168,7 +1168,7 @@ const email=rawEmail.trim();
    password
   });
 
-console.log('Cuenta que inició sesión:', data.user?.id);
+alert('CUENTA QUE INICIÓ SESIÓN: ' + (data.user?.id || 'SIN UID'));
   
 if(error)throw error;
 
