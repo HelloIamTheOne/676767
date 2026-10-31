@@ -1669,7 +1669,10 @@ async function deleteDoc(doc){
 
 async function crearCopiaSeguridad(doc, confirmDuplicate=false){
 
-alert('PRUEBA: se ejecutó crearCopiaSeguridad');
+const {data:{session},error:sessionError} =
+ await db.auth.getSession();
+
+alert('UID DE LA SESIÓN: ' + (session?.user?.id || 'SIN SESIÓN'));
 
  if(!isAdmin || !db || !doc || !doc.id){
   alert('Acceso administrativo requerido.');
