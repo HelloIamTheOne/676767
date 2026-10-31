@@ -140,17 +140,16 @@ body.secret-mode header{
 }
 
 .secret-question{
- background:#080808;
- color:#666;
- border:1px solid #151515;
- padding:14px 35px;
- font-size:18px;
- letter-spacing:3px;
-}
-.secret-question:hover{
- color:#999;
- background:#101010;
-}
+    background-color:#080808 !important;
+    color:#999999 !important;
+    border:1px solid #333333 !important;
+    padding:14px 35px;
+    font-size:20px;
+    font-weight:bold;
+    letter-spacing:4px;
+    text-shadow:0 0 5px #555555;
+    opacity:1 !important;
+ }
 
 #secretMessage{
  display:none;
@@ -285,7 +284,7 @@ Regresar a la página normal
 <br><br>
 
 <button class="secret-question" onclick="secretCheck()">
-???
+    ???
 </button>
  
 <div id="secretMessage"></div>
