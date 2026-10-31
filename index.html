@@ -1692,7 +1692,7 @@ async function crearCopiaSeguridad(doc, confirmDuplicate=false){
   }
 
   const response=await fetch(
-   SUPABASE_URL+'/functions/v1/crear-copia-seguridad',
+   SUPABASE_URL+'/functions/v1/dynamic-handler',
    {
     method:'POST',
     headers:{
