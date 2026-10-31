@@ -17,7 +17,7 @@ const JavaScriptObfuscator = require("javascript-obfuscator");
   // Actualiza el UID del administrador confirmado por el usuario.
   html = html.replace(
     /const\s+ADMIN_UID\s*=\s*["'][^"']*["']\s*;/,
-    'const ADMIN_UID = "6dc08138-4335-4b25-b59c-00590462f6c7";'
+    'const ADMIN_UID = "a899ab31-456a-40dc-b03d-af59182afd41";'
   );
 
   // Ofusca el último script inline (el JavaScript propio, no el CDN de Supabase).
