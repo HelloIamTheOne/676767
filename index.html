@@ -75,10 +75,7 @@ input{
 #loginPanel{display:none}
 small{color:#aaa}
 
-/* =================================
-   NUEVO: BOTÓN SECRETO INVISIBLE
-================================= */
-
+/* BOTÓN SECRETO INVISIBLE DEL INICIO */
 .secret-trigger{
  position:fixed;
  right:10px;
@@ -95,15 +92,13 @@ small{color:#aaa}
  z-index:99999;
 }
 
-/* =================================
-   NUEVO: SECCIÓN SECRETA
-================================= */
-
+/* SECRETO #1 */
 body.secret-mode{
  background:#180303;
 }
 
-body.secret-mode header{
+body.secret-mode header,
+body.secret2-mode header{
  display:none;
 }
 
@@ -142,16 +137,16 @@ body.secret-mode header{
 }
 
 .secret-question{
-    background-color:#080808 !important;
-    color:#999999 !important;
-    border:1px solid #333333 !important;
-    padding:14px 35px;
-    font-size:20px;
-    font-weight:bold;
-    letter-spacing:4px;
-    text-shadow:0 0 5px #555555;
-    opacity:1 !important;
- }
+ background-color:#080808 !important;
+ color:#999999 !important;
+ border:1px solid #333333 !important;
+ padding:14px 35px;
+ font-size:20px;
+ font-weight:bold;
+ letter-spacing:4px;
+ text-shadow:0 0 5px #555555;
+ opacity:1 !important;
+}
 
 #secretMessage{
  display:none;
@@ -179,6 +174,197 @@ body.secret-mode header{
  border:1px solid #00cfff;
  text-shadow:0 0 6px #008cff;
 }
+
+/* =================================
+   SECRETO #2 - CELESTE
+================================= */
+
+body.secret2-mode{
+ background:#050d20;
+}
+
+#secret2{
+ min-height:100vh;
+ padding:25px 15px 55px;
+ background:#050d20;
+ color:#87CEFA;
+ position:relative;
+}
+
+.secret2-title{
+ color:#87CEFA;
+ text-shadow:0 0 9px #287bb5;
+ font-size:clamp(21px,5vw,29px);
+ margin:30px auto;
+}
+
+.secret2-text{
+ color:#87CEFA;
+ text-shadow:0 0 5px #287bb5;
+ font-size:16px;
+ line-height:1.9;
+ letter-spacing:1px;
+ max-width:600px;
+ margin:20px auto;
+}
+
+.secret2-return{
+ background:#071326;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+}
+
+.secret2-trigger{
+ position:absolute;
+ top:12px;
+ right:12px;
+ width:30px;
+ height:30px;
+ padding:0;
+ margin:0;
+ background:#0a1930;
+ color:#87CEFA;
+ border:1px solid #234c70;
+ border-radius:5px;
+ font-size:17px;
+}
+
+.secret2-challenge{
+ display:none;
+ max-width:380px;
+ margin:30px auto;
+ padding:20px;
+ background:#071326;
+ border:1px solid #87CEFA;
+ border-radius:10px;
+ color:#87CEFA;
+}
+
+.secret2-quick{
+ font-size:23px;
+ font-weight:bold;
+ color:#87CEFA;
+ text-shadow:0 0 8px #87CEFA;
+}
+
+.secret2-math{
+ font-size:25px;
+ margin:20px 0;
+ color:#87CEFA;
+}
+
+.secret2-timer{
+ font-size:28px;
+ font-weight:bold;
+ margin:15px;
+ color:#87CEFA;
+}
+
+.secret2-input{
+ border:1px solid #87CEFA;
+ color:#87CEFA;
+ text-align:center;
+ font-size:20px;
+}
+
+.secret2-submit{
+ background:#87CEFA;
+ color:#061326;
+}
+
+.secret2-result{
+ display:none;
+ max-width:390px;
+ margin:25px auto;
+ padding:20px;
+ border-radius:10px;
+ font-weight:bold;
+ line-height:1.8;
+ overflow-wrap:anywhere;
+}
+
+.secret2-success{
+ display:block;
+ background:#071c31;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+ text-shadow:0 0 7px #87CEFA;
+ font-size:20px;
+}
+
+.secret2-failure{
+ display:block;
+ background:#300000;
+ color:#ff2020;
+ border:1px solid #ff2020;
+ text-shadow:0 0 6px #ff2020;
+ font-size:20px;
+}
+
+.secret2-close{
+ display:block;
+ margin:15px auto 0;
+ padding:7px 13px;
+ font-size:18px;
+ background:transparent;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+}
+
+.secret2-failure .secret2-close{
+ color:#ff2020;
+ border-color:#ff2020;
+}
+
+.secret2-bottom-hotspot{
+ display:block;
+ width:24px;
+ height:18px;
+ margin:65px auto 0;
+ padding:0;
+ background:#050d20;
+ border:0;
+ opacity:1;
+}
+
+.secret2-hidden-area{
+ display:none;
+ max-width:380px;
+ margin:15px auto;
+}
+
+.secret2-hidden-area input{
+ border:1px solid #87CEFA;
+ color:#87CEFA;
+ text-align:center;
+}
+
+.secret2-hidden-area button{
+ background:#87CEFA;
+ color:#061326;
+}
+
+.secret2-abajo-result{
+ display:none;
+ max-width:300px;
+ margin:15px auto;
+ padding:15px;
+ background:#071c31;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+ border-radius:10px;
+ font-size:23px;
+ text-shadow:0 0 8px #87CEFA;
+}
+
+.secret2-abajo-result button{
+ display:block;
+ margin:10px auto 0;
+ background:transparent;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+ padding:6px 12px;
+}
 </style>
 </head>
 
@@ -194,7 +380,6 @@ body.secret-mode header{
 <button class="green" onclick="show('docs')">Documentos</button>
 <button class="blue" onclick="show('class')">Clasificación</button>
 
-<!-- NUEVO: BOTÓN INVISIBLE -->
 <button
  class="secret-trigger"
  aria-label="Acceso secreto"
@@ -260,9 +445,7 @@ body.secret-mode header{
 
 </section>
 
-<!-- =================================
-     NUEVO: SECCIÓN SECRETA
-================================= -->
+<!-- SECRETO #1 -->
 
 <section id="secret" class="page">
 
@@ -276,7 +459,7 @@ Tê fãltån pør dêscübrìr døs sêcrétõs más.
 </p>
 
 <div class="secret-math">
-(2 + 4 - 3 + 2 - 4 + 1 • 4)
+(5 + 7 - 4)
 </div>
 
 <button class="secret-return" onclick="show('home')">
@@ -285,11 +468,79 @@ Regresar a la página normal
 
 <br><br>
 
-<button class="secret-question" onclick="secretCheck()">
-    ???
-</button>
- 
+<button class="secret-question" onclick="secretCheck()">???</button>
+
 <div id="secretMessage"></div>
+
+</section>
+
+<!-- SECRETO #2 -->
+
+<section id="secret2" class="page">
+
+<button class="secret2-trigger" onclick="startSecret2Challenge()" aria-label="Abrir reto">?</button>
+
+<h2 class="secret2-title">ARCHIVO CELESTE</h2>
+
+<p class="secret2-text">
+¡Felicidades por encontrar el secreto #2! Este secreto necesitaba conocer temas más ocultos.
+<br><br>
+Si estás aquí, estás a 1 secreto de conseguir llegar a los 3 secretos, ¡Muy bien! Sigue buscando.
+</p>
+
+<button class="secret2-return" onclick="show('home')">
+Regresar a la página normal
+</button>
+
+<div id="secret2Challenge" class="secret2-challenge">
+
+<div class="secret2-quick">¡Rápido!</div>
+
+<div class="secret2-math">
+(4 - 6 + 2 + 3 - 1 + 3 + 3)
+</div>
+
+<div>Tiempo restante:</div>
+<div id="secret2Timer" class="secret2-timer">30</div>
+
+<input
+ id="secret2Answer"
+ class="secret2-input"
+ type="number"
+ inputmode="numeric"
+ placeholder="Escribe el resultado">
+
+<button class="secret2-submit" onclick="submitSecret2Answer()">
+Enviar respuesta
+</button>
+
+</div>
+
+<div id="secret2Result" class="secret2-result"></div>
+
+<!-- PUNTO DISCRETO INFERIOR -->
+
+<button
+ class="secret2-bottom-hotspot"
+ aria-label="Punto oculto"
+ onclick="revealSecret2Bottom()">
+</button>
+
+<div id="secret2HiddenArea" class="secret2-hidden-area">
+
+<input
+ id="secret2BottomInput"
+ type="text"
+ placeholder="">
+
+<button onclick="checkSecret2Bottom()">Enviar</button>
+
+</div>
+
+<div id="secret2AbajoResult" class="secret2-abajo-result">
+¡8!
+<button onclick="closeSecret2Abajo()">X</button>
+</div>
 
 </section>
 
@@ -306,6 +557,9 @@ const db = window.supabase.createClient(
 );
 
 let isAdmin = false;
+let secret2Interval = null;
+let secret2Seconds = 30;
+let secret2Finished = false;
 
 // NAVEGACIÓN
 function show(id){
@@ -316,22 +570,32 @@ function show(id){
 
  document.getElementById(id).classList.add('active');
 
- // NUEVO: CAMBIAR EL FONDO
  document.body.classList.toggle(
   'secret-mode',
   id === 'secret'
  );
 
- // NUEVO: LIMPIAR MENSAJE AL ENTRAR
+ document.body.classList.toggle(
+  'secret2-mode',
+  id === 'secret2'
+ );
+
  if(id === 'secret'){
+
   const message=document.getElementById('secretMessage');
   message.className='';
   message.style.display='none';
   message.textContent='';
+
  }
+
+ if(id === 'secret2'){
+  resetSecret2Challenge();
+ }
+
 }
 
-// NUEVO: COMPROBACIÓN DEL BOTÓN SECRETO
+// SECRETO #1
 async function secretCheck(){
 
  const message=document.getElementById('secretMessage');
@@ -342,7 +606,6 @@ async function secretCheck(){
 
  try{
 
-  // Comprobación de usuario con Supabase
   const {data,error}=await db.auth.getUser();
 
   if(error)throw error;
@@ -377,6 +640,141 @@ async function secretCheck(){
  }
 }
 
+// SECRETO #2: RETO DE 30 SEGUNDOS
+function startSecret2Challenge(){
+
+ if(secret2Finished)return;
+
+ const challenge=document.getElementById('secret2Challenge');
+ const result=document.getElementById('secret2Result');
+
+ result.style.display='none';
+ result.className='secret2-result';
+
+ challenge.style.display='block';
+
+ secret2Seconds=30;
+ document.getElementById('secret2Timer').textContent=secret2Seconds;
+ document.getElementById('secret2Answer').value='';
+
+ clearInterval(secret2Interval);
+
+ secret2Interval=setInterval(()=>{
+
+  secret2Seconds--;
+
+  document.getElementById('secret2Timer').textContent=secret2Seconds;
+
+  if(secret2Seconds<=0){
+
+   clearInterval(secret2Interval);
+   finishSecret2(false);
+
+  }
+
+ },1000);
+
+}
+
+function submitSecret2Answer(){
+
+ if(secret2Finished)return;
+
+ const answer=document.getElementById('secret2Answer').value;
+
+ if(answer==='8'){
+
+  finishSecret2(true);
+
+ }else{
+
+  finishSecret2(false);
+
+ }
+
+}
+
+function finishSecret2(correct){
+
+ clearInterval(secret2Interval);
+
+ secret2Finished=true;
+
+ document.getElementById('secret2Challenge').style.display='none';
+
+ const result=document.getElementById('secret2Result');
+
+ result.style.display='block';
+
+ if(correct){
+
+  result.className='secret2-result secret2-success';
+
+  result.innerHTML=
+   '01000001 01100010 01100001 01101010 01101111' +
+   '<button class="secret2-close" onclick="closeSecret2Result()">X</button>';
+
+ }else{
+
+  result.className='secret2-result secret2-failure';
+
+  result.innerHTML=
+   'ACCESO DENEGADO' +
+   '<button class="secret2-close" onclick="closeSecret2Result()">X</button>';
+
+ }
+
+}
+
+function closeSecret2Result(){
+
+ document.getElementById('secret2Result').style.display='none';
+
+}
+
+function resetSecret2Challenge(){
+
+ clearInterval(secret2Interval);
+
+ secret2Finished=false;
+ secret2Seconds=30;
+
+ document.getElementById('secret2Challenge').style.display='none';
+ document.getElementById('secret2Result').style.display='none';
+ document.getElementById('secret2Timer').textContent='30';
+ document.getElementById('secret2Answer').value='';
+
+}
+
+// CAMPO OCULTO: ABAJO
+function revealSecret2Bottom(){
+
+ document.getElementById('secret2HiddenArea').style.display='block';
+
+}
+
+function checkSecret2Bottom(){
+
+ const answer=document.getElementById('secret2BottomInput').value;
+
+ if(answer==='Abajo'){
+
+  document.getElementById('secret2AbajoResult').style.display='block';
+
+ }else{
+
+  document.getElementById('secret2AbajoResult').style.display='none';
+
+ }
+
+}
+
+function closeSecret2Abajo(){
+
+ document.getElementById('secret2AbajoResult').style.display='none';
+
+}
+
 // MOSTRAR LOGIN
 function toggleLogin(){
 
@@ -409,8 +807,23 @@ function loginMessage(message,color='#39FF14'){
 // INICIAR SESIÓN
 async function adminLogin(){
 
- const email=document.getElementById('adminEmail').value.trim();
+ const rawEmail=document.getElementById('adminEmail').value;
  const password=document.getElementById('adminPassword').value;
+
+ // ACCESO AL SECRETO #2
+ // No inicia sesión ni activa permisos de administrador.
+ if(rawEmail==='Celeste' && password==='Celeste'){
+
+  document.getElementById('adminEmail').value='';
+  document.getElementById('adminPassword').value='';
+  document.getElementById('loginPanel').style.display='none';
+
+  show('secret2');
+  return;
+
+ }
+
+ const email=rawEmail.trim();
 
  if(!email || !password){
   loginMessage('Escribe tu correo y contraseña','#ff2020');
@@ -466,6 +879,7 @@ async function adminLogin(){
   btn.textContent='INICIAR SESIÓN';
 
  }
+
 }
 
 // CERRAR SESIÓN
@@ -655,104 +1069,4 @@ async function addDoc(){
 
    if(result.error)throw result.error;
 
-   coverURL=db.storage.from('documentos')
-    .getPublicUrl(coverPath).data.publicUrl;
-
-  }
-
-  result=await db.from('documents').insert({
-
-   name,
-   file_url:fileURL,
-   file_path:filePath,
-   cover_url:coverURL,
-   cover_path:coverPath
-
-  });
-
-  if(result.error)throw result.error;
-
-  document.getElementById('docName').value='';
-  document.getElementById('file').value='';
-  document.getElementById('cover').value='';
-
-  alert('Documento agregado correctamente');
-
-  await loadDocs();
-
- }catch(error){
-
-  const paths=[filePath];
-
-  if(coverPath)paths.push(coverPath);
-
-  await db.storage.from('documentos').remove(paths);
-
-  alert('Error: '+error.message);
-
- }
-}
-
-// ELIMINAR DOCUMENTOS
-async function deleteDoc(doc){
-
- if(!isAdmin)return;
-
- if(!confirm('¿Eliminar este documento?'))return;
-
- try{
-
-  const {error}=await db.from('documents')
-   .delete()
-   .eq('id',doc.id);
-
-  if(error)throw error;
-
-  const paths=[doc.file_path];
-
-  if(doc.cover_path)paths.push(doc.cover_path);
-
-  const result=await db.storage.from('documentos').remove(paths);
-
-  if(result.error){
-
-   alert('Registro eliminado, pero no se pudieron eliminar todos los archivos: '+result.error.message);
-
-  }else{
-
-   alert('Documento eliminado');
-
-  }
-
-  await loadDocs();
-
- }catch(error){
-
-  alert('Error: '+error.message);
-
- }
-}
-
-// CAMBIOS DE SESIÓN
-db.auth.onAuthStateChange((event,session)=>{
-
- isAdmin=session?.user?.id===ADMIN_UID;
-
- updateAdmin();
-
- if(event==='SIGNED_IN' || event==='SIGNED_OUT'){
-
-  setTimeout(loadDocs,0);
-
- }
-
-});
-
-// INICIO
-updateAdmin();
-checkSession();
-
-</script>
-
-</body>
-</html>
+   coverURL=db.storage.from('documentos
