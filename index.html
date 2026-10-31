@@ -1669,6 +1669,8 @@ async function deleteDoc(doc){
 
 async function crearCopiaSeguridad(doc, confirmDuplicate=false){
 
+alert('PRUEBA: se ejecutó crearCopiaSeguridad');
+
  if(!isAdmin || !db || !doc || !doc.id){
   alert('Acceso administrativo requerido.');
   return;
