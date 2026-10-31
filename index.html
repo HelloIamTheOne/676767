@@ -5,509 +5,1354 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARCHIVO CLASIFICADO</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#000;color:white;font-family:Arial;text-align:center;transition:background .3s}
-h1,h3{color:#39FF14;text-shadow:0 0 10px #39FF14}
+
+body{
+ margin:0;
+ background:#000;
+ color:white;
+ font-family:Arial;
+ text-align:center;
+ transition:background .3s;
+}
+
+h1,h3{
+ color:#39FF14;
+ text-shadow:0 0 10px #39FF14;
+}
+
 header{padding:25px 10px}
-p{color:#ddd;letter-spacing:1px}
-button{padding:13px 20px;margin:8px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+
+p{
+ color:#ddd;
+ letter-spacing:1px;
+}
+
+button{
+ padding:13px 20px;
+ margin:8px;
+ border:0;
+ border-radius:8px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
 .green{background:#39FF14;color:black}
 .blue{background:#008cff;color:white}
 .red{background:#ff2020;color:white}
-.page{display:none;padding:15px}
+
+.page{
+ display:none;
+ padding:15px;
+}
+
 .active{display:block}
-.card{background:#101010;border:1px solid #39FF14;border-radius:12px;padding:18px;margin:15px auto;max-width:400px}
-.card img{width:100%;height:160px;object-fit:cover}
-input{display:block;margin:12px auto;padding:13px;width:90%;max-width:350px;background:#151515;color:white;border:1px solid #39FF14;border-radius:6px}
+
+.card{
+ background:#101010;
+ border:1px solid #39FF14;
+ border-radius:12px;
+ padding:18px;
+ margin:15px auto;
+ max-width:400px;
+}
+
+.card img{
+ width:100%;
+ height:160px;
+ object-fit:cover;
+}
+
+input{
+ display:block;
+ margin:12px auto;
+ padding:13px;
+ width:90%;
+ max-width:350px;
+ background:#151515;
+ color:white;
+ border:1px solid #39FF14;
+ border-radius:6px;
+}
+
 .adminOnly{display:none}
+
 #documents{min-height:40vh}
 #loginPanel{display:none}
+
 small{color:#aaa}
 
-.secret-trigger{position:fixed;right:10px;bottom:10px;width:28px;height:28px;padding:0;margin:0;background:#000!important;color:#000!important;border:0!important;border-radius:0;opacity:1;z-index:99999}
+/* SECRETO 1 */
+
+.secret-trigger{
+ position:fixed;
+ right:10px;
+ bottom:10px;
+ width:28px;
+ height:28px;
+ padding:0;
+ margin:0;
+ background:#000!important;
+ color:#000!important;
+ border:0!important;
+ border-radius:0;
+ opacity:1;
+ z-index:99999;
+}
 
 body.secret-mode{background:#180303}
-body.secret-mode header,body.secret2-mode header{display:none}
-#secret{min-height:100vh;padding:35px 15px;background:#180303}
-.secret-title{color:#ff2929;text-shadow:0 0 8px #650000;font-size:clamp(20px,5vw,28px);margin:25px auto}
-.secret-text{color:#ff2929;text-shadow:0 0 5px #650000;font-size:17px;line-height:1.8;letter-spacing:1px}
-.secret-math{color:#ff2929;font-size:24px;margin:35px 0;text-shadow:0 0 8px #650000}
-.secret-return{background:#101010;color:#ddd;border:1px solid #333}
-.secret-question{background-color:#080808!important;color:#999!important;border:1px solid #333!important;padding:14px 35px;font-size:20px;font-weight:bold;letter-spacing:4px;text-shadow:0 0 5px #555;opacity:1!important}
-#secretMessage{display:none;max-width:380px;margin:25px auto;padding:20px;border-radius:10px;font-weight:bold;font-size:19px;line-height:1.7}
-.secret-denied{display:block!important;background:#300000;color:#ff2020;border:1px solid #ff2020;text-shadow:0 0 6px #ff2020}
-.secret-allowed{display:block!important;background:#001b30;color:#00cfff;border:1px solid #00cfff;text-shadow:0 0 6px #008cff}
+
+body.secret-mode header,
+body.secret2-mode header{
+ display:none;
+}
+
+#secret{
+ min-height:100vh;
+ padding:35px 15px;
+ background:#180303;
+}
+
+.secret-title{
+ color:#ff2929;
+ text-shadow:0 0 8px #650000;
+ font-size:clamp(20px,5vw,28px);
+ margin:25px auto;
+}
+
+.secret-text{
+ color:#ff2929;
+ text-shadow:0 0 5px #650000;
+ font-size:17px;
+ line-height:1.8;
+ letter-spacing:1px;
+}
+
+.secret-math{
+ color:#ff2929;
+ font-size:24px;
+ margin:35px 0;
+ text-shadow:0 0 8px #650000;
+}
+
+.secret-return{
+ background:#101010;
+ color:#ddd;
+ border:1px solid #333;
+}
+
+.secret-question{
+ background-color:#080808!important;
+ color:#999!important;
+ border:1px solid #333!important;
+ padding:14px 35px;
+ font-size:20px;
+ font-weight:bold;
+ letter-spacing:4px;
+ text-shadow:0 0 5px #555;
+ opacity:1!important;
+}
+
+#secretMessage{
+ display:none;
+ max-width:380px;
+ margin:25px auto;
+ padding:20px;
+ border-radius:10px;
+ font-weight:bold;
+ font-size:19px;
+ line-height:1.7;
+}
+
+.secret-denied{
+ display:block!important;
+ background:#300000;
+ color:#ff2020;
+ border:1px solid #ff2020;
+ text-shadow:0 0 6px #ff2020;
+}
+
+.secret-allowed{
+ display:block!important;
+ background:#001b30;
+ color:#00cfff;
+ border:1px solid #00cfff;
+ text-shadow:0 0 6px #008cff;
+}
+
+/* SECRETO 2 */
 
 body.secret2-mode{background:#050d20}
-#secret2{min-height:100vh;padding:25px 15px 55px;background:#050d20;color:#87CEFA;position:relative}
-.secret2-title{color:#87CEFA;text-shadow:0 0 9px #287bb5;font-size:clamp(21px,5vw,29px);margin:30px auto}
-.secret2-text{color:#87CEFA;text-shadow:0 0 5px #287bb5;font-size:16px;line-height:1.9;letter-spacing:1px;max-width:600px;margin:20px auto}
-.secret2-return{background:#071326;color:#87CEFA;border:1px solid #87CEFA}
-.secret2-trigger{position:absolute;top:12px;right:12px;width:30px;height:30px;padding:0;margin:0;background:#0a1930;color:#87CEFA;border:1px solid #234c70;border-radius:5px;font-size:17px}
-.secret2-challenge{display:none;max-width:380px;margin:30px auto;padding:20px;background:#071326;border:1px solid #87CEFA;border-radius:10px;color:#87CEFA}
-.secret2-quick{font-size:23px;font-weight:bold;color:#87CEFA;text-shadow:0 0 8px #87CEFA}
-.secret2-math{font-size:25px;margin:20px 0;color:#87CEFA}
-.secret2-timer{font-size:28px;font-weight:bold;margin:15px;color:#87CEFA}
-.secret2-input{border:1px solid #87CEFA;color:#87CEFA;text-align:center;font-size:20px}
-.secret2-submit{background:#87CEFA;color:#061326}
-.secret2-result{display:none;max-width:390px;margin:25px auto;padding:20px;border-radius:10px;font-weight:bold;line-height:1.8;overflow-wrap:anywhere}
-.secret2-success{display:block;background:#071c31;color:#87CEFA;border:1px solid #87CEFA;text-shadow:0 0 7px #87CEFA;font-size:20px}
-.secret2-failure{display:block;background:#300000;color:#ff2020;border:1px solid #ff2020;text-shadow:0 0 6px #ff2020;font-size:20px}
-.secret2-close{display:block;margin:15px auto 0;padding:7px 13px;font-size:18px;background:transparent;color:#87CEFA;border:1px solid #87CEFA}
-.secret2-failure .secret2-close{color:#ff2020;border-color:#ff2020}
-.secret2-bottom-hotspot{display:block;width:24px;height:18px;margin:65px auto 0;padding:0;background:#050d20;border:0;opacity:1}
-.secret2-hidden-area{display:none;max-width:380px;margin:15px auto}
-.secret2-hidden-area input{border:1px solid #87CEFA;color:#87CEFA;text-align:center}
-.secret2-hidden-area button{background:#87CEFA;color:#061326}
-.secret2-abajo-result{display:none;max-width:300px;margin:15px auto;padding:15px;background:#071c31;color:#87CEFA;border:1px solid #87CEFA;border-radius:10px;font-size:23px;text-shadow:0 0 8px #87CEFA}
-.secret2-abajo-result button{display:block;margin:10px auto 0;background:transparent;color:#87CEFA;border:1px solid #87CEFA;padding:6px 12px}
+
+#secret2{
+ min-height:100vh;
+ padding:25px 15px 55px;
+ background:#050d20;
+ color:#87CEFA;
+ position:relative;
+}
+
+.secret2-title{
+ color:#87CEFA;
+ text-shadow:0 0 9px #287bb5;
+ font-size:clamp(21px,5vw,29px);
+ margin:30px auto;
+}
+
+.secret2-text{
+ color:#87CEFA;
+ text-shadow:0 0 5px #287bb5;
+ font-size:16px;
+ line-height:1.9;
+ letter-spacing:1px;
+ max-width:600px;
+ margin:20px auto;
+}
+
+.secret2-return{
+ background:#071326;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+}
+
+.secret2-trigger{
+ position:absolute;
+ top:12px;
+ right:12px;
+ width:30px;
+ height:30px;
+ padding:0;
+ margin:0;
+ background:#0a1930;
+ color:#87CEFA;
+ border:1px solid #234c70;
+ border-radius:5px;
+ font-size:17px;
+}
+
+.secret2-challenge{
+ display:none;
+ max-width:380px;
+ margin:30px auto;
+ padding:20px;
+ background:#071326;
+ border:1px solid #87CEFA;
+ border-radius:10px;
+ color:#87CEFA;
+}
+
+.secret2-quick{
+ font-size:23px;
+ font-weight:bold;
+ color:#87CEFA;
+ text-shadow:0 0 8px #87CEFA;
+}
+
+.secret2-math{
+ font-size:25px;
+ margin:20px 0;
+ color:#87CEFA;
+}
+
+.secret2-timer{
+ font-size:28px;
+ font-weight:bold;
+ margin:15px;
+ color:#87CEFA;
+}
+
+.secret2-input{
+ border:1px solid #87CEFA;
+ color:#87CEFA;
+ text-align:center;
+ font-size:20px;
+}
+
+.secret2-submit{
+ background:#87CEFA;
+ color:#061326;
+}
+
+.secret2-result{
+ display:none;
+ max-width:390px;
+ margin:25px auto;
+ padding:20px;
+ border-radius:10px;
+ font-weight:bold;
+ line-height:1.8;
+ overflow-wrap:anywhere;
+}
+
+.secret2-success{
+ display:block;
+ background:#071c31;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+ text-shadow:0 0 7px #87CEFA;
+ font-size:20px;
+}
+
+.secret2-failure{
+ display:block;
+ background:#300000;
+ color:#ff2020;
+ border:1px solid #ff2020;
+ text-shadow:0 0 6px #ff2020;
+ font-size:20px;
+}
+
+.secret2-close{
+ display:block;
+ margin:15px auto 0;
+ padding:7px 13px;
+ font-size:18px;
+ background:transparent;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+}
+
+.secret2-failure .secret2-close{
+ color:#ff2020;
+ border-color:#ff2020;
+}
+
+.secret2-bottom-hotspot{
+ display:block;
+ width:24px;
+ height:18px;
+ margin:65px auto 0;
+ padding:0;
+ background:#050d20;
+ border:0;
+ opacity:1;
+}
+
+.secret2-hidden-area{
+ display:none;
+ max-width:380px;
+ margin:15px auto;
+}
+
+.secret2-hidden-area input{
+ border:1px solid #87CEFA;
+ color:#87CEFA;
+ text-align:center;
+}
+
+.secret2-hidden-area button{
+ background:#87CEFA;
+ color:#061326;
+}
+
+.secret2-abajo-result{
+ display:none;
+ max-width:300px;
+ margin:15px auto;
+ padding:15px;
+ background:#071c31;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+ border-radius:10px;
+ font-size:23px;
+ text-shadow:0 0 8px #87CEFA;
+}
+
+.secret2-abajo-result button{
+ display:block;
+ margin:10px auto 0;
+ background:transparent;
+ color:#87CEFA;
+ border:1px solid #87CEFA;
+ padding:6px 12px;
+}
+
+/* PRUEBA JAVASCRIPT */
+
+#jsTestPanel{
+ position:fixed;
+ bottom:10px;
+ left:10px;
+ z-index:99999;
+ background:#222;
+ padding:12px;
+ border:2px solid yellow;
+}
+
+#testJS{
+ background:yellow;
+ color:black;
+ padding:10px;
+}
+
+#jsStatus{
+ color:white;
+ margin:5px;
+}
 </style>
 </head>
-<div style="position:fixed;bottom:10px;left:10px;z-index:99999;background:#222;padding:12px;border:2px solid yellow;">
-  <button id="testJS" style="background:yellow;color:black;padding:10px;">
-    PROBAR JAVASCRIPT
-  </button>
-  <p id="jsStatus" style="color:white;">Esperando prueba...</p>
-</div>
 
-<script>
-document.getElementById("testJS").addEventListener("click", function() {
-  document.getElementById("jsStatus").textContent =
-    "¡JAVASCRIPT FUNCIONA!";
-});
-
-window.addEventListener("error", function(e) {
-  document.getElementById("jsStatus").textContent =
-    "ERROR: " + e.message;
-});
-</script>
 <body>
 
+<!-- PRUEBA JAVASCRIPT -->
+
+<div id="jsTestPanel">
+ <button id="testJS">PROBAR JAVASCRIPT</button>
+ <p id="jsStatus">Esperando prueba...</p>
+</div>
+
 <header>
-<h1>ARCHIVO CLASIFICADO</h1>
-<p>67 67 67 67 67 67 67 67 67 67</p>
+ <h1>ARCHIVO CLASIFICADO</h1>
+ <p>67 67 67 67 67 67 67 67 67 67</p>
 </header>
 
+<!-- PÁGINA PRINCIPAL -->
+
 <section id="home" class="page active">
-<button class="green" onclick="show('docs')">Documentos</button>
-<button class="blue" onclick="show('class')">Clasificación</button>
-<button class="secret-trigger" aria-label="Acceso secreto" onclick="show('secret')"></button>
+
+ <button class="green" onclick="show('docs')">
+  Documentos
+ </button>
+
+ <button class="blue" onclick="show('class')">
+  Clasificación
+ </button>
+
+ <button
+  class="secret-trigger"
+  aria-label="Acceso secreto"
+  onclick="show('secret')">
+ </button>
+
 </section>
+
+<!-- DOCUMENTOS -->
 
 <section id="docs" class="page">
-<h1 id="docsTitle">DOCUMENTOS</h1>
-<p id="docsDescription">Archivo de documentos clasificados</p>
-<button class="blue adminOnly" onclick="editSection('docs')">Editar sección</button>
 
-<div id="addPanel" class="card adminOnly">
-<h3>Agregar documento</h3>
-<input id="docName" placeholder="Nombre del documento">
-<label>Imagen de portada (opcional)</label>
-<input type="file" id="cover" accept="image/*">
-<label>Archivo PDF</label>
-<input type="file" id="file" accept="application/pdf">
-<button class="green" onclick="addDoc()">Agregar documento</button>
-</div>
+ <h1 id="docsTitle">DOCUMENTOS</h1>
 
-<div id="documents">Cargando documentos...</div>
-<button class="blue" onclick="show('home')">Regresar</button>
+ <p id="docsDescription">
+  Archivo de documentos clasificados
+ </p>
 
-<div style="margin-top:50px;padding:20px">
-<button class="green" onclick="toggleLogin()">Administrador</button>
-<button class="red adminOnly" onclick="logout()">Cerrar sesión</button>
-</div>
+ <button
+  class="blue adminOnly"
+  onclick="editSection('docs')">
+  Editar sección
+ </button>
 
-<div id="loginPanel" class="card">
-<h3>ACCESO ADMINISTRADOR</h3>
-<input id="adminEmail" type="email" placeholder="Correo electrónico">
-<input id="adminPassword" type="password" placeholder="Contraseña">
-<button class="green" id="loginButton" onclick="adminLogin()">INICIAR SESIÓN</button>
-<button class="red" onclick="toggleLogin()">Cancelar</button>
-<p id="loginMessage"></p>
-</div>
+ <div id="addPanel" class="card adminOnly">
+
+  <h3>Agregar documento</h3>
+
+  <input
+   id="docName"
+   placeholder="Nombre del documento">
+
+  <label>Imagen de portada (opcional)</label>
+
+  <input
+   type="file"
+   id="cover"
+   accept="image/*">
+
+  <label>Archivo PDF</label>
+
+  <input
+   type="file"
+   id="file"
+   accept="application/pdf">
+
+  <button class="green" onclick="addDoc()">
+   Agregar documento
+  </button>
+
+ </div>
+
+ <div id="documents">
+  Cargando documentos...
+ </div>
+
+ <button class="blue" onclick="show('home')">
+  Regresar
+ </button>
+
+ <div style="margin-top:50px;padding:20px">
+
+  <button class="green" onclick="toggleLogin()">
+   Administrador
+  </button>
+
+  <button class="red adminOnly" onclick="logout()">
+   Cerrar sesión
+  </button>
+
+ </div>
+
+ <div id="loginPanel" class="card">
+
+  <h3>ACCESO ADMINISTRADOR</h3>
+
+  <input
+   id="adminEmail"
+   type="email"
+   placeholder="Correo electrónico">
+
+  <input
+   id="adminPassword"
+   type="password"
+   placeholder="Contraseña">
+
+  <button
+   class="green"
+   id="loginButton"
+   onclick="adminLogin()">
+   INICIAR SESIÓN
+  </button>
+
+  <button class="red" onclick="toggleLogin()">
+   Cancelar
+  </button>
+
+  <p id="loginMessage"></p>
+
+ </div>
+
 </section>
+
+<!-- CLASIFICACIÓN -->
 
 <section id="class" class="page">
-<h1 id="classTitle">CLASIFICACIÓN</h1>
-<p id="classDescription">Niveles de clasificación</p>
-<button class="blue adminOnly" onclick="editSection('class')">Editar sección</button>
 
-<div id="levels">
-<div class="card"><h3>Clasificación 0</h3><button class="green">Desbloqueado</button></div>
-<div class="card"><h3>Clasificación 1</h3><button class="green">Desbloqueado</button></div>
-<div class="card"><h3>Clasificación 2</h3><button class="red">Bloqueado</button></div>
-<div class="card"><h3>Clasificación 3</h3><button class="red">Bloqueado</button></div>
-<div class="card"><h3>Clasificación 4</h3><button class="red">Bloqueado</button></div>
-</div>
+ <h1 id="classTitle">CLASIFICACIÓN</h1>
 
-<button class="blue" onclick="show('home')">Regresar</button>
-<button class="red adminOnly" onclick="logout()">Cerrar sesión</button>
+ <p id="classDescription">
+  Niveles de clasificación
+ </p>
+
+ <button
+  class="blue adminOnly"
+  onclick="editSection('class')">
+  Editar sección
+ </button>
+
+ <div id="levels">
+
+  <div class="card">
+   <h3>Clasificación 0</h3>
+   <button class="green">Desbloqueado</button>
+  </div>
+
+  <div class="card">
+   <h3>Clasificación 1</h3>
+   <button class="green">Desbloqueado</button>
+  </div>
+
+  <div class="card">
+   <h3>Clasificación 2</h3>
+   <button class="red">Bloqueado</button>
+  </div>
+
+  <div class="card">
+   <h3>Clasificación 3</h3>
+   <button class="red">Bloqueado</button>
+  </div>
+
+  <div class="card">
+   <h3>Clasificación 4</h3>
+   <button class="red">Bloqueado</button>
+  </div>
+
+ </div>
+
+ <button class="blue" onclick="show('home')">
+  Regresar
+ </button>
+
+ <button class="red adminOnly" onclick="logout()">
+  Cerrar sesión
+ </button>
+
 </section>
+
+<!-- SECRETO 1 -->
 
 <section id="secret" class="page">
-<h2 class="secret-title">Hølä, müy prøbåblēméntê nô tē ãçüērdës dè mí.</h2>
-<p class="secret-text">¡Fēlïcîdãdês pôr llégår hãstá åcä! Tê fãltån pør dêscübrìr døs sêcrétõs más.</p>
-<div class="secret-math">(5 + 7 - 4)</div>
-<button class="secret-return" onclick="show('home')">Regresar a la página normal</button>
-<br><br>
-<button class="secret-question" onclick="secretCheck()">???</button>
-<div id="secretMessage"></div>
+
+ <h2 class="secret-title">
+  Hølä, müy prøbåblēméntê nô tē ãçüērdës dè mí.
+ </h2>
+
+ <p class="secret-text">
+  ¡Fēlïcîdãdês pôr llégår hãstá åcä!
+  Tê fãltån pør dêscübrìr døs sêcrétõs más.
+ </p>
+
+ <div class="secret-math">
+  (5 + 7 - 4)
+ </div>
+
+ <button
+  class="secret-return"
+  onclick="show('home')">
+  Regresar a la página normal
+ </button>
+
+ <br><br>
+
+ <button
+  class="secret-question"
+  onclick="secretCheck()">
+  ???
+ </button>
+
+ <div id="secretMessage"></div>
+
 </section>
 
+<!-- SECRETO 2 -->
+
 <section id="secret2" class="page">
-<button class="secret2-trigger" onclick="startSecret2Challenge()" aria-label="Abrir reto">?</button>
-<h2 class="secret2-title">ARCHIVO CELESTE</h2>
-<p class="secret2-text">
-¡Felicidades por encontrar el secreto #2! Este secreto necesitaba conocer temas más ocultos.
-<br><br>
-Si estás aquí, estás a 1 secreto de conseguir llegar a los 3 secretos, ¡Muy bien! Sigue buscando.
-</p>
-<button class="secret2-return" onclick="show('home')">Regresar a la página normal</button>
 
-<div id="secret2Challenge" class="secret2-challenge">
-<div class="secret2-quick">¡Rápido!</div>
-<div class="secret2-math">(4 - 6 + 2 + 3 - 1 + 3 + 3)</div>
-<div>Tiempo restante:</div>
-<div id="secret2Timer" class="secret2-timer">30</div>
-<input id="secret2Answer" class="secret2-input" type="number" inputmode="numeric" placeholder="Escribe el resultado">
-<button class="secret2-submit" onclick="submitSecret2Answer()">Enviar respuesta</button>
-</div>
+ <button
+  class="secret2-trigger"
+  onclick="startSecret2Challenge()"
+  aria-label="Abrir reto">
+  ?
+ </button>
 
-<div id="secret2Result" class="secret2-result"></div>
-<button class="secret2-bottom-hotspot" aria-label="Punto oculto" onclick="revealSecret2Bottom()"></button>
+ <h2 class="secret2-title">
+  ARCHIVO CELESTE
+ </h2>
 
-<div id="secret2HiddenArea" class="secret2-hidden-area">
-<input id="secret2BottomInput" type="text" placeholder="">
-<button onclick="checkSecret2Bottom()">Enviar</button>
-</div>
+ <p class="secret2-text">
+  ¡Felicidades por encontrar el secreto #2!
+  Este secreto necesitaba conocer temas más ocultos.
+  <br><br>
+  Si estás aquí, estás a 1 secreto de conseguir llegar
+  a los 3 secretos, ¡Muy bien! Sigue buscando.
+ </p>
 
-<div id="secret2AbajoResult" class="secret2-abajo-result">
-¡8!
-<button onclick="closeSecret2Abajo()">X</button>
-</div>
+ <button
+  class="secret2-return"
+  onclick="show('home')">
+  Regresar a la página normal
+ </button>
+
+ <div id="secret2Challenge" class="secret2-challenge">
+
+  <div class="secret2-quick">
+   ¡Rápido!
+  </div>
+
+  <div class="secret2-math">
+   (4 - 6 + 2 + 3 - 1 + 3 + 3)
+  </div>
+
+  <div>Tiempo restante:</div>
+
+  <div id="secret2Timer" class="secret2-timer">
+   30
+  </div>
+
+  <input
+   id="secret2Answer"
+   class="secret2-input"
+   type="number"
+   inputmode="numeric"
+   placeholder="Escribe el resultado">
+
+  <button
+   class="secret2-submit"
+   onclick="submitSecret2Answer()">
+   Enviar respuesta
+  </button>
+
+ </div>
+
+ <div id="secret2Result" class="secret2-result"></div>
+
+ <button
+  class="secret2-bottom-hotspot"
+  aria-label="Punto oculto"
+  onclick="revealSecret2Bottom()">
+ </button>
+
+ <div id="secret2HiddenArea" class="secret2-hidden-area">
+
+  <input
+   id="secret2BottomInput"
+   type="text"
+   placeholder="">
+
+  <button onclick="checkSecret2Bottom()">
+   Enviar
+  </button>
+
+ </div>
+
+ <div id="secret2AbajoResult" class="secret2-abajo-result">
+
+  ¡8!
+
+  <button onclick="closeSecret2Abajo()">
+   X
+  </button>
+
+ </div>
+
 </section>
 
 <script>
-// CONFIGURACIÓN
-const SUPABASE_URL="https://wiwqnlhavvmhnwmoyjtw.supabase.co";
-const SUPABASE_KEY="sb_publishable_vQHchnFMXr4K5NuWYZD3HA_bXXpyHxZ";
-const ADMIN_UID="a899ab31-456a-40dc-b03d-af59182afd41";
 
-// Conexión protegida: si Supabase no carga, la página sigue funcionando.
+// =====================================
+// CONFIGURACIÓN
+// =====================================
+
+const SUPABASE_URL =
+ "https://wiwqnlhavvmhnwmoyjtw.supabase.co";
+
+const SUPABASE_KEY =
+ "sb_publishable_vQHchnFMXr4K5NuWYZD3HA_bXXpyHxZ";
+
+const ADMIN_UID =
+ "a899ab31-456a-40dc-b03d-af59182afd41";
+
+// CONEXIÓN CON SUPABASE
+
 let db=null;
 
-try {
+try{
+
  if(
   window.supabase &&
   typeof window.supabase.createClient==='function'
  ){
+
   db=window.supabase.createClient(
    SUPABASE_URL,
    SUPABASE_KEY
   );
+
  }
-} catch(error) {
+
+}catch(error){
+
  console.error('Error de Supabase:',error);
+
 }
+
 let isAdmin=false;
+
 let secret2Interval=null;
 let secret2Seconds=30;
 let secret2Finished=false;
 
+
+// =====================================
 // NAVEGACIÓN
+// =====================================
+
 function show(id){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+
+ document.querySelectorAll('.page').forEach(page=>{
+  page.classList.remove('active');
+ });
 
  const page=document.getElementById(id);
+
  if(!page)return;
 
  page.classList.add('active');
 
- document.body.classList.toggle('secret-mode',id==='secret');
- document.body.classList.toggle('secret2-mode',id==='secret2');
+ document.body.classList.toggle(
+  'secret-mode',
+  id==='secret'
+ );
+
+ document.body.classList.toggle(
+  'secret2-mode',
+  id==='secret2'
+ );
 
  if(id==='secret'){
-  const message=document.getElementById('secretMessage');
+
+  const message=
+   document.getElementById('secretMessage');
+
   message.className='';
   message.style.display='none';
   message.textContent='';
+
  }
 
- if(id==='secret2')resetSecret2Challenge();
+ if(id==='secret2'){
+
+  resetSecret2Challenge();
+
+ }
+
 }
 
-// SECRETO #1
+
+// =====================================
+// SECRETO 1
+// =====================================
+
 async function secretCheck(){
- const message=document.getElementById('secretMessage');
+
+ const message=
+  document.getElementById('secretMessage');
+
  message.className='';
  message.style.display='block';
 
  if(!db){
+
   message.className='secret-denied';
-  message.textContent='No se pudo conectar con el servicio.';
+
+  message.textContent=
+   'No se pudo conectar con el servicio.';
+
   return;
+
  }
 
  message.textContent='Verificando acceso...';
 
  try{
+
   const {data,error}=await db.auth.getUser();
+
   if(error)throw error;
 
-  const authorized=data.user && data.user.id===ADMIN_UID;
+  const authorized=
+   data.user &&
+   data.user.id===ADMIN_UID;
 
   if(authorized){
+
    message.className='secret-allowed';
-   message.textContent='(1 + 1 - 3 + 9 + 10 - 6 - 4)';
+
+   message.textContent=
+    '(1 + 1 - 3 + 9 + 10 - 6 - 4)';
+
   }else{
+
    message.className='secret-denied';
-   message.innerHTML='Acceso Restringido<br>Nivel insuficiente';
+
+   message.innerHTML=
+    'Acceso Restringido<br>Nivel insuficiente';
+
   }
+
  }catch(error){
+
   message.className='secret-denied';
-  message.innerHTML='Acceso Restringido<br>Nivel insuficiente';
+
+  message.innerHTML=
+   'Acceso Restringido<br>Nivel insuficiente';
+
   console.error(error);
+
  }
+
 }
 
-// SECRETO #2
+
+// =====================================
+// SECRETO 2
+// =====================================
+
 function startSecret2Challenge(){
+
  if(secret2Finished)return;
 
- const challenge=document.getElementById('secret2Challenge');
- const result=document.getElementById('secret2Result');
+ const challenge=
+  document.getElementById('secret2Challenge');
+
+ const result=
+  document.getElementById('secret2Result');
 
  result.style.display='none';
  result.className='secret2-result';
+
  challenge.style.display='block';
 
  secret2Seconds=30;
- document.getElementById('secret2Timer').textContent=secret2Seconds;
+
+ document.getElementById('secret2Timer').textContent=
+  secret2Seconds;
+
  document.getElementById('secret2Answer').value='';
 
  clearInterval(secret2Interval);
 
  secret2Interval=setInterval(()=>{
+
   secret2Seconds--;
-  document.getElementById('secret2Timer').textContent=secret2Seconds;
+
+  document.getElementById('secret2Timer').textContent=
+   secret2Seconds;
 
   if(secret2Seconds<=0){
+
    clearInterval(secret2Interval);
+
    finishSecret2(false);
+
   }
+
  },1000);
+
 }
+
 
 function submitSecret2Answer(){
+
  if(secret2Finished)return;
- const answer=document.getElementById('secret2Answer').value;
+
+ const answer=
+  document.getElementById('secret2Answer').value;
+
  finishSecret2(answer==='8');
+
 }
 
-function finishSecret2(correct){
- clearInterval(secret2Interval);
- secret2Finished=true;
- document.getElementById('secret2Challenge').style.display='none';
 
- const result=document.getElementById('secret2Result');
+function finishSecret2(correct){
+
+ clearInterval(secret2Interval);
+
+ secret2Finished=true;
+
+ document.getElementById('secret2Challenge').style.display=
+  'none';
+
+ const result=
+  document.getElementById('secret2Result');
+
  result.style.display='block';
 
  if(correct){
-  result.className='secret2-result secret2-success';
-  result.innerHTML='01000001 01100010 01100001 01101010 01101111'+
+
+  result.className=
+   'secret2-result secret2-success';
+
+  result.innerHTML=
+   '01000001 01100010 01100001 01101010 01101111'+
    '<button class="secret2-close" onclick="closeSecret2Result()">X</button>';
+
  }else{
-  result.className='secret2-result secret2-failure';
-  result.innerHTML='ACCESO DENEGADO'+
+
+  result.className=
+   'secret2-result secret2-failure';
+
+  result.innerHTML=
+   'ACCESO DENEGADO'+
    '<button class="secret2-close" onclick="closeSecret2Result()">X</button>';
+
  }
+
 }
+
 
 function closeSecret2Result(){
- document.getElementById('secret2Result').style.display='none';
+
+ document.getElementById('secret2Result').style.display=
+  'none';
+
 }
+
 
 function resetSecret2Challenge(){
+
  clearInterval(secret2Interval);
+
  secret2Finished=false;
  secret2Seconds=30;
- document.getElementById('secret2Challenge').style.display='none';
- document.getElementById('secret2Result').style.display='none';
- document.getElementById('secret2Timer').textContent='30';
+
+ document.getElementById('secret2Challenge').style.display=
+  'none';
+
+ document.getElementById('secret2Result').style.display=
+  'none';
+
+ document.getElementById('secret2Timer').textContent=
+  '30';
+
  document.getElementById('secret2Answer').value='';
+
 }
 
+
+// =====================================
 // CAMPO OCULTO: ABAJO
+// =====================================
+
 function revealSecret2Bottom(){
- document.getElementById('secret2HiddenArea').style.display='block';
+
+ document.getElementById('secret2HiddenArea').style.display=
+  'block';
+
 }
+
 
 function checkSecret2Bottom(){
- const answer=document.getElementById('secret2BottomInput').value;
+
+ const answer=
+  document.getElementById('secret2BottomInput').value;
+
  document.getElementById('secret2AbajoResult').style.display=
   answer==='Abajo'?'block':'none';
+
 }
+
 
 function closeSecret2Abajo(){
- document.getElementById('secret2AbajoResult').style.display='none';
+
+ document.getElementById('secret2AbajoResult').style.display=
+  'none';
+
 }
 
+
+// =====================================
 // LOGIN
+// =====================================
+
 function toggleLogin(){
- const panel=document.getElementById('loginPanel');
- panel.style.display=panel.style.display==='block'?'none':'block';
+
+ const panel=
+  document.getElementById('loginPanel');
+
+ panel.style.display=
+  panel.style.display==='block'?'none':'block';
+
 }
+
 
 function updateAdmin(){
+
  document.querySelectorAll('.adminOnly').forEach(el=>{
+
   el.style.display=isAdmin?
-   (el.id==='addPanel'?'block':'inline-block'):'none';
+   (el.id==='addPanel'?'block':'inline-block'):
+   'none';
+
  });
+
 }
+
 
 function loginMessage(message,color='#39FF14'){
- const el=document.getElementById('loginMessage');
+
+ const el=
+  document.getElementById('loginMessage');
+
  el.textContent=message;
  el.style.color=color;
+
 }
 
-// INICIAR SESIÓN
-async function adminLogin(){
- const rawEmail=document.getElementById('adminEmail').value;
- const password=document.getElementById('adminPassword').value;
 
- // Acceso al secreto #2. No inicia sesión ni activa permisos.
- if(rawEmail==='Celeste' && password==='Celeste'){
+// =====================================
+// INICIAR SESIÓN
+// =====================================
+
+async function adminLogin(){
+
+ const rawEmail=
+  document.getElementById('adminEmail').value;
+
+ const password=
+  document.getElementById('adminPassword').value;
+
+
+ // ACCESO ESPECIAL AL SECRETO 2
+ // NO INICIA SESIÓN NI ACTIVA ADMINISTRADOR.
+
+ if(
+  rawEmail==='Celeste' &&
+  password==='Celeste'
+ ){
+
   document.getElementById('adminEmail').value='';
   document.getElementById('adminPassword').value='';
-  document.getElementById('loginPanel').style.display='none';
+
+  document.getElementById('loginPanel').style.display=
+   'none';
+
   show('secret2');
+
   return;
+
  }
+
 
  const email=rawEmail.trim();
 
  if(!email||!password){
-  loginMessage('Escribe tu correo y contraseña','#ff2020');
+
+  loginMessage(
+   'Escribe tu correo y contraseña',
+   '#ff2020'
+  );
+
   return;
+
  }
 
  if(!db){
-  loginMessage('No se pudo conectar con Supabase.','#ff2020');
+
+  loginMessage(
+   'No se pudo conectar con Supabase.',
+   '#ff2020'
+  );
+
   return;
+
  }
 
- const btn=document.getElementById('loginButton');
+
+ const btn=
+  document.getElementById('loginButton');
+
  btn.disabled=true;
  btn.textContent='CONECTANDO...';
+
  loginMessage('Conectando con Supabase...');
 
+
  try{
-  const {data,error}=await db.auth.signInWithPassword({email,password});
+
+  const {data,error}=
+   await db.auth.signInWithPassword({
+    email,
+    password
+   });
 
   if(error){
-   loginMessage('Error: '+error.message,'#ff2020');
+
+   loginMessage(
+    'Error: '+error.message,
+    '#ff2020'
+   );
+
    return;
+
   }
+
 
   if(data.user.id!==ADMIN_UID){
+
    await db.auth.signOut();
+
    isAdmin=false;
+
    updateAdmin();
-   loginMessage('Esta cuenta no es administradora','#ff2020');
+
+   loginMessage(
+    'Esta cuenta no es administradora',
+    '#ff2020'
+   );
+
    return;
+
   }
 
+
   isAdmin=true;
+
   updateAdmin();
-  document.getElementById('loginPanel').style.display='none';
+
+  document.getElementById('loginPanel').style.display=
+   'none';
+
   document.getElementById('adminPassword').value='';
+
   await loadDocs();
+
   alert('¡Administrador activado!');
 
+
  }catch(error){
-  loginMessage('Error: '+error.message,'#ff2020');
+
+  loginMessage(
+   'Error: '+error.message,
+   '#ff2020'
+  );
+
  }finally{
+
   btn.disabled=false;
   btn.textContent='INICIAR SESIÓN';
+
  }
+
 }
 
+
+// =====================================
 // CERRAR SESIÓN
+// =====================================
+
 async function logout(){
+
  if(!db){
+
   alert('No hay conexión con Supabase.');
+
   return;
+
  }
 
  try{
+
   const {error}=await db.auth.signOut();
+
   if(error)throw error;
 
   isAdmin=false;
+
   updateAdmin();
+
   await loadDocs();
+
   alert('Sesión cerrada');
+
  }catch(error){
+
   alert('Error: '+error.message);
+
  }
+
 }
 
+
+// =====================================
 // COMPROBAR SESIÓN
+// =====================================
+
 async function checkSession(){
+
  if(!db){
+
   isAdmin=false;
+
   updateAdmin();
+
   document.getElementById('documents').textContent=
    'No se pudo conectar con Supabase. Comprueba tu conexión.';
+
   return;
+
  }
 
  try{
+
   const {data,error}=await db.auth.getSession();
+
   if(error)throw error;
 
-  isAdmin=data.session?.user?.id===ADMIN_UID;
+  isAdmin=
+   data.session?.user?.id===ADMIN_UID;
+
   updateAdmin();
+
  }catch(error){
+
   console.error(error);
+
   isAdmin=false;
+
   updateAdmin();
+
  }
 
  await loadDocs();
+
 }
 
+
+// =====================================
 // EDITAR SECCIONES
+// =====================================
+
 function editSection(id){
+
  if(!isAdmin)return;
 
- const title=document.getElementById(id+'Title');
- const description=document.getElementById(id+'Description');
+ const title=
+  document.getElementById(id+'Title');
 
- const newTitle=prompt('Nuevo título:',title.textContent);
- if(newTitle!==null&&newTitle.trim())title.textContent=newTitle.trim();
+ const description=
+  document.getElementById(id+'Description');
 
- const newDescription=prompt('Nueva descripción:',description.textContent);
- if(newDescription!==null&&newDescription.trim())description.textContent=newDescription.trim();
+
+ const newTitle=prompt(
+  'Nuevo título:',
+  title.textContent
+ );
+
+ if(
+  newTitle!==null &&
+  newTitle.trim()
+ ){
+
+  title.textContent=newTitle.trim();
+
+ }
+
+
+ const newDescription=prompt(
+  'Nueva descripción:',
+  description.textContent
+ );
+
+ if(
+  newDescription!==null &&
+  newDescription.trim()
+ ){
+
+  description.textContent=
+   newDescription.trim();
+
+ }
+
 }
 
+
+// =====================================
 // CARGAR DOCUMENTOS
+// =====================================
+
 async function loadDocs(){
- const container=document.getElementById('documents');
+
+ const container=
+  document.getElementById('documents');
 
  if(!db){
-  container.textContent='Servicio de documentos no disponible. Comprueba la conexión.';
+
+  container.textContent=
+   'Servicio de documentos no disponible. Comprueba la conexión.';
+
   return;
+
  }
 
  container.textContent='Cargando documentos...';
 
+
  try{
-  const {data,error}=await db.from('documents')
+
+  const {data,error}=await db
+   .from('documents')
    .select('*')
    .order('created_at',{ascending:false});
 
@@ -515,112 +1360,388 @@ async function loadDocs(){
 
   container.innerHTML='';
 
+
   if(!data||!data.length){
-   container.textContent='No hay documentos disponibles.';
+
+   container.textContent=
+    'No hay documentos disponibles.';
+
    return;
+
   }
+
 
   data.forEach(doc=>{
+
    const card=document.createElement('div');
+
    card.className='card';
 
+
    const img=document.createElement('img');
-   img.src=doc.cover_url||'https://placehold.co/400x200/101010/39FF14?text=DOCUMENTO';
+
+   img.src=
+    doc.cover_url ||
+    'https://placehold.co/400x200/101010/39FF14?text=DOCUMENTO';
+
    img.alt='Portada del documento';
 
+
    const title=document.createElement('h3');
+
    title.textContent=doc.name;
 
+
    const download=document.createElement('button');
+
    download.className='green';
+
    download.textContent='Descargar';
+
    download.onclick=()=>{
-    window.open(doc.file_url,'_blank','noopener');
+
+    if(doc.file_url){
+
+     window.open(
+      doc.file_url,
+      '_blank',
+      'noopener'
+     );
+
+    }
+
    };
 
-   card.append(img,title,download);
+
+   card.append(
+    img,
+    title,
+    download
+   );
+
 
    if(isAdmin){
+
     const remove=document.createElement('button');
+
     remove.className='red';
+
     remove.textContent='Eliminar';
+
     remove.onclick=()=>deleteDoc(doc);
+
     card.append(remove);
+
    }
 
+
    container.append(card);
+
   });
 
+
  }catch(error){
+
   console.error(error);
-  container.textContent='Error cargando documentos: '+error.message;
+
+  container.textContent=
+   'Error cargando documentos: '+error.message;
+
  }
+
 }
 
+
+// =====================================
 // AGREGAR DOCUMENTOS
+// =====================================
+
 async function addDoc(){
+
  if(!isAdmin||!db)return;
 
- const name=document.getElementById('docName').value.trim();
- const file=document.getElementById('file').files[0];
- const cover=document.getElementById('cover').files[0];
+
+ const name=
+  document.getElementById('docName').value.trim();
+
+ const file=
+  document.getElementById('file').files[0];
+
+ const cover=
+  document.getElementById('cover').files[0];
+
 
  if(!name||!file){
+
   alert('Completa el nombre y selecciona un PDF');
+
   return;
+
  }
+
 
  if(file.type!=='application/pdf'){
+
   alert('Selecciona un PDF válido');
+
   return;
+
  }
+
 
  if(file.size>20*1024*1024){
+
   alert('Máximo 20 MB');
+
   return;
+
  }
+
 
  if(cover&&!cover.type.startsWith('image/')){
+
   alert('Imagen no válida');
+
   return;
+
  }
 
+
  const id=crypto.randomUUID();
+
  const filePath=id+'.pdf';
+
  let coverPath=null;
 
+ let uploadedPaths=[];
+
+
  try{
-  let result=await db.storage.from('documentos').upload(filePath,file);
+
+  // SUBIR PDF
+
+  let result=await db
+   .storage
+   .from('documentos')
+   .upload(filePath,file);
+
   if(result.error)throw result.error;
 
-  const fileURL=db.storage.from('documentos').getPublicUrl(filePath).data.publicUrl;
+  uploadedPaths.push(filePath);
+
+
+  const fileURL=db
+   .storage
+   .from('documentos')
+   .getPublicUrl(filePath)
+   .data.publicUrl;
+
+
   let coverURL=null;
 
+
+  // SUBIR PORTADA OPCIONAL
+
   if(cover){
+
    coverPath=id+'-cover';
-   result=await db.storage.from('documentos').upload(coverPath,cover);
+
+   result=await db
+    .storage
+    .from('documentos')
+    .upload(coverPath,cover);
+
    if(result.error)throw result.error;
 
-   coverURL=db.storage.from('documentos').getPublicUrl(coverPath).data.publicUrl;
+   uploadedPaths.push(coverPath);
+
+
+   coverURL=db
+    .storage
+    .from('documentos')
+    .getPublicUrl(coverPath)
+    .data.publicUrl;
+
   }
 
-  const {error}=await db.from('documents').insert([{
-   name:name,
-   file_url:fileURL,
-   file_path:filePath,
-   cover_url:coverURL,
-   cover_path:coverPath
-  }]);
+
+  // GUARDAR INFORMACIÓN EN LA TABLA
+
+  const {error}=await db
+   .from('documents')
+   .insert([{
+
+    name:name,
+    file_url:fileURL,
+    file_path:filePath,
+    cover_url:coverURL,
+    cover_path:coverPath
+
+   }]);
+
 
   if(error)throw error;
+
+
+  // LIMPIAR CAMPOS
 
   document.getElementById('docName').value='';
   document.getElementById('file').value='';
   document.getElementById('cover').value='';
 
+
   alert('Documento agregado correctamente');
+
   await loadDocs();
 
+
  }catch(error){
+
   console.error(error);
-  alert('Error al agregar el document
+
+
+  // INTENTAR LIMPIAR ARCHIVOS SI FALLÓ EL REGISTRO
+
+  if(uploadedPaths.length){
+
+   try{
+
+    const {error:cleanupError}=await db
+     .storage
+     .from('documentos')
+     .remove(uploadedPaths);
+
+    if(cleanupError){
+
+     console.error(
+      'Error limpiando archivos:',
+      cleanupError
+     );
+
+    }
+
+   }catch(cleanupError){
+
+    console.error(cleanupError);
+
+   }
+
+  }
+
+
+  alert(
+   'Error al agregar el documento: '+error.message
+  );
+
+ }
+
+}
+
+
+// =====================================
+// ELIMINAR DOCUMENTOS
+// =====================================
+
+async function deleteDoc(doc){
+
+ if(!isAdmin||!db)return;
+
+
+ if(!confirm('¿Eliminar este documento?'))return;
+
+
+ try{
+
+  // ELIMINAR REGISTRO DE LA TABLA
+
+  const {error}=await db
+   .from('documents')
+   .delete()
+   .eq('id',doc.id);
+
+  if(error)throw error;
+
+
+  // ELIMINAR ARCHIVOS DEL BUCKET
+
+  const paths=[
+   doc.file_path,
+   doc.cover_path
+  ].filter(Boolean);
+
+
+  if(paths.length){
+
+   const {error:storageError}=await db
+    .storage
+    .from('documentos')
+    .remove(paths);
+
+   if(storageError){
+
+    console.error(
+     'Error eliminando archivos:',
+     storageError
+    );
+
+   }
+
+  }
+
+
+  alert('Documento eliminado correctamente');
+
+  await loadDocs();
+
+
+ }catch(error){
+
+  console.error(error);
+
+  alert(
+   'Error al eliminar: '+error.message
+  );
+
+ }
+
+}
+
+
+// =====================================
+// PRUEBA JAVASCRIPT
+// =====================================
+
+document.getElementById('testJS')
+ .addEventListener('click',function(){
+
+  document.getElementById('jsStatus').textContent=
+   '¡JAVASCRIPT FUNCIONA!';
+
+ });
+
+
+window.addEventListener('error',function(e){
+
+ const status=document.getElementById('jsStatus');
+
+ if(status){
+
+  status.textContent='ERROR: '+e.message;
+
+ }
+
+});
+
+
+// =====================================
+// INICIAR PÁGINA
+// =====================================
+
+window.show=show;
+
+checkSession();
+
+</script>
+
+</body>
+</html>
