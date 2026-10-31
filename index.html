@@ -9,23 +9,171 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#000;color:white;font-family:Arial;text-align:center}
-h1,h3{color:#39FF14;text-shadow:0 0 10px #39FF14}
+
+body{
+ margin:0;
+ background:#000;
+ color:white;
+ font-family:Arial;
+ text-align:center;
+ transition:background .3s;
+}
+
+h1,h3{
+ color:#39FF14;
+ text-shadow:0 0 10px #39FF14;
+}
+
 header{padding:25px 10px}
 p{color:#ddd;letter-spacing:1px}
-button{padding:13px 20px;margin:8px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+
+button{
+ padding:13px 20px;
+ margin:8px;
+ border:0;
+ border-radius:8px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
 .green{background:#39FF14;color:black}
 .blue{background:#008cff;color:white}
 .red{background:#ff2020;color:white}
+
 .page{display:none;padding:15px}
 .active{display:block}
-.card{background:#101010;border:1px solid #39FF14;border-radius:12px;padding:18px;margin:15px auto;max-width:400px}
-.card img{width:100%;height:160px;object-fit:cover}
-input{display:block;margin:12px auto;padding:13px;width:90%;max-width:350px;background:#151515;color:white;border:1px solid #39FF14;border-radius:6px}
+
+.card{
+ background:#101010;
+ border:1px solid #39FF14;
+ border-radius:12px;
+ padding:18px;
+ margin:15px auto;
+ max-width:400px;
+}
+
+.card img{
+ width:100%;
+ height:160px;
+ object-fit:cover;
+}
+
+input{
+ display:block;
+ margin:12px auto;
+ padding:13px;
+ width:90%;
+ max-width:350px;
+ background:#151515;
+ color:white;
+ border:1px solid #39FF14;
+ border-radius:6px;
+}
+
 .adminOnly{display:none}
 #documents{min-height:40vh}
 #loginPanel{display:none}
 small{color:#aaa}
+
+/* =================================
+   NUEVO: BOTÓN SECRETO INVISIBLE
+================================= */
+
+.secret-trigger{
+ position:fixed;
+ right:10px;
+ bottom:10px;
+ width:28px;
+ height:28px;
+ padding:0;
+ margin:0;
+ background:#000;
+ color:#000;
+ border:0;
+ border-radius:0;
+ opacity:1;
+ z-index:10;
+}
+
+/* =================================
+   NUEVO: SECCIÓN SECRETA
+================================= */
+
+body.secret-mode{
+ background:#180303;
+}
+
+body.secret-mode header{
+ display:none;
+}
+
+#secret{
+ min-height:100vh;
+ padding:35px 15px;
+ background:#180303;
+}
+
+.secret-title{
+ color:#ff2929;
+ text-shadow:0 0 8px #650000;
+ font-size:clamp(20px,5vw,28px);
+ margin:25px auto;
+}
+
+.secret-text{
+ color:#ff2929;
+ text-shadow:0 0 5px #650000;
+ font-size:17px;
+ line-height:1.8;
+ letter-spacing:1px;
+}
+
+.secret-math{
+ color:#ff2929;
+ font-size:24px;
+ margin:35px 0;
+ text-shadow:0 0 8px #650000;
+}
+
+.secret-return{
+ background:#101010;
+ color:#ddd;
+ border:1px solid #333;
+}
+
+.secret-question{
+ background:#000;
+ color:#000;
+ border:1px solid #000;
+ padding:14px 35px;
+}
+
+#secretMessage{
+ display:none;
+ max-width:380px;
+ margin:25px auto;
+ padding:20px;
+ border-radius:10px;
+ font-weight:bold;
+ font-size:19px;
+ line-height:1.7;
+}
+
+.secret-denied{
+ display:block !important;
+ background:#300000;
+ color:#ff2020;
+ border:1px solid #ff2020;
+ text-shadow:0 0 6px #ff2020;
+}
+
+.secret-allowed{
+ display:block !important;
+ background:#001b30;
+ color:#00cfff;
+ border:1px solid #00cfff;
+ text-shadow:0 0 6px #008cff;
+}
 </style>
 </head>
 
@@ -37,8 +185,17 @@ small{color:#aaa}
 </header>
 
 <section id="home" class="page active">
+
 <button class="green" onclick="show('docs')">Documentos</button>
 <button class="blue" onclick="show('class')">Clasificación</button>
+
+<!-- NUEVO: BOTÓN INVISIBLE -->
+<button
+ class="secret-trigger"
+ aria-label="Acceso secreto"
+ onclick="show('secret')">
+</button>
+
 </section>
 
 <section id="docs" class="page">
@@ -98,6 +255,39 @@ small{color:#aaa}
 
 </section>
 
+<!-- =================================
+     NUEVO: SECCIÓN SECRETA
+================================= -->
+
+<section id="secret" class="page">
+
+<h2 class="secret-title">
+Hølä, müy prøbåblēméntê nô tē ãçüērdës dè mí.
+</h2>
+
+<p class="secret-text">
+¡Fēlïcîdãdês pôr llégår hãstá åcä!
+Tê fãltån pør dêscübrìr døs sêcrétõs más.
+</p>
+
+<div class="secret-math">
+(2 + 4 - 3 + 2 - 4 + 1 • 4)
+</div>
+
+<button class="secret-return" onclick="show('home')">
+Regresar a la página normal
+</button>
+
+<br><br>
+
+<button class="secret-question" onclick="secretCheck()">
+???
+</button>
+
+<div id="secretMessage"></div>
+
+</section>
+
 <script>
 
 // CONFIGURACIÓN
@@ -114,29 +304,99 @@ let isAdmin = false;
 
 // NAVEGACIÓN
 function show(id){
+
  document.querySelectorAll('.page').forEach(p=>{
   p.classList.remove('active');
  });
+
  document.getElementById(id).classList.add('active');
+
+ // NUEVO: CAMBIAR EL FONDO
+ document.body.classList.toggle(
+  'secret-mode',
+  id === 'secret'
+ );
+
+ // NUEVO: LIMPIAR MENSAJE AL ENTRAR
+ if(id === 'secret'){
+  const message=document.getElementById('secretMessage');
+  message.className='';
+  message.style.display='none';
+  message.textContent='';
+ }
+}
+
+// NUEVO: COMPROBACIÓN DEL BOTÓN SECRETO
+async function secretCheck(){
+
+ const message=document.getElementById('secretMessage');
+
+ message.className='';
+ message.style.display='block';
+ message.textContent='Verificando acceso...';
+
+ try{
+
+  // Comprobación de usuario con Supabase
+  const {data,error}=await db.auth.getUser();
+
+  if(error)throw error;
+
+  const authorized=
+   data.user && data.user.id===ADMIN_UID;
+
+  if(authorized){
+
+   message.className='secret-allowed';
+
+   message.textContent=
+    '(1 + 1 - 3 + 9 + 10 - 6 - 4)';
+
+  }else{
+
+   message.className='secret-denied';
+
+   message.innerHTML=
+    'Acceso Restringido<br>Nivel insuficiente';
+
+  }
+
+ }catch(error){
+
+  message.className='secret-denied';
+
+  message.innerHTML=
+   'Acceso Restringido<br>Nivel insuficiente';
+
+  console.error(error);
+ }
 }
 
 // MOSTRAR LOGIN
 function toggleLogin(){
+
  const panel=document.getElementById('loginPanel');
- panel.style.display=panel.style.display==='block'?'none':'block';
+
+ panel.style.display=
+  panel.style.display==='block'?'none':'block';
 }
 
 // PERMISOS VISUALES
 function updateAdmin(){
+
  document.querySelectorAll('.adminOnly').forEach(el=>{
+
   el.style.display=isAdmin?
    (el.id==='addPanel'?'block':'inline-block'):'none';
+
  });
 }
 
 // MENSAJES
 function loginMessage(message,color='#39FF14'){
+
  const el=document.getElementById('loginMessage');
+
  el.textContent=message;
  el.style.color=color;
 }
@@ -153,6 +413,7 @@ async function adminLogin(){
  }
 
  const btn=document.getElementById('loginButton');
+
  btn.disabled=true;
  btn.textContent='CONECTANDO...';
  loginMessage('Conectando con Supabase...');
@@ -170,9 +431,12 @@ async function adminLogin(){
   }
 
   if(data.user.id!==ADMIN_UID){
+
    await db.auth.signOut();
+
    isAdmin=false;
    updateAdmin();
+
    loginMessage('Esta cuenta no es administradora','#ff2020');
    return;
   }
@@ -188,15 +452,20 @@ async function adminLogin(){
   alert('¡Administrador activado!');
 
  }catch(error){
+
   loginMessage('Error: '+error.message,'#ff2020');
+
  }finally{
+
   btn.disabled=false;
   btn.textContent='INICIAR SESIÓN';
+
  }
 }
 
 // CERRAR SESIÓN
 async function logout(){
+
  const {error}=await db.auth.signOut();
 
  if(error){
@@ -206,23 +475,32 @@ async function logout(){
 
  isAdmin=false;
  updateAdmin();
+
  await loadDocs();
+
  alert('Sesión cerrada');
 }
 
 // COMPROBAR SESIÓN
 async function checkSession(){
+
  try{
+
   const {data,error}=await db.auth.getSession();
+
   if(error)throw error;
 
   isAdmin=data.session?.user?.id===ADMIN_UID;
+
   updateAdmin();
 
  }catch(error){
+
   console.error(error);
+
   isAdmin=false;
   updateAdmin();
+
  }
 
  await loadDocs();
@@ -230,17 +508,20 @@ async function checkSession(){
 
 // EDITAR SECCIONES
 function editSection(id){
+
  if(!isAdmin)return;
 
  const title=document.getElementById(id+'Title');
  const description=document.getElementById(id+'Description');
 
  const newTitle=prompt('Nuevo título:',title.textContent);
+
  if(newTitle!==null && newTitle.trim()){
   title.textContent=newTitle.trim();
  }
 
  const newDescription=prompt('Nueva descripción:',description.textContent);
+
  if(newDescription!==null && newDescription.trim()){
   description.textContent=newDescription.trim();
  }
@@ -250,6 +531,7 @@ function editSection(id){
 async function loadDocs(){
 
  const container=document.getElementById('documents');
+
  container.textContent='Cargando documentos...';
 
  try{
@@ -273,6 +555,7 @@ async function loadDocs(){
    card.className='card';
 
    const img=document.createElement('img');
+
    img.src=doc.cover_url ||
     'https://placehold.co/400x200/101010/39FF14?text=DOCUMENTO';
 
@@ -280,8 +563,10 @@ async function loadDocs(){
    title.textContent=doc.name;
 
    const download=document.createElement('button');
+
    download.className='green';
    download.textContent='Descargar';
+
    download.onclick=()=>{
     window.open(doc.file_url,'_blank','noopener');
    };
@@ -289,18 +574,25 @@ async function loadDocs(){
    card.append(img,title,download);
 
    if(isAdmin){
+
     const remove=document.createElement('button');
+
     remove.className='red';
     remove.textContent='Eliminar';
+
     remove.onclick=()=>deleteDoc(doc);
+
     card.append(remove);
    }
 
    container.append(card);
+
   });
 
  }catch(error){
+
   container.textContent='Error cargando documentos: '+error.message;
+
  }
 }
 
@@ -334,33 +626,43 @@ async function addDoc(){
  }
 
  const id=crypto.randomUUID();
+
  const filePath=id+'.pdf';
+
  let coverPath=null;
 
  try{
 
   let result=await db.storage.from('documentos').upload(filePath,file);
+
   if(result.error)throw result.error;
 
-  const fileURL=db.storage.from('documentos').getPublicUrl(filePath).data.publicUrl;
+  const fileURL=db.storage.from('documentos')
+   .getPublicUrl(filePath).data.publicUrl;
 
   let coverURL=null;
 
   if(cover){
+
    coverPath=id+'-cover';
 
    result=await db.storage.from('documentos').upload(coverPath,cover);
+
    if(result.error)throw result.error;
 
-   coverURL=db.storage.from('documentos').getPublicUrl(coverPath).data.publicUrl;
+   coverURL=db.storage.from('documentos')
+    .getPublicUrl(coverPath).data.publicUrl;
+
   }
 
   result=await db.from('documents').insert({
+
    name,
    file_url:fileURL,
    file_path:filePath,
    cover_url:coverURL,
    cover_path:coverPath
+
   });
 
   if(result.error)throw result.error;
@@ -370,16 +672,19 @@ async function addDoc(){
   document.getElementById('cover').value='';
 
   alert('Documento agregado correctamente');
+
   await loadDocs();
 
  }catch(error){
 
   const paths=[filePath];
+
   if(coverPath)paths.push(coverPath);
 
   await db.storage.from('documentos').remove(paths);
 
   alert('Error: '+error.message);
+
  }
 }
 
@@ -387,6 +692,7 @@ async function addDoc(){
 async function deleteDoc(doc){
 
  if(!isAdmin)return;
+
  if(!confirm('¿Eliminar este documento?'))return;
 
  try{
@@ -398,31 +704,43 @@ async function deleteDoc(doc){
   if(error)throw error;
 
   const paths=[doc.file_path];
+
   if(doc.cover_path)paths.push(doc.cover_path);
 
   const result=await db.storage.from('documentos').remove(paths);
 
   if(result.error){
+
    alert('Registro eliminado, pero no se pudieron eliminar todos los archivos: '+result.error.message);
+
   }else{
+
    alert('Documento eliminado');
+
   }
 
   await loadDocs();
 
  }catch(error){
+
   alert('Error: '+error.message);
+
  }
 }
 
 // CAMBIOS DE SESIÓN
 db.auth.onAuthStateChange((event,session)=>{
+
  isAdmin=session?.user?.id===ADMIN_UID;
+
  updateAdmin();
 
  if(event==='SIGNED_IN' || event==='SIGNED_OUT'){
+
   setTimeout(loadDocs,0);
+
  }
+
 });
 
 // INICIO
@@ -430,5 +748,6 @@ updateAdmin();
 checkSession();
 
 </script>
+
 </body>
 </html>
