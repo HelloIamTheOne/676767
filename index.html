@@ -1262,36 +1262,31 @@ async function logout(){
 async function checkSession(){
 
  if(!db){
-
   isAdmin=false;
   updateAdmin();
 
   document.getElementById('documents').textContent=
-   'No se pudo conectar con Supabase. Comprueba tu conexión.';
+   'No se pudo conectar con Supabase.';
 
   return;
  }
 
  try{
 
-  const {data,error}=await db.auth.getSession();
+  const {data,error}=await db.auth.getUser();
 
   if(error)throw error;
 
-  const userId=data.session?.user?.id;
-
-  isAdmin=userId===ADMIN_UID;
-
-  updateAdmin();
+  isAdmin=data.user?.id===ADMIN_UID;
 
  }catch(error){
 
-  console.error(error);
-
+  console.error('Error verificando sesión:',error);
   isAdmin=false;
-  updateAdmin();
 
  }
+
+ updateAdmin();
 
  await loadDocs();
 
