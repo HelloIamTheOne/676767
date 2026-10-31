@@ -1647,6 +1647,66 @@ async function deleteDoc(doc){
 
 }
 
+// =====================================
+// CREAR COPIA DE SEGURIDAD
+// =====================================
+
+async function crearCopiaSeguridad(){
+
+ if(!isAdmin || !db){
+  alert('Acceso administrativo requerido.');
+  return;
+ }
+
+ if(!confirm('¿Deseas crear una copia de seguridad?')){
+  return;
+ }
+
+ try{
+
+  const {data:{session},error:sessionError} =
+   await db.auth.getSession();
+
+  if(sessionError)throw sessionError;
+
+  if(!session || session.user.id!==ADMIN_UID){
+   throw new Error('Sesión administrativa no válida.');
+  }
+
+  const response = await fetch(
+   SUPABASE_URL+'/functions/v1/crear-copia-seguridad',
+   {
+    method:'POST',
+    headers:{
+     'Content-Type':'application/json',
+     'apikey':SUPABASE_KEY,
+     'Authorization':'Bearer '+session.access_token
+    },
+    body:JSON.stringify({})
+   }
+  );
+
+  const result = await response.json();
+
+  if(!response.ok){
+   throw new Error(
+    result.error || result.message || 'Error creando la copia.'
+   );
+  }
+
+  alert('¡Copia de seguridad creada correctamente!');
+
+  console.log('Resultado de la copia:',result);
+
+ }catch(error){
+
+  console.error('Error de copia de seguridad:',error);
+
+  alert('Error: '+error.message);
+
+ }
+
+}
 
 // =====================================
 // DETECTOR DE PROXIMIDAD
