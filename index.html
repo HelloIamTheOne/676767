@@ -1690,8 +1690,12 @@ async function crearCopiaSeguridad(doc, confirmDuplicate=false){
   if(!session || session.user.id!==ADMIN_UID){
    throw new Error('Sesión administrativa no válida.');
   }
-
-  const response=await fetch(
+console.log(
+ 'UID de la sesión enviada:',
+ session.user.id
+);
+  
+const response=await fetch(
    SUPABASE_URL+'/functions/v1/dynamic-handler',
    {
     method:'POST',
