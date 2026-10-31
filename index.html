@@ -1132,12 +1132,19 @@ try{
 
   if(!data.user || data.user.id!==ADMIN_UID){
 
+    const actualUID = data.user?.id || 'No disponible';
+
     await db.auth.signOut();
 
     isAdmin=false;
     updateAdmin();
 
-    loginMessage('Esta cuenta no es administradora','#ff2020');
+    loginMessage(
+      'UID INCORRECTO. Cuenta: '+actualUID+
+      ' | Administrador: '+ADMIN_UID,
+      '#ff2020'
+    );
+
     return;
   }
 
