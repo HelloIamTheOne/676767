@@ -66,7 +66,24 @@ body.secret2-mode{background:#050d20}
 .secret2-abajo-result button{display:block;margin:10px auto 0;background:transparent;color:#87CEFA;border:1px solid #87CEFA;padding:6px 12px}
 </style>
 </head>
+<div style="position:fixed;bottom:10px;left:10px;z-index:99999;background:#222;padding:12px;border:2px solid yellow;">
+  <button id="testJS" style="background:yellow;color:black;padding:10px;">
+    PROBAR JAVASCRIPT
+  </button>
+  <p id="jsStatus" style="color:white;">Esperando prueba...</p>
+</div>
 
+<script>
+document.getElementById("testJS").addEventListener("click", function() {
+  document.getElementById("jsStatus").textContent =
+    "¡JAVASCRIPT FUNCIONA!";
+});
+
+window.addEventListener("error", function(e) {
+  document.getElementById("jsStatus").textContent =
+    "ERROR: " + e.message;
+});
+</script>
 <body>
 
 <header>
