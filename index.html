@@ -1293,6 +1293,33 @@ async function checkSession(){
 }
 
 // =====================================
+// MONITOREO DE AUTENTICACIÓN
+// =====================================
+
+if(db){
+
+ db.auth.onAuthStateChange((event,session)=>{
+
+  const previousAdmin=isAdmin;
+
+  isAdmin=
+   session?.user?.id===ADMIN_UID;
+
+  updateAdmin();
+
+  if(previousAdmin!==isAdmin){
+
+   setTimeout(()=>{
+    loadDocs();
+   },0);
+
+  }
+
+ });
+
+}
+
+// =====================================
 // EDITAR SECCIONES
 // =====================================
 
