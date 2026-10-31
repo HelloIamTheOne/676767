@@ -1662,18 +1662,19 @@ async function deleteDoc(doc){
 
 }
 
+
 // =====================================
 // CREAR COPIA DE SEGURIDAD INDIVIDUAL
 // =====================================
 
-async function crearCopiaSeguridad(doc){
+async function crearCopiaSeguridad(doc, confirmDuplicate=false){
 
  if(!isAdmin || !db || !doc || !doc.id){
   alert('Acceso administrativo requerido.');
   return;
  }
 
- if(!confirm(
+ if(!confirmDuplicate && !confirm(
   '¿Crear una copia de seguridad de "'+doc.name+'"?'
  )){
   return;
@@ -1700,7 +1701,8 @@ async function crearCopiaSeguridad(doc){
      'Authorization':'Bearer '+session.access_token
     },
     body:JSON.stringify({
-     document_id:doc.id
+     documentId:doc.id,
+     confirmDuplicate:confirmDuplicate
     })
    }
   );
@@ -1709,13 +1711,39 @@ async function crearCopiaSeguridad(doc){
 
   if(!response.ok){
    throw new Error(
-    result.error || result.message || 'Error creando la copia.'
+    result.error || result.message ||
+    'Error creando la copia.'
+   );
+  }
+
+  // Comprobar si ya existen copias
+
+  if(result.confirmationRequired){
+
+   const duplicate=confirm(
+    'Este documento ya tiene '+
+    result.existingCount+
+    ' copia(s) de seguridad.\n\n'+
+    '¿Deseas crear otra copia?'
+   );
+
+   if(duplicate){
+    await crearCopiaSeguridad(doc,true);
+   }
+
+   return;
+  }
+
+  if(!result.success){
+   throw new Error(
+    result.error || 'No se confirmó la creación de la copia.'
    );
   }
 
   alert(
-   '¡Copia de seguridad creada correctamente!\n'+
-   'Documento: '+doc.name
+   '¡Copia de seguridad creada correctamente!\n\n'+
+   'Documento: '+doc.name+'\n'+
+   'Total de copias: '+result.totalBackups
   );
 
   console.log('Resultado de la copia:',result);
