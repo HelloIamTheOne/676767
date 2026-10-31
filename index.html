@@ -180,10 +180,21 @@ const SUPABASE_KEY="sb_publishable_vQHchnFMXr4K5NuWYZD3HA_bXXpyHxZ";
 const ADMIN_UID="a899ab31-456a-40dc-b03d-af59182afd41";
 
 // Conexión protegida: si Supabase no carga, la página sigue funcionando.
-const db=window.supabase?.createClient
- ? window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
- : null;
+let db=null;
 
+try {
+ if(
+  window.supabase &&
+  typeof window.supabase.createClient==='function'
+ ){
+  db=window.supabase.createClient(
+   SUPABASE_URL,
+   SUPABASE_KEY
+  );
+ }
+} catch(error) {
+ console.error('Error de Supabase:',error);
+}
 let isAdmin=false;
 let secret2Interval=null;
 let secret2Seconds=30;
