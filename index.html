@@ -1168,7 +1168,6 @@ const email=rawEmail.trim();
    password
   });
 
-alert('CUENTA QUE INICIÓ SESIÓN: ' + (data.user?.id || 'SIN UID'));
   
 if(error)throw error;
 
@@ -1674,8 +1673,6 @@ async function crearCopiaSeguridad(doc, confirmDuplicate=false){
 const {data:{session},error:sessionError} =
  await db.auth.getSession();
 
-alert('UID DE LA SESIÓN: ' + (session?.user?.id || 'SIN SESIÓN'));
-
  if(!isAdmin || !db || !doc || !doc.id){
   alert('Acceso administrativo requerido.');
   return;
@@ -1697,11 +1694,7 @@ alert('UID DE LA SESIÓN: ' + (session?.user?.id || 'SIN SESIÓN'));
   if(!session || session.user.id!==ADMIN_UID){
    throw new Error('Sesión administrativa no válida.');
   }
-console.log(
- 'UID de la sesión enviada:',
- session.user.id
-);
-  
+
 const response=await fetch(
    SUPABASE_URL+'/functions/v1/dynamic-handler',
    {
