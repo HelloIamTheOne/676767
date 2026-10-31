@@ -1168,7 +1168,9 @@ const email=rawEmail.trim();
    password
   });
 
-  if(error)throw error;
+console.log('Cuenta que inició sesión:', data.user?.id);
+  
+if(error)throw error;
 
   if(!data.user || data.user.id!==ADMIN_UID){
 
