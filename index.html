@@ -1417,7 +1417,19 @@ async function loadDocs(){
 
    if(isAdmin){
 
+    // BOTÓN DE COPIA DE SEGURIDAD
+    const backup=document.createElement('button');
+
+    backup.className='blue';
+    backup.textContent='CREAR COPIA DE SEGURIDAD';
+
+    backup.onclick=()=>crearCopiaSeguridad(doc);
+
+    card.append(backup);
+
+    // BOTÓN ELIMINAR
     const remove=document.createElement('button');
+
     remove.className='red';
     remove.textContent='Eliminar';
     remove.onclick=()=>deleteDoc(doc);
