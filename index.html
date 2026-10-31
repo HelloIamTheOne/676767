@@ -1663,17 +1663,19 @@ async function deleteDoc(doc){
 }
 
 // =====================================
-// CREAR COPIA DE SEGURIDAD
+// CREAR COPIA DE SEGURIDAD INDIVIDUAL
 // =====================================
 
-async function crearCopiaSeguridad(){
+async function crearCopiaSeguridad(doc){
 
- if(!isAdmin || !db){
+ if(!isAdmin || !db || !doc || !doc.id){
   alert('Acceso administrativo requerido.');
   return;
  }
 
- if(!confirm('¿Deseas crear una copia de seguridad?')){
+ if(!confirm(
+  '¿Crear una copia de seguridad de "'+doc.name+'"?'
+ )){
   return;
  }
 
@@ -1688,7 +1690,7 @@ async function crearCopiaSeguridad(){
    throw new Error('Sesión administrativa no válida.');
   }
 
-  const response = await fetch(
+  const response=await fetch(
    SUPABASE_URL+'/functions/v1/crear-copia-seguridad',
    {
     method:'POST',
@@ -1697,11 +1699,13 @@ async function crearCopiaSeguridad(){
      'apikey':SUPABASE_KEY,
      'Authorization':'Bearer '+session.access_token
     },
-    body:JSON.stringify({})
+    body:JSON.stringify({
+     document_id:doc.id
+    })
    }
   );
 
-  const result = await response.json();
+  const result=await response.json();
 
   if(!response.ok){
    throw new Error(
@@ -1709,7 +1713,10 @@ async function crearCopiaSeguridad(){
    );
   }
 
-  alert('¡Copia de seguridad creada correctamente!');
+  alert(
+   '¡Copia de seguridad creada correctamente!\n'+
+   'Documento: '+doc.name
+  );
 
   console.log('Resultado de la copia:',result);
 
@@ -1722,6 +1729,7 @@ async function crearCopiaSeguridad(){
  }
 
 }
+
 
 // =====================================
 // DETECTOR DE PROXIMIDAD
