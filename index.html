@@ -1801,3 +1801,44 @@ checkSession();
 
 </body>
 </html>
+
+async function createBackup(documentId, confirmDuplicate = false) {
+  if (!isAdmin) {
+    alert("Acceso exclusivo para administradores.");
+    return;
+  }
+
+  const { data, error } = await db.functions.invoke(
+    "crear-copia-seguridad",
+    {
+      body: {
+        documentId,
+        confirmDuplicate
+      }
+    }
+  );
+
+  if (error) {
+    console.error(error);
+    alert("Error al crear la copia: " + error.message);
+    return;
+  }
+
+  if (data?.confirmationRequired) {
+    const confirm = window.confirm(
+      "Este documento ya tiene copias. ¿Deseas crear otra?"
+    );
+
+    if (confirm) {
+      await createBackup(documentId, true);
+    }
+
+    return;
+  }
+
+  if (data?.success) {
+    alert(data.message);
+  } else {
+    alert(data?.error || "No se pudo crear la copia.");
+  }
+}
