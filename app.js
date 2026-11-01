@@ -34,7 +34,8 @@ console.log('Iniciando solicitud a verify-secret');
         })
       }
     );
-
+console.log('Respuesta HTTP:', response.status);
+    
     const result = await response.json();
 
     if (!response.ok) {
