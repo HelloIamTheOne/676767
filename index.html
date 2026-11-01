@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARCHIVO CLASIFICADO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js">
+</script>
+</head>
+<body>
+<div id="secretDetector" class="adminOnly">
+<strong>DETECTOR DE SECRETOS</strong>
+<div id="detectorPercentage">0%</div>
+<div id="detectorTrack">
+<div id="detectorBar">
+</div>
+</div>
+<div id="detectorText">Buscando proximidad...</div>
+</div>
+<div id="jsTestPanel" class="adminOnly">
+<button id="testJS">PROBAR JAVASCRIPT</button>
+<p id="jsStatus">Esperando prueba...</p>
+</div>
+<header>
+<h1>ARCHIVO CLASIFICADO</h1>
+<p>67 67 67 67 67 67 67 67 67 67</p>
+</header>
+<section id="home" class="page active">
+<button class="green" onclick="show('docs')">Documentos</button>
+<button class="blue" onclick="show('class')">Clasificación</button>
+<button class="secret-trigger" aria-label="Acceso secreto" onclick="show('secret')">
+</button>
+</section>
+<section id="docs" class="page">
+<h1 id="docsTitle">DOCUMENTOS</h1>
+<p id="docsDescription">Archivo de documentos clasificados</p>
+<button class="blue adminOnly" onclick="editSection('docs')">Editar sección</button>
+<div id="addPanel" class="card adminOnly">
+<h3>Agregar documento</h3>
+<input id="docName" placeholder="Nombre del documento">
+<label>Imagen de portada (opcional)</label>
+<input type="file" id="cover" accept="image/*">
+<label>Archivo PDF</label>
+<input type="file" id="file" accept="application/pdf">
+<button class="green" onclick="addDoc()">Agregar documento</button>
+</div>
+<div id="documents">Cargando documentos...</div>
+<button class="blue" onclick="show('home')">Regresar</button>
+<div style="margin-top:50px;padding:20px">
+<button class="green" onclick="toggleLogin()">Administrador</button>
+<button class="red adminOnly" onclick="logout()">Cerrar sesión</button>
+</div>
+<div id="loginPanel" class="card">
+<h3>ACCESO ADMINISTRADOR</h3>
+<input id="adminEmail" placeholder="Correo electrónico">
+<input id="adminPassword" type="password" placeholder="Contraseña">
+<button class="green" id="loginButton" onclick="adminLogin()">INICIAR SESIÓN</button>
+<button class="red" onclick="toggleLogin()">Cancelar</button>
+<p id="loginMessage">
+</p>
+</div>
+</section>
+<section id="class" class="page">
+<h1 id="classTitle">CLASIFICACIÓN</h1>
+<p id="classDescription">Niveles de clasificación</p>
+<button class="blue adminOnly" onclick="editSection('class')">Editar sección</button>
+<div id="levels">
+<div class="card">
+<h3>Clasificación 0</h3>
+<button class="green">Desbloqueado</button>
+</div>
+<div class="card">
+<h3>Clasificación 1</h3>
+<button class="green">Desbloqueado</button>
+</div>
+<div class="card" id="level2Card" style="position:relative">
+<h3>Clasificación 2</h3>
+<button class="red" id="level2Status">Bloqueado</button>
+<button class="level2-secret-trigger" onclick="openLevel2Decode()" aria-label="Acceso oculto">
+</button>
+</div>
+<div id="level2Decode" class="level2-decode">
+<h3 class="level2-decode-title">DECODIFICACIÓN REQUERIDA</h3>
+<p class="secret3-text">Dos códigos. Dos respuestas. Descifra ambos para continuar.</p>
+<p class="level2-code-label">BASE64</p>
+<div class="level2-code">Q2VsZXN0ZQ==</div>
+<input id="base64Answer" class="secret3-input" autocomplete="off" placeholder="Primera respuesta">
+<p class="level2-code-label">ASCII</p>
+<div class="level2-code">79 99 116 97 118 97</div>
+<input id="asciiAnswer" class="secret3-input" autocomplete="off" placeholder="Segunda respuesta">
+<button class="secret3-button" onclick="submitLevel2Decode()">ENVIAR</button>
+<div id="level2DecodeMessage" class="secret3-message" aria-live="polite">
+</div>
+</div>
+<div class="card">
+<h3>Clasificación 3</h3>
+<button class="red">Bloqueado</button>
+</div>
+<div class="card">
+<h3>Clasificación 4</h3>
+<button class="red">Bloqueado</button>
+</div>
+</div>
+<div id="adminClassificationBanner" class="adminOnly">
+<h2>CENTRO DE CLASIFICACIÓN</h2>
+<h1>NIVEL 5</h1>
+<h2>DESBLOQUEADA</h2>
+<p>ACCESO ADMINISTRATIVO AUTORIZADO</p>
+</div>
+<button class="blue" onclick="show('home')">Regresar</button>
+<button class="red adminOnly" onclick="logout()">Cerrar sesión</button>
+</section>
+<section id="secret" class="page">
+<h2 class="secret-title">Hølä, müy prøbåblēméntê nô tē ãçüērdës dè mí.</h2>
+<p class="secret-text">¡Fēlïcîdãdês pôr llégår hãstá åcä! Tê fãltån pør dêscübrìr døs sêcrétõs más.</p>
+<div class="secret-math">(5 + 7 - 4)</div>
+<button class="secret-return" onclick="show('home')">Regresar a la página normal</button>
+<br>
+<br>
+<button class="secret-question" onclick="secretCheck()">???</button>
+<div id="secretMessage">
+</div>
+</section>
+<section id="secret2" class="page">
+<button class="secret2-trigger" onclick="startSecret2Challenge()" aria-label="Abrir reto">?</button>
+<h2 class="secret2-title">ARCHIVO CELESTE</h2>
+<p class="secret2-text">¡Felicidades por encontrar el secreto #2! Este secreto necesitaba conocer temas más ocultos.<br>
+<br>Si estás aquí, estás a 1 secreto de conseguir llegar a los 3 secretos, ¡Muy bien! Sigue buscando.</p>
+<button class="secret2-return" onclick="show('home')">Regresar a la página normal</button>
+<div id="secret2Challenge" class="secret2-challenge">
+<div class="secret2-quick">¡Rápido!</div>
+<div class="secret2-math">(4 - 6 + 2 + 3 - 1 + 3 + 3)</div>
+<div>Tiempo restante:</div>
+<div id="secret2Timer" class="secret2-timer">30</div>
+<input id="secret2Answer" class="secret2-input" type="number" inputmode="numeric" placeholder="Escribe el resultado">
+<button class="secret2-submit" onclick="submitSecret2Answer()">Enviar respuesta</button>
+</div>
+<div id="secret2Result" class="secret2-result">
+</div>
+<button class="secret2-bottom-hotspot" aria-label="Punto oculto" onclick="revealSecret2Bottom()">
+</button>
+<div id="secret2HiddenArea" class="secret2-hidden-area">
+<input id="secret2BottomInput" placeholder="">
+<button onclick="checkSecret2Bottom()">Enviar</button>
+</div>
+<div id="secret2AbajoResult" class="secret2-abajo-result">¡8! <button onclick="closeSecret2Abajo()">X</button>
+</div>
+</section>
+<section id="secret3" class="page">
+<h2 class="secret3-title">¡H<button class="secret3-hotspot" onclick="openSecret3Access()" aria-label="Letra oculta">o</button>la, finalmente llegas!</h2>
+<p class="secret3-text">¡Has descubierto los tres secretos necesarios para conseguir una nueva clasificación de nivel!<br>
+<br>Para reclamar tu siguiente nivel, deberás completar el acertijo final.<br>
+<br>¡Buena suerte! El primer paso se encuentra más cerca de lo que crees.</p>
+<div id="secret3Access" style="display:none">
+<h3 class="secret3-title">CÓDIGO DE ACCESO</h3>
+<input id="secret3Code" class="secret3-input" type="text" inputmode="numeric" autocomplete="off" placeholder="Introduce el código">
+<button class="secret3-button" onclick="submitSecret3Code()">COMPROBAR</button>
+<div id="secret3AccessMessage" class="secret3-message" aria-live="polite">
+</div>
+<div id="secret3Next" style="display:none">
+<button class="secret3-question" onclick="show('secret3Final')">???</button>
+</div>
+</div>
+<br>
+<button class="secret3-return" onclick="show('home')">Regresar</button>
+</section>
+<section id="secret3Final" class="page">
+<h2 class="secret3-title">ÚLTIMO ACERTIJO</h2>
+<p class="secret3-text">Resuelve las diez operaciones.<br>Todas tienen el mismo resultado.<br>
+<br>Utiliza las respuestas para descubrir el código definitivo.</p>
+<div class="secret3-equations">
+<div class="secret3-equation">(4 − 8 • 4 ÷ 8 + 8)</div>
+<div class="secret3-equation">(3 + 3 − 2 + 6 − 2)</div>
+<div class="secret3-equation">(10 + 2 + 6 − 8 − 2)</div>
+<div class="secret3-equation">(4 + 2 − 3 + 7 − 6 + 4)</div>
+<div class="secret3-equation">(4 • 4 − 3 + 3 − 8)</div>
+<div class="secret3-equation">(6 + 5 − 7 + 4)</div>
+<div class="secret3-equation">(4 + 5 + 8 − 9)</div>
+<div class="secret3-equation">(5 + 5 − 5 + 3)</div>
+<div class="secret3-equation">(8 + 8 + √25 − 13)</div>
+<div class="secret3-equation">(35 + 35 − 60 + 10 − 8 − 8 + 4)</div>
+</div>
+<p class="secret3-text">Cuando tengas el código, introdúcelo aquí:</p>
+<input id="secret3FinalCode" class="secret3-input" type="text" inputmode="numeric" autocomplete="off" placeholder="Código final">
+<button class="secret3-button" onclick="submitSecret3Final()">COMPROBAR CÓDIGO</button>
+<div id="secret3FinalMessage" class="secret3-final-message" aria-live="polite">
+</div>
+<button id="secret3Return" class="secret3-return" style="display:none" onclick="finishSecret3()">Regresar</button>
+</section>
+</body>
+</html>
