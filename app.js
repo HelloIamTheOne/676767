@@ -17,7 +17,9 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
       message.textContent = 'Acceso Restringido. Nivel insuficiente.';
       return;
     }
-
+    
+console.log('Iniciando solicitud a verify-secret');
+    
     const response = await fetch(
       SUPABASE_URL + '/functions/v1/verify-secret',
       {
