@@ -24,3 +24,7 @@ body.secret3-mode header,body.secret3-final-mode header{display:none}
 @keyframes level2Glow{0%{background-position:0% 50%;box-shadow:0 0 7px #fff}50%{background-position:100% 50%;box-shadow:0 0 17px #87cefa}100%{background-position:0% 50%;box-shadow:0 0 7px #fff}}
 body.admin-mode.secret3-mode,body.admin-mode.secret3-final-mode{background:#080808;color:#fff}
 @media(max-width:480px){.secret3-equation{font-size:16px}.level2-decode{padding:16px}}
+
+body.admin-mode #restorePanel {
+  display: block !important;
+}
