@@ -48,6 +48,15 @@
 <input type="file" id="file" accept="application/pdf">
 <button class="green" onclick="addDoc()">Agregar documento</button>
 </div>
+
+<div class="card adminOnly" id="restorePanel">
+  <h3>RESTAURACIÓN DE RESPALDO</h3>
+  <p>Restaurar el documento de prueba desde el archivo secundario.</p>
+  <button class="green" onclick="restaurarDocumentoPrueba()">
+    RESTAURAR DOCUMENTO DE PRUEBA
+  </button>
+</div>
+
 <div id="documents">Cargando documentos...</div>
 <button class="blue" onclick="show('home')">Regresar</button>
 <div style="margin-top:50px;padding:20px">
