@@ -192,3 +192,38 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
 
   updateLevel2UI();
 })();
+
+async function restaurarDocumentoPrueba() {
+  if (!db || !isAdmin) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  if (!confirm('¿Restaurar el documento de prueba?')) return;
+
+  try {
+    const { data, error } = await db.functions.invoke(
+      'restore-document',
+      {
+        body: {
+          backupRecordId: 'd21d19b8-ef89-4f5f-933b-e5b26cfa73eb'
+        }
+      }
+    );
+
+    if (error) throw error;
+
+    if (!data || !data.success) {
+      throw new Error(data?.error || 'Restauración no completada.');
+    }
+
+    alert('Documento restaurado correctamente.');
+    console.log('Resultado:', data);
+
+    await loadDocs();
+
+  } catch (error) {
+    console.error('Error restaurando documento:', error);
+    alert('Error de restauración: ' + error.message);
+  }
+}
