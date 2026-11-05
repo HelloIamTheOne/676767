@@ -450,18 +450,7 @@ window.playUpdates67=function(){
     if(status) status.textContent='No se pudo reproducir el audio.';
   });
 };
-    if(!('speechSynthesis' in window)){
-      if(status) status.textContent='Este navegador no admite audio de voz.';
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const voice=new SpeechSynthesisUtterance('Sesenta y siete. 67.');
-    voice.lang='es-ES';
-    voice.rate=0.85;
-    voice.onstart=()=>{if(status)status.textContent='Reproduciendo: sesenta y siete.';};
-    voice.onend=()=>{if(status)status.textContent='Audio terminado.';};
-    window.speechSynthesis.speak(voice);
-  };
+  
 
   window.updateLevel2UI=function(){
     const status=document.getElementById('level2Status');
