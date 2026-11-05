@@ -430,7 +430,8 @@ window.playUpdates67=function(){
   }
 
   if(!window.updates67Audio){
-    window.updates67Audio=new Audio('67.mp3');
+    window.updates67Audio=new Audio('https://helloiamtheone.github.io/676767/67.mp3');
+window.updates67Audio.preload='auto';
     window.updates67Audio.loop=false;
     window.updates67Audio.volume=0.35;
   }
