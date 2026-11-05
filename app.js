@@ -772,3 +772,50 @@ async function restaurarRespaldo(backupRecordId, documentName) {
 }
 
 window.restaurarRespaldo = restaurarRespaldo;
+
+async function eliminarRespaldo(backupRecordId, documentName) {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  const confirmed = confirm(
+    '¿Estás seguro de que deseas eliminar el respaldo de "' +
+    documentName +
+    '"?\n\nEsta acción no eliminará el documento original.'
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const { data, error } = await db.functions.invoke(
+      'dynamic-handler',
+      {
+        body: {
+          action: 'deleteBackup',
+          backupRecordId: backupRecordId
+        }
+      }
+    );
+
+    if (error) throw error;
+
+    if (!data?.success) {
+      throw new Error(
+        data?.error || 'No se pudo eliminar el respaldo.'
+      );
+    }
+
+    alert(data.message);
+
+    const panel = document.getElementById('backupHistory');
+    panel.style.display = 'none';
+    await toggleBackupHistory();
+
+  } catch (error) {
+    console.error('Error eliminando respaldo:', error);
+    alert('ERROR: ' + error.message);
+  }
+}
+
+window.eliminarRespaldo = eliminarRespaldo;
