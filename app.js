@@ -542,3 +542,154 @@ async function toggleBackupHistory() {
 }
 
 window.toggleBackupHistory = toggleBackupHistory;
+
+async function crearRespaldoGeneral() {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  const status = document.getElementById('generalBackupStatus');
+
+  if (!confirm(
+    '¿Crear respaldos de TODOS los documentos registrados?\n\n' +
+    'El proceso se realizará uno por uno.'
+  )) return;
+
+  const button = document.querySelector(
+    'button[onclick="window.crearRespaldoGeneral()"]'
+  );
+
+  button.disabled = true;
+  status.textContent = 'Preparando respaldos...';
+
+  const resultados = {
+    exitosos: [],
+    omitidos: [],
+    errores: []
+  };
+
+  try {
+    const { data: sessionData, error: sessionError } =
+      await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    const session = sessionData?.session;
+
+    if (!session || session.user.id !== ADMIN_UID) {
+      throw new Error('Sesión administrativa no válida.');
+    }
+
+    const { data: documents, error } = await db
+      .from('documents')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error) throw error;
+
+    if (!documents || documents.length === 0) {
+      status.textContent = 'No hay documentos para respaldar.';
+      return;
+    }
+
+    for (let i = 0; i < documents.length; i++) {
+      const doc = documents[i];
+
+      status.textContent =
+        'Respaldando ' + (i + 1) + ' de ' +
+        documents.length + ': ' + doc.name;
+
+      try {
+        let response = await fetch(
+          SUPABASE_URL + '/functions/v1/dynamic-handler',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_KEY,
+              'Authorization': 'Bearer ' + session.access_token
+            },
+            body: JSON.stringify({
+              documentId: doc.id,
+              confirmDuplicate: false
+            })
+          }
+        );
+
+        let result = await response.json();
+
+        if (result.confirmationRequired) {
+          const confirmed = confirm(
+            '"' + doc.name + '" ya tiene ' +
+            result.existingCount +
+            ' copia(s).\n\n¿Crear otra copia?'
+          );
+
+          if (!confirmed) {
+            resultados.omitidos.push(doc.name);
+            continue;
+          }
+
+          response = await fetch(
+            SUPABASE_URL + '/functions/v1/dynamic-handler',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + session.access_token
+              },
+              body: JSON.stringify({
+                documentId: doc.id,
+                confirmDuplicate: true
+              })
+            }
+          );
+
+          result = await response.json();
+        }
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.error || result.message || 'Respaldo fallido.'
+          );
+        }
+
+        resultados.exitosos.push(doc.name);
+
+      } catch (error) {
+        console.error('Error respaldando ' + doc.name, error);
+        resultados.errores.push(
+          doc.name + ': ' + error.message
+        );
+      }
+    }
+
+    status.textContent =
+      'Proceso terminado. Correctos: ' +
+      resultados.exitosos.length +
+      ' | Omitidos: ' + resultados.omitidos.length +
+      ' | Errores: ' + resultados.errores.length;
+
+    alert(
+      'RESPALDO GENERAL TERMINADO\n\n' +
+      'Correctos: ' + resultados.exitosos.length +
+      '\nOmitidos: ' + resultados.omitidos.length +
+      '\nErrores: ' + resultados.errores.length
+    );
+
+    console.log('Resultados del respaldo general:', resultados);
+
+    await loadDocs();
+
+  } catch (error) {
+    console.error('Error en respaldo general:', error);
+    status.textContent = 'ERROR: ' + error.message;
+
+  } finally {
+    button.disabled = false;
+  }
+}
+
+window.crearRespaldoGeneral = crearRespaldoGeneral;
