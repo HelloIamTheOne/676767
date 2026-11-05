@@ -541,6 +541,15 @@ restoreButton.onclick = () => {
 };
 
 card.appendChild(restoreButton);
+
+const deleteButton = document.createElement('button');
+deleteButton.className = 'blue';
+deleteButton.textContent = 'ELIMINAR RESPALDO';
+deleteButton.onclick = () => {
+  eliminarRespaldo(backup.id, backup.document_name);
+};
+
+card.appendChild(deleteButton);
 list.appendChild(card);
     });
 
