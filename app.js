@@ -457,3 +457,86 @@ async function restaurarDocumentoPrueba() {
     alert('Error de restauración: ' + error.message);
   }
 }
+
+async function toggleBackupHistory() {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  const panel = document.getElementById('backupHistory');
+  const list = document.getElementById('backupHistoryList');
+
+  if (panel.style.display === 'block') {
+    panel.style.display = 'none';
+    return;
+  }
+
+  panel.style.display = 'block';
+  list.textContent = 'Consultando historial...';
+
+  try {
+    const { data, error } = await db.auth.getSession();
+
+    if (error) throw error;
+
+    const session = data?.session;
+
+    if (!session || session.user.id !== ADMIN_UID) {
+      throw new Error('Sesión administrativa no válida.');
+    }
+
+    const response = await fetch(
+      SUPABASE_URL + '/functions/v1/dynamic-handler',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + session.access_token
+        },
+        body: JSON.stringify({
+          action: 'getBackupHistory'
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || 'No se pudo consultar el historial.'
+      );
+    }
+
+    list.replaceChildren();
+
+    if (!result.history.length) {
+      list.textContent = 'Todavía no hay respaldos registrados.';
+      return;
+    }
+
+    result.history.forEach(backup => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const name = document.createElement('h3');
+      name.textContent = backup.document_name || 'Documento sin nombre';
+
+      const date = document.createElement('p');
+      date.textContent = 'Fecha: ' +
+        new Date(backup.created_at).toLocaleString();
+
+      const id = document.createElement('small');
+      id.textContent = 'ID original: ' +
+        backup.original_document_id;
+
+      card.append(name, date, id);
+      list.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error('Error consultando historial:', error);
+    list.textContent = 'ERROR: ' + error.message;
+  }
+}
