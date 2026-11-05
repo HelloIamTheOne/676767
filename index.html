@@ -56,7 +56,24 @@
     RESTAURAR DOCUMENTO DE PRUEBA
   </button>
 </div>
+  
+</div>
 
+<div class="adminOnly">
+  <button class="blue" onclick="toggleBackupHistory()">
+    HISTORIAL DE RESPALDOS
+  </button>
+
+  <div id="backupHistory" style="display:none">
+    <h2>HISTORIAL DE RESPALDOS</h2>
+    <div id="backupHistoryList">
+      Cargando historial...
+    </div>
+  </div>
+</div>
+
+<div id="documents">Cargando documentos...</div>
+  
 <div id="documents">Cargando documentos...</div>
 <button class="blue" onclick="show('home')">Regresar</button>
 <div style="margin-top:50px;padding:20px">
