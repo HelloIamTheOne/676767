@@ -540,3 +540,5 @@ async function toggleBackupHistory() {
     list.textContent = 'ERROR: ' + error.message;
   }
 }
+
+window.toggleBackupHistory = toggleBackupHistory;
