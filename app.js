@@ -421,8 +421,35 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
       if(status) status.textContent='NOVEDADES MOSTRADAS';
     }
   };
-  window.playUpdates67=function(){
-    const status=document.getElementById('updatesAudioStatus');
+window.playUpdates67=function(){
+  const status=document.getElementById('updatesAudioStatus');
+
+  // Evita iniciar otra reproducción mientras suena.
+  if(window.updates67Audio &&
+     !window.updates67Audio.paused &&
+     !window.updates67Audio.ended){
+    return;
+  }
+
+  if(!window.updates67Audio){
+    window.updates67Audio=new Audio('67.mp3');
+    window.updates67Audio.loop=false;
+    window.updates67Audio.volume=0.35;
+  }
+
+  const audio=window.updates67Audio;
+  audio.currentTime=0;
+
+  if(status) status.textContent='Reproduciendo audio...';
+
+  audio.play().then(()=>{
+    audio.onended=()=>{
+      if(status) status.textContent='Audio terminado.';
+    };
+  }).catch(()=>{
+    if(status) status.textContent='No se pudo reproducir el audio.';
+  });
+};
     if(!('speechSynthesis' in window)){
       if(status) status.textContent='Este navegador no admite audio de voz.';
       return;
