@@ -377,46 +377,48 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
     }
     window.show('updates');
   };
-  window.prepareUpdatesPage=function(){
-    if(localStorage.getItem('level2Unlocked')!=='true') return;
-    const entries=[...document.querySelectorAll('#updatesList .update-entry')];
-    const seen=getSeenUpdates();
-    const pending=[];
-    entries.forEach(entry=>{
-      const id=entry.dataset.updateId;
-      const speech=entry.querySelector('.update-speech');
-      const unseen=!seen.includes(id);
-      entry.classList.toggle('is-unseen',unseen);
-      entry.classList.toggle('is-seen',!unseen);
-      if(unseen){
-        pending.push(entry);
-        if(speech) speech.hidden=false;
-      }else if(speech){speech.hidden=true;}
-    });
-    const status=document.getElementById('updatesPending');
-    if(status) status.textContent=pending.length?pending.length+' NOVEDAD(ES) SIN VER':'TODO AL DÍA';
-    if(!pending.length) return;
-    if('speechSynthesis' in window){
-      window.speechSynthesis.cancel();
-      pending.forEach((entry,index)=>{
-        const title=entry.querySelector('h2')?.textContent||'Actualización';
-        const description=entry.querySelector('.update-copy p')?.textContent||'';
-        const utterance=new SpeechSynthesisUtterance('Hola. '+title+'. '+description);
-        utterance.lang='es-ES';
-        utterance.rate=1;
-        utterance.onend=()=>{
-          markUpdateSeen(entry.dataset.updateId);
-          entry.classList.remove('is-unseen');
-          entry.classList.add('is-seen');
-          const bubble=entry.querySelector('.update-speech');
-          if(bubble) bubble.hidden=true;
-          const remaining=entries.filter(item=>!getSeenUpdates().includes(item.dataset.updateId)).length;
-          if(status) status.textContent=remaining?remaining+' NOVEDAD(ES) SIN VER':'TODO AL DÍA';
-        };
-      pending.forEach(entry=>markUpdateSeen(entry.dataset.updateId));
-      if(status) status.textContent='NOVEDADES MOSTRADAS';
+window.prepareUpdatesPage=function(){
+  if(localStorage.getItem('level2Unlocked')!=='true') return;
+
+  const entries=[
+    ...document.querySelectorAll('#updatesList .update-entry')
+  ];
+
+  const seen=getSeenUpdates();
+  const pending=[];
+
+  entries.forEach(entry=>{
+    const id=entry.dataset.updateId;
+    const speech=entry.querySelector('.update-speech');
+    const unseen=!seen.includes(id);
+
+    entry.classList.toggle('is-unseen',unseen);
+    entry.classList.toggle('is-seen',!unseen);
+
+    if(unseen){
+      pending.push(entry);
+      if(speech) speech.hidden=false;
+    }else{
+      if(speech) speech.hidden=true;
     }
-  };
+  });
+
+  const status=document.getElementById('updatesPending');
+
+  if(status){
+    status.textContent=pending.length
+      ? pending.length+' NOVEDAD(ES) SIN VER'
+      : 'TODO AL DÍA';
+  }
+
+  pending.forEach(entry=>{
+    markUpdateSeen(entry.dataset.updateId);
+  });
+
+  if(pending.length && status){
+    status.textContent='NOVEDADES MOSTRADAS';
+  }
+};
 window.playUpdates67=function(){
   const status=document.getElementById('updatesAudioStatus');
 
