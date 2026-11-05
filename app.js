@@ -89,7 +89,218 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
   }
 
   updateDetector();
-}function toggleLogin(){const _0x3d677c=_0xc299a,_0xcb7955=document[_0x3d677c(0x27d)]('loginPanel');_0xcb7955[_0x3d677c(0x24c)][_0x3d677c(0x21d)]=_0xcb7955['style'][_0x3d677c(0x21d)]==='block'?'none':_0x3d677c(0x241);}function loginMessage(_0x2a1397,_0x140c54=_0xc299a(0x25a)){const _0x1e3145=_0xc299a,_0x152420=document[_0x1e3145(0x27d)]('loginMessage');_0x152420[_0x1e3145(0x260)]=_0x2a1397,_0x152420['style'][_0x1e3145(0x22c)]=_0x140c54;}async function adminLogin(){const _0x31e6b9=_0xc299a,_0xc819e1=document[_0x31e6b9(0x27d)]('adminEmail')['value'],_0xf252ca=document[_0x31e6b9(0x27d)](_0x31e6b9(0x27e))['value'];if(_0xc819e1['trim']()[_0x31e6b9(0x28a)]()==='celeste'&&_0xf252ca[_0x31e6b9(0x1f1)]()['toLowerCase']()===_0x31e6b9(0x24b)){document[_0x31e6b9(0x27d)](_0x31e6b9(0x26e))[_0x31e6b9(0x234)]='',document['getElementById']('adminPassword')['value']='',document[_0x31e6b9(0x27d)](_0x31e6b9(0x261))['style'][_0x31e6b9(0x21d)]=_0x31e6b9(0x1f9),show(_0x31e6b9(0x227));return;}const _0x312a74=_0xc819e1['trim']();if(!_0x312a74||!_0xf252ca){loginMessage(_0x31e6b9(0x23e),_0x31e6b9(0x23c));return;}if(!db){loginMessage(_0x31e6b9(0x236),'#ff2020');return;}const _0x87d21d=document['getElementById']('loginButton');_0x87d21d['disabled']=!![],_0x87d21d[_0x31e6b9(0x260)]=_0x31e6b9(0x275),loginMessage('Conectando\x20con\x20Supabase...');try{const {data:_0xbbf9c2,error:_0x464536}=await db['auth'][_0x31e6b9(0x280)]({'email':_0x312a74,'password':_0xf252ca});if(_0x464536)throw _0x464536;if(!_0xbbf9c2[_0x31e6b9(0x232)]||_0xbbf9c2['user']['id']!==ADMIN_UID){const _0xb48302=_0xbbf9c2[_0x31e6b9(0x232)]?.['id']||_0x31e6b9(0x1fb);await db['auth'][_0x31e6b9(0x253)](),isAdmin=![],updateAdmin(),loginMessage('UID\x20INCORRECTO.\x20Cuenta:\x20'+_0xb48302+'\x20|\x20Administrador:\x20'+ADMIN_UID,_0x31e6b9(0x23c));return;}const {data:_0x51d526,error:_0x157717}=await db[_0x31e6b9(0x28b)][_0x31e6b9(0x274)]();if(_0x157717||_0x51d526[_0x31e6b9(0x232)]?.['id']!==ADMIN_UID){await db[_0x31e6b9(0x28b)][_0x31e6b9(0x253)](),isAdmin=![],updateAdmin(),loginMessage(_0x31e6b9(0x200),_0x31e6b9(0x23c));return;}isAdmin=!![],updateAdmin(),document[_0x31e6b9(0x27d)](_0x31e6b9(0x261))[_0x31e6b9(0x24c)][_0x31e6b9(0x21d)]=_0x31e6b9(0x1f9),document[_0x31e6b9(0x27d)](_0x31e6b9(0x27e))['value']='',await loadDocs(),alert('¡Administrador\x20activado!');}catch(_0x304e6f){loginMessage('Error:\x20'+_0x304e6f[_0x31e6b9(0x246)],'#ff2020');}finally{_0x87d21d['disabled']=![],_0x87d21d['textContent']=_0x31e6b9(0x257);}}async function logout(){const _0x31d590=_0xc299a;if(!db){alert('No\x20hay\x20conexión\x20con\x20Supabase.');return;}try{const {error:_0x18e573}=await db[_0x31d590(0x28b)]['signOut']();if(_0x18e573)throw _0x18e573;isAdmin=![],updateAdmin(),await loadDocs(),show(_0x31d590(0x27f)),alert(_0x31d590(0x25d));}catch(_0x52b535){alert('Error:\x20'+_0x52b535['message']);}}async function checkSession(){const _0x28ad03=_0xc299a;if(!db){isAdmin=![],updateAdmin(),document['getElementById'](_0x28ad03(0x25b))[_0x28ad03(0x260)]='No\x20se\x20pudo\x20conectar\x20con\x20Supabase.';return;}try{const {data:_0x46b6b8,error:_0x4d15ec}=await db[_0x28ad03(0x28b)]['getUser']();if(_0x4d15ec)throw _0x4d15ec;isAdmin=_0x46b6b8[_0x28ad03(0x232)]?.['id']===ADMIN_UID;}catch(_0x196ae1){console['error']('Error\x20verificando\x20sesión:',_0x196ae1),isAdmin=![];}updateAdmin(),await loadDocs();}db&&db['auth'][_0xc299a(0x215)]((_0xe76c13,_0x57d10a)=>{const _0x301349=_0xc299a,_0x362180=isAdmin;isAdmin=_0x57d10a?.[_0x301349(0x232)]?.['id']===ADMIN_UID,updateAdmin(),_0x362180!==isAdmin&&setTimeout(()=>{loadDocs();},0x0);});function editSection(_0x17fc91){const _0x1462e9=_0xc299a;if(!isAdmin)return;const _0x5a8d5e=document['getElementById'](_0x17fc91+_0x1462e9(0x291)),_0x268e2e=document[_0x1462e9(0x27d)](_0x17fc91+_0x1462e9(0x245));if(!_0x5a8d5e||!_0x268e2e)return;const _0xa44280=prompt(_0x1462e9(0x1f7),_0x5a8d5e[_0x1462e9(0x260)]);_0xa44280!==null&&_0xa44280[_0x1462e9(0x1f1)]()&&(_0x5a8d5e['textContent']=_0xa44280[_0x1462e9(0x1f1)]());const _0xd0ed99=prompt(_0x1462e9(0x237),_0x268e2e['textContent']);_0xd0ed99!==null&&_0xd0ed99[_0x1462e9(0x1f1)]()&&(_0x268e2e['textContent']=_0xd0ed99[_0x1462e9(0x1f1)]());}function _0x2810(){const _0x465b38=['11416xokDIi','className','secret2','alt','secret2Timer','347732GnBPNc','.page','color','from','.page.active','secret2HiddenArea','Descargar','Señal\x20detectada','user','Abajo','value','\x20copia(s)\x20de\x20seguridad.\x0a\x0a','No\x20se\x20pudo\x20conectar\x20con\x20Supabase.','Nueva\x20descripción:','getSession','Error\x20al\x20eliminar:\x20','length','Documento\x20eliminado\x20correctamente','#ff2020','getClientRects','Escribe\x20tu\x20correo\x20y\x20contraseña','toggle','card','block','.secret-trigger','Sesión\x20administrativa\x20no\x20válida.','66OYgVPM','Description','message','includes','Error\x20creando\x20la\x20copia.','CREAR\x20COPIA\x20DE\x20SEGURIDAD','detectorText','celeste','style','Error\x20al\x20eliminar\x20documento:','button','secret-denied','a899ab31-456a-40dc-b03d-af59182afd41','secret2Result','getBoundingClientRect','signOut','Acceso\x20administrativo\x20requerido.','publicUrl','top','INICIAR\x20SESIÓN','detectorPercentage','insert','#87CEFA','documents','img','Sesión\x20cerrada','POST','No\x20se\x20confirmó\x20la\x20creación\x20de\x20la\x20copia.','textContent','loginPanel','testJS','class','Bearer\x20','¡Copia\x20de\x20seguridad\x20creada\x20correctamente!\x0a\x0a','secret2-result\x20secret2-success','11263920VmlsGm','No\x20hay\x20botones\x20activos','3704796RwWuEO','secret2AbajoResult','round','clientX','push','adminEmail','.adminOnly','getPublicUrl','clientY','4794680aZSgfR','Eliminar','getUser','CONECTANDO...','cover_path','jsStatus','Acceso\x20Restringido.\x20Nivel\x20insuficiente.','remove','click','innerHTML','sb_publishable_vQHchnFMXr4K5NuWYZD3HA_bXXpyHxZ','getElementById','adminPassword','home','signInWithPassword','classList','blue','filter','querySelectorAll','error','div','confirmationRequired','createElement','docName','toLowerCase','auth','file','8255688KTGkmK','href','documentos','image/gif','Title','created_at','cover_url','upload','4823828ODUYxW','json','cover','trim','Error:\x20','supabase','/functions/v1/dynamic-handler','No\x20se\x20pudo\x20conectar\x20con\x20el\x20servicio.','randomUUID','Nuevo\x20título:','-cover','none','?download','No\x20disponible','show','active','function','secret2-result\x20secret2-failure','No\x20se\x20pudo\x20verificar\x20la\x20cuenta.','secret2Challenge','onclick','secret2Answer','height','No\x20hay\x20documentos\x20disponibles.','type','max','append','name','body','width','admin-mode','Buscando\x20proximidad...','DIV','forEach','Total\x20de\x20copias:\x20','querySelector','addEventListener','files','Error\x20al\x20agregar\x20el\x20documento:\x20','onAuthStateChange','secretMessage','Completa\x20el\x20nombre\x20y\x20selecciona\x20un\x20PDF','.pdf','Señal\x20débil','download','createClient','Cargando\x20documentos...','display','secret','secret2-result','delete','detectorBar','storage','¿Eliminar\x20este\x20documento?','select'];_0x2810=function(){return _0x465b38;};return _0x2810();}async function loadDocs(){const _0x4faa84=_0xc299a,_0x3f4ea6=document['getElementById']('documents');if(!db){_0x3f4ea6['textContent']='Servicio\x20de\x20documentos\x20no\x20disponible.';return;}_0x3f4ea6['textContent']=_0x4faa84(0x21c);try{const {data:_0x55b175,error:_0x595baf}=await db[_0x4faa84(0x22d)](_0x4faa84(0x25b))[_0x4faa84(0x224)]('*')['order'](_0x4faa84(0x292),{'ascending':![]});if(_0x595baf)throw _0x595baf;_0x3f4ea6[_0x4faa84(0x27b)]='';if(!_0x55b175||!_0x55b175[_0x4faa84(0x23a)]){_0x3f4ea6['textContent']=_0x4faa84(0x205);return;}_0x55b175[_0x4faa84(0x20f)](_0x45e444=>{const _0x5dd7e8=_0x4faa84,_0xbd8b1d=document[_0x5dd7e8(0x288)](_0x5dd7e8(0x286));_0xbd8b1d[_0x5dd7e8(0x226)]=_0x5dd7e8(0x240);const _0x32865b=document[_0x5dd7e8(0x288)](_0x5dd7e8(0x25c));_0x32865b['src']=_0x45e444[_0x5dd7e8(0x293)]||'https://placehold.co/400x200/101010/39FF14?text=DOCUMENTO',_0x32865b[_0x5dd7e8(0x228)]='Portada\x20del\x20documento';const _0x23d0c8=document[_0x5dd7e8(0x288)]('h3');_0x23d0c8[_0x5dd7e8(0x260)]=_0x45e444[_0x5dd7e8(0x209)];const _0x32df44=document[_0x5dd7e8(0x288)]('button');_0x32df44[_0x5dd7e8(0x226)]='green',_0x32df44['textContent']=_0x5dd7e8(0x230),_0x32df44[_0x5dd7e8(0x202)]=()=>{const _0x1d1be8=_0x5dd7e8;if(_0x45e444['file_url']){const _0x37951f=document[_0x1d1be8(0x288)]('a');_0x37951f[_0x1d1be8(0x28e)]=_0x45e444['file_url']+_0x1d1be8(0x1fa),_0x37951f[_0x1d1be8(0x21a)]='',document['body']['appendChild'](_0x37951f),_0x37951f[_0x1d1be8(0x27a)](),_0x37951f['remove']();}},_0xbd8b1d[_0x5dd7e8(0x208)](_0x32865b,_0x23d0c8,_0x32df44);if(isAdmin){const _0x1395eb=document['createElement'](_0x5dd7e8(0x24e));_0x1395eb[_0x5dd7e8(0x226)]=_0x5dd7e8(0x282),_0x1395eb['textContent']=_0x5dd7e8(0x249),_0x1395eb['onclick']=()=>crearCopiaSeguridad(_0x45e444),_0xbd8b1d['append'](_0x1395eb);const _0xdf6743=document[_0x5dd7e8(0x288)]('button');_0xdf6743[_0x5dd7e8(0x226)]='red',_0xdf6743[_0x5dd7e8(0x260)]=_0x5dd7e8(0x273),_0xdf6743[_0x5dd7e8(0x202)]=()=>deleteDoc(_0x45e444),_0xbd8b1d[_0x5dd7e8(0x208)](_0xdf6743);}_0x3f4ea6['append'](_0xbd8b1d);});}catch(_0x14c47b){console[_0x4faa84(0x285)](_0x14c47b),_0x3f4ea6[_0x4faa84(0x260)]='Error\x20cargando\x20documentos:\x20'+_0x14c47b['message'];}}async function addDoc(){const _0x7cbb6=_0xc299a;if(!isAdmin||!db)return;const _0x487c1b=document['getElementById'](_0x7cbb6(0x289))['value']['trim'](),_0x1947ed=document['getElementById'](_0x7cbb6(0x28c))[_0x7cbb6(0x213)][0x0],_0x311249=document[_0x7cbb6(0x27d)]('cover')[_0x7cbb6(0x213)][0x0];if(!_0x487c1b||!_0x1947ed){alert(_0x7cbb6(0x217));return;}if(_0x1947ed[_0x7cbb6(0x206)]!=='application/pdf'){alert('Selecciona\x20un\x20PDF\x20válido');return;}if(_0x1947ed['size']===0x0){alert('El\x20PDF\x20está\x20vacío');return;}if(_0x1947ed['size']>0x14*0x400*0x400){alert('El\x20PDF\x20no\x20puede\x20superar\x20los\x2020\x20MB');return;}const _0x553324=['image/jpeg','image/png','image/webp',_0x7cbb6(0x290)];if(_0x311249&&!_0x553324['includes'](_0x311249['type'])){alert('Formato\x20de\x20imagen\x20no\x20permitido');return;}if(_0x311249&&_0x311249['size']>0x32*0x400*0x400){alert('La\x20imagen\x20no\x20puede\x20superar\x20los\x2050\x20MB');return;}const _0x4a3f49=crypto[_0x7cbb6(0x1f6)](),_0x5c8874=_0x4a3f49+_0x7cbb6(0x218);let _0x4b64b9=null,_0x5856c5=[];try{let _0xf9cdd3=await db[_0x7cbb6(0x222)]['from']('documentos')[_0x7cbb6(0x294)](_0x5c8874,_0x1947ed,{'contentType':'application/pdf'});if(_0xf9cdd3['error'])throw _0xf9cdd3[_0x7cbb6(0x285)];_0x5856c5[_0x7cbb6(0x26d)](_0x5c8874);const _0x4c9832=db[_0x7cbb6(0x222)][_0x7cbb6(0x22d)]('documentos')[_0x7cbb6(0x270)](_0x5c8874)['data']['publicUrl'];let _0x495d0b=null;if(_0x311249){_0x4b64b9=_0x4a3f49+_0x7cbb6(0x1f8),_0xf9cdd3=await db[_0x7cbb6(0x222)][_0x7cbb6(0x22d)](_0x7cbb6(0x28f))['upload'](_0x4b64b9,_0x311249,{'contentType':_0x311249[_0x7cbb6(0x206)]});if(_0xf9cdd3[_0x7cbb6(0x285)])throw _0xf9cdd3[_0x7cbb6(0x285)];_0x5856c5[_0x7cbb6(0x26d)](_0x4b64b9),_0x495d0b=db['storage']['from'](_0x7cbb6(0x28f))['getPublicUrl'](_0x4b64b9)['data'][_0x7cbb6(0x255)];}const {error:_0x3fe52e}=await db['from']('documents')[_0x7cbb6(0x259)]([{'name':_0x487c1b,'file_url':_0x4c9832,'file_path':_0x5c8874,'cover_url':_0x495d0b,'cover_path':_0x4b64b9}]);if(_0x3fe52e)throw _0x3fe52e;document['getElementById'](_0x7cbb6(0x289))[_0x7cbb6(0x234)]='',document[_0x7cbb6(0x27d)]('file')['value']='',document[_0x7cbb6(0x27d)](_0x7cbb6(0x1f0))[_0x7cbb6(0x234)]='',alert('Documento\x20agregado\x20correctamente'),await loadDocs();}catch(_0x487362){console[_0x7cbb6(0x285)](_0x487362);if(_0x5856c5['length'])try{const {error:_0x56baae}=await db[_0x7cbb6(0x222)][_0x7cbb6(0x22d)](_0x7cbb6(0x28f))[_0x7cbb6(0x279)](_0x5856c5);if(_0x56baae)console[_0x7cbb6(0x285)](_0x56baae);}catch(_0x5643ef){console['error'](_0x5643ef);}alert(_0x7cbb6(0x214)+_0x487362['message']);}}async function deleteDoc(_0x409903){const _0x22add1=_0xc299a;if(!isAdmin||!db||!_0x409903?.['id'])return;if(!confirm(_0x22add1(0x223)))return;const _0x3a606b=[_0x409903['file_path'],_0x409903[_0x22add1(0x276)]][_0x22add1(0x283)](_0x5a7d9d=>typeof _0x5a7d9d==='string'&&_0x5a7d9d[_0x22add1(0x1f1)]()!=='');try{if(_0x3a606b[_0x22add1(0x23a)]){const {error:_0x5fd01}=await db[_0x22add1(0x222)][_0x22add1(0x22d)]('documentos')['remove'](_0x3a606b);if(_0x5fd01)throw new Error('No\x20se\x20pudieron\x20eliminar\x20los\x20archivos.\x20'+'El\x20registro\x20se\x20conservará.\x20'+_0x5fd01[_0x22add1(0x246)]);}const {error:_0x417126}=await db[_0x22add1(0x22d)]('documents')[_0x22add1(0x220)]()['eq']('id',_0x409903['id']);if(_0x417126)throw new Error('Los\x20archivos\x20fueron\x20eliminados,\x20pero\x20no\x20se\x20pudo\x20'+'eliminar\x20el\x20registro.\x20'+_0x417126[_0x22add1(0x246)]);alert(_0x22add1(0x23b)),await loadDocs();}catch(_0x173d10){console[_0x22add1(0x285)](_0x22add1(0x24d),_0x173d10),alert(_0x22add1(0x239)+_0x173d10['message']),await loadDocs();}}async function crearCopiaSeguridad(_0x54ea95,_0x4971af=![]){const _0x24f385=_0xc299a;if(!isAdmin||!db||!_0x54ea95||!_0x54ea95['id']){alert(_0x24f385(0x254));return;}if(!_0x4971af&&!confirm('¿Crear\x20una\x20copia\x20de\x20seguridad\x20de\x20\x22'+_0x54ea95[_0x24f385(0x209)]+'\x22?'))return;try{const {data:{session:_0x3df903},error:_0x4fbc33}=await db['auth'][_0x24f385(0x238)]();if(_0x4fbc33)throw _0x4fbc33;if(!_0x3df903||_0x3df903['user']['id']!==ADMIN_UID)throw new Error(_0x24f385(0x243));const _0x39a819=await fetch(SUPABASE_URL+_0x24f385(0x1f4),{'method':_0x24f385(0x25e),'headers':{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':_0x24f385(0x264)+_0x3df903['access_token']},'body':JSON['stringify']({'documentId':_0x54ea95['id'],'confirmDuplicate':_0x4971af})}),_0x1f72a2=await _0x39a819[_0x24f385(0x296)]();if(!_0x39a819['ok'])throw new Error(_0x1f72a2[_0x24f385(0x285)]||_0x1f72a2['message']||_0x24f385(0x248));if(_0x1f72a2[_0x24f385(0x287)]){const _0x159468=confirm('Este\x20documento\x20ya\x20tiene\x20'+_0x1f72a2['existingCount']+_0x24f385(0x235)+'¿Deseas\x20crear\x20otra\x20copia?');_0x159468&&await crearCopiaSeguridad(_0x54ea95,!![]);return;}if(!_0x1f72a2['success'])throw new Error(_0x1f72a2['error']||_0x24f385(0x25f));alert(_0x24f385(0x265)+'Documento:\x20'+_0x54ea95[_0x24f385(0x209)]+'\x0a'+_0x24f385(0x210)+_0x1f72a2['totalBackups']),console['log']('Resultado\x20de\x20la\x20copia:',_0x1f72a2);}catch(_0x1bd107){console['error']('Error\x20de\x20copia\x20de\x20seguridad:',_0x1bd107),alert(_0x24f385(0x1f2)+_0x1bd107[_0x24f385(0x246)]);}}function getSecretTargets(){const _0x1258d0=_0xc299a,_0x15d336=document[_0x1258d0(0x211)](_0x1258d0(0x22e));if(!_0x15d336)return[];const _0x260678={'home':[_0x1258d0(0x242)],'secret2':['.secret2-trigger','.secret2-bottom-hotspot']},_0x38af66=_0x260678[_0x15d336['id']]||[];return _0x38af66['map'](_0x6a63c9=>_0x15d336[_0x1258d0(0x211)](_0x6a63c9))['filter'](_0x2bcce1=>_0x2bcce1&&_0x2bcce1[_0x1258d0(0x23d)]()['length']>0x0);}function updateDetector(){const _0x1d955c=_0xc299a;if(!isAdmin)return;const _0x24aa7e=document[_0x1d955c(0x27d)]('detectorPercentage'),_0x3ed3af=document[_0x1d955c(0x27d)](_0x1d955c(0x221)),_0x10d5bf=document['getElementById']('detectorText');if(!_0x24aa7e||!_0x3ed3af||!_0x10d5bf)return;_0x24aa7e['textContent']='0%',_0x3ed3af[_0x1d955c(0x24c)][_0x1d955c(0x20b)]='0%',_0x10d5bf[_0x1d955c(0x260)]='Buscando\x20proximidad...';}function measureSecretProximity(_0x437a6c,_0x2e6534){const _0x1f6019=_0xc299a;if(!isAdmin)return;const _0x52855c=getSecretTargets(),_0xa6038f=document['getElementById'](_0x1f6019(0x258)),_0x3759c0=document[_0x1f6019(0x27d)](_0x1f6019(0x221)),_0x1068f1=document[_0x1f6019(0x27d)](_0x1f6019(0x24a));if(!_0x52855c['length']){_0xa6038f['textContent']='0%',_0x3759c0[_0x1f6019(0x24c)]['width']='0%',_0x1068f1[_0x1f6019(0x260)]=_0x1f6019(0x268);return;}let _0x24705a=Infinity;_0x52855c[_0x1f6019(0x20f)](_0x1591a5=>{const _0x1b5569=_0x1f6019,_0x5e77d4=_0x1591a5[_0x1b5569(0x252)](),_0x27f6ad=_0x5e77d4['left']+_0x5e77d4[_0x1b5569(0x20b)]/0x2,_0xbd2625=_0x5e77d4[_0x1b5569(0x256)]+_0x5e77d4[_0x1b5569(0x204)]/0x2,_0x3cf1ea=Math['hypot'](_0x437a6c-_0x27f6ad,_0x2e6534-_0xbd2625);_0x24705a=Math['min'](_0x24705a,_0x3cf1ea);});const _0xb30d42=Math[_0x1f6019(0x207)](0x0,Math['min'](0x64,Math[_0x1f6019(0x26b)]((0x1-_0x24705a/0x15e)*0x64)));_0xa6038f['textContent']=_0xb30d42+'%',_0x3759c0[_0x1f6019(0x24c)][_0x1f6019(0x20b)]=_0xb30d42+'%';if(_0xb30d42>=0x50)_0x1068f1[_0x1f6019(0x260)]='¡Muy\x20cerca!';else{if(_0xb30d42>=0x28)_0x1068f1[_0x1f6019(0x260)]=_0x1f6019(0x231);else _0xb30d42>0x0?_0x1068f1['textContent']=_0x1f6019(0x219):_0x1068f1[_0x1f6019(0x260)]=_0x1f6019(0x20d);}}document[_0xc299a(0x212)]('pointermove',_0xa0ed8a=>{const _0x287a51=_0xc299a;if(!isAdmin)return;measureSecretProximity(_0xa0ed8a[_0x287a51(0x26c)],_0xa0ed8a['clientY']);}),document[_0xc299a(0x212)]('pointerdown',_0x4930c4=>{const _0x91411c=_0xc299a;if(!isAdmin)return;measureSecretProximity(_0x4930c4[_0x91411c(0x26c)],_0x4930c4[_0x91411c(0x271)]);});const testButton=document[_0xc299a(0x27d)](_0xc299a(0x262));testButton&&testButton[_0xc299a(0x212)]('click',function(){const _0x38803b=_0xc299a;if(!isAdmin)return;document['getElementById']('jsStatus')[_0x38803b(0x260)]='¡JAVASCRIPT\x20FUNCIONA\x20CORRECTAMENTE!';});window['addEventListener'](_0xc299a(0x285),function(_0x4d6fa1){const _0x1b1319=_0xc299a;if(!isAdmin)return;const _0x3e9394=document['getElementById'](_0x1b1319(0x277));_0x3e9394&&(_0x3e9394[_0x1b1319(0x260)]='ERROR:\x20'+_0x4d6fa1['message']);}),window[_0xc299a(0x1fc)]=show,updateAdmin(),checkSession();
+}function toggleLogin(){const _0x3d677c=_0xc299a,_0xcb7955=document[_0x3d677c(0x27d)]('loginPanel');_0xcb7955[_0x3d677c(0x24c)][_0x3d677c(0x21d)]=_0xcb7955['style'][_0x3d677c(0x21d)]==='block'?'none':_0x3d677c(0x241);}function loginMessage(_0x2a1397,_0x140c54=_0xc299a(0x25a)){const _0x1e3145=_0xc299a,_0x152420=document[_0x1e3145(0x27d)]('loginMessage');_0x152420[_0x1e3145(0x260)]=_0x2a1397,_0x152420['style'][_0x1e3145(0x22c)]=_0x140c54;}async function adminLogin(){const _0x31e6b9=_0xc299a,_0xc819e1=document[_0x31e6b9(0x27d)]('adminEmail')['value'],_0xf252ca=document[_0x31e6b9(0x27d)](_0x31e6b9(0x27e))['value'];if(_0xc819e1['trim']()[_0x31e6b9(0x28a)]()==='celeste'&&_0xf252ca[_0x31e6b9(0x1f1)]()['toLowerCase']()===_0x31e6b9(0x24b)){document[_0x31e6b9(0x27d)](_0x31e6b9(0x26e))[_0x31e6b9(0x234)]='',document['getElementById']('adminPassword')['value']='',document[_0x31e6b9(0x27d)](_0x31e6b9(0x261))['style'][_0x31e6b9(0x21d)]=_0x31e6b9(0x1f9),show(_0x31e6b9(0x227));return;}const _0x312a74=_0xc819e1['trim']();if(!_0x312a74||!_0xf252ca){loginMessage(_0x31e6b9(0x23e),_0x31e6b9(0x23c));return;}if(!db){loginMessage(_0x31e6b9(0x236),'#ff2020');return;}const _0x87d21d=document['getElementById']('loginButton');_0x87d21d['disabled']=!![],_0x87d21d[_0x31e6b9(0x260)]=_0x31e6b9(0x275),loginMessage('Conectando\x20con\x20Supabase...');try{const {data:_0xbbf9c2,error:_0x464536}=await db['auth'][_0x31e6b9(0x280)]({'email':_0x312a74,'password':_0xf252ca});if(_0x464536)throw _0x464536;if(!_0xbbf9c2[_0x31e6b9(0x232)]||_0xbbf9c2['user']['id']!==ADMIN_UID){const _0xb48302=_0xbbf9c2[_0x31e6b9(0x232)]?.['id']||_0x31e6b9(0x1fb);await db['auth'][_0x31e6b9(0x253)](),isAdmin=![],updateAdmin(),loginMessage('UID\x20INCORRECTO.\x20Cuenta:\x20'+_0xb48302+'\x20|\x20Administrador:\x20'+ADMIN_UID,_0x31e6b9(0x23c));return;}const {data:_0x51d526,error:_0x157717}=await db[_0x31e6b9(0x28b)][_0x31e6b9(0x274)]();if(_0x157717||_0x51d526[_0x31e6b9(0x232)]?.['id']!==ADMIN_UID){await db[_0x31e6b9(0x28b)][_0x31e6b9(0x253)](),isAdmin=![],updateAdmin(),loginMessage(_0x31e6b9(0x200),_0x31e6b9(0x23c));return;}isAdmin=!![],updateAdmin(),document[_0x31e6b9(0x27d)](_0x31e6b9(0x261))[_0x31e6b9(0x24c)][_0x31e6b9(0x21d)]=_0x31e6b9(0x1f9),document[_0x31e6b9(0x27d)](_0x31e6b9(0x27e))['value']='',await loadDocs(),alert('¡Administrador\x20activado!');}catch(_0x304e6f){loginMessage('Error:\x20'+_0x304e6f[_0x31e6b9(0x246)],'#ff2020');}finally{_0x87d21d['disabled']=![],_0x87d21d['textContent']=_0x31e6b9(0x257);}}async function logout(){const _0x31d590=_0xc299a;if(!db){alert('No\x20hay\x20conexión\x20con\x20Supabase.');return;}try{const {error:_0x18e573}=await db[_0x31d590(0x28b)]['signOut']();if(_0x18e573)throw _0x18e573;isAdmin=![],updateAdmin(),await loadDocs(),show(_0x31d590(0x27f)),alert(_0x31d590(0x25d));}catch(_0x52b535){alert('Error:\x20'+_0x52b535['message']);}}async function checkSession(){const _0x28ad03=_0xc299a;if(!db){isAdmin=![],updateAdmin(),document['getElementById'](_0x28ad03(0x25b))[_0x28ad03(0x260)]='No\x20se\x20pudo\x20conectar\x20con\x20Supabase.';return;}try{const {data:_0x46b6b8,error:_0x4d15ec}=await db[_0x28ad03(0x28b)]['getUser']();if(_0x4d15ec)throw _0x4d15ec;isAdmin=_0x46b6b8[_0x28ad03(0x232)]?.['id']===ADMIN_UID;}catch(_0x196ae1){console['error']('Error\x20verificando\x20sesión:',_0x196ae1),isAdmin=![];}updateAdmin(),await loadDocs();}db&&db['auth'][_0xc299a(0x215)]((_0xe76c13,_0x57d10a)=>{const _0x301349=_0xc299a,_0x362180=isAdmin;isAdmin=_0x57d10a?.[_0x301349(0x232)]?.['id']===ADMIN_UID,updateAdmin(),_0x362180!==isAdmin&&setTimeout(()=>{loadDocs();},0x0);});function editSection(_0x17fc91){const _0x1462e9=_0xc299a;if(!isAdmin)return;const _0x5a8d5e=document['getElementById'](_0x17fc91+_0x1462e9(0x291)),_0x268e2e=document[_0x1462e9(0x27d)](_0x17fc91+_0x1462e9(0x245));if(!_0x5a8d5e||!_0x268e2e)return;const _0xa44280=prompt(_0x1462e9(0x1f7),_0x5a8d5e[_0x1462e9(0x260)]);_0xa44280!==null&&_0xa44280[_0x1462e9(0x1f1)]()&&(_0x5a8d5e['textContent']=_0xa44280[_0x1462e9(0x1f1)]());const _0xd0ed99=prompt(_0x1462e9(0x237),_0x268e2e['textContent']);_0xd0ed99!==null&&_0xd0ed99[_0x1462e9(0x1f1)]()&&(_0x268e2e['textContent']=_0xd0ed99[_0x1462e9(0x1f1)]());}function _0x2810(){const _0x465b38=['11416xokDIi','className','secret2','alt','secret2Timer','347732GnBPNc','.page','color','from','.page.active','secret2HiddenArea','Descargar','Señal\x20detectada','user','Abajo','value','\x20copia(s)\x20de\x20seguridad.\x0a\x0a','No\x20se\x20pudo\x20conectar\x20con\x20Supabase.','Nueva\x20descripción:','getSession','Error\x20al\x20eliminar:\x20','length','Documento\x20eliminado\x20correctamente','#ff2020','getClientRects','Escribe\x20tu\x20correo\x20y\x20contraseña','toggle','card','block','.secret-trigger','Sesión\x20administrativa\x20no\x20válida.','66OYgVPM','Description','message','includes','Error\x20creando\x20la\x20copia.','CREAR\x20COPIA\x20DE\x20SEGURIDAD','detectorText','celeste','style','Error\x20al\x20eliminar\x20documento:','button','secret-denied','a899ab31-456a-40dc-b03d-af59182afd41','secret2Result','getBoundingClientRect','signOut','Acceso\x20administrativo\x20requerido.','publicUrl','top','INICIAR\x20SESIÓN','detectorPercentage','insert','#87CEFA','documents','img','Sesión\x20cerrada','POST','No\x20se\x20confirmó\x20la\x20creación\x20de\x20la\x20copia.','textContent','loginPanel','testJS','class','Bearer\x20','¡Copia\x20de\x20seguridad\x20creada\x20correctamente!\x0a\x0a','secret2-result\x20secret2-success','11263920VmlsGm','No\x20hay\x20botones\x20activos','3704796RwWuEO','secret2AbajoResult','round','clientX','push','adminEmail','.adminOnly','getPublicUrl','clientY','4794680aZSgfR','Eliminar','getUser','CONECTANDO...','cover_path','jsStatus','Acceso\x20Restringido.\x20Nivel\x20insuficiente.','remove','click','innerHTML','sb_publishable_vQHchnFMXr4K5NuWYZD3HA_bXXpyHxZ','getElementById','adminPassword','home','signInWithPassword','classList','blue','filter','querySelectorAll','error','div','confirmationRequired','createElement','docName','toLowerCase','auth','file','8255688KTGkmK','href','documentos','image/gif','Title','created_at','cover_url','upload','4823828ODUYxW','json','cover','trim','Error:\x20','supabase','/functions/v1/dynamic-handler','No\x20se\x20pudo\x20conectar\x20con\x20el\x20servicio.','randomUUID','Nuevo\x20título:','-cover','none','?download','No\x20disponible','show','active','function','secret2-result\x20secret2-failure','No\x20se\x20pudo\x20verificar\x20la\x20cuenta.','secret2Challenge','onclick','secret2Answer','height','No\x20hay\x20documentos\x20disponibles.','type','max','append','name','body','width','admin-mode','Buscando\x20proximidad...','DIV','forEach','Total\x20de\x20copias:\x20','querySelector','addEventListener','files','Error\x20al\x20agregar\x20el\x20documento:\x20','onAuthStateChange','secretMessage','Completa\x20el\x20nombre\x20y\x20selecciona\x20un\x20PDF','.pdf','Señal\x20débil','download','createClient','Cargando\x20documentos...','display','secret','secret2-result','delete','detectorBar','storage','¿Eliminar\x20este\x20documento?','select'];_0x2810=function(){return _0x465b38;};return _0x2810();}async function loadDocs() {
+  const container = document.getElementById('documents');
+
+  if (!container) return;
+
+  if (!db) {
+    container.textContent = 'Servicio de documentos no disponible.';
+    return;
+  }
+
+  container.textContent = 'Cargando documentos...';
+
+  try {
+    const { data: documents, error } = await db
+      .from('documents')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    container.replaceChildren();
+
+    if (!documents || documents.length === 0) {
+      container.textContent = 'No hay documentos disponibles.';
+      return;
+    }
+
+    // Los conteos se solicitan únicamente durante una sesión administrativa.
+    let backupCounts = null;
+
+    if (isAdmin) {
+      try {
+        const { data: sessionData, error: sessionError } =
+          await db.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        const session = sessionData?.session;
+
+        if (!session || session.user.id !== ADMIN_UID) {
+          throw new Error('Sesión administrativa no válida.');
+        }
+
+        const response = await fetch(
+          SUPABASE_URL + '/functions/v1/dynamic-handler',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_KEY,
+              'Authorization': 'Bearer ' + session.access_token
+            },
+            body: JSON.stringify({ action: 'getBackupCounts' })
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.error || result.message ||
+            'No se pudieron consultar los conteos de copias.'
+          );
+        }
+
+        backupCounts = result.counts || {};
+      } catch (countError) {
+        console.error('Error consultando conteos de copias:', countError);
+      }
+    }
+
+    documents.forEach(doc => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const image = document.createElement('img');
+      image.src = doc.cover_url ||
+        'https://placehold.co/400x200/101010/39FF14?text=DOCUMENTO';
+      image.alt = 'Portada del documento';
+
+      const title = document.createElement('h3');
+      title.textContent = doc.name;
+
+      const downloadButton = document.createElement('button');
+      downloadButton.className = 'green';
+      downloadButton.textContent = 'Descargar';
+      downloadButton.onclick = () => {
+        if (!doc.file_url) return;
+
+        const link = document.createElement('a');
+        link.href = doc.file_url + '?download';
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      };
+
+      card.append(image, title, downloadButton);
+
+      if (isAdmin) {
+        const backupCount = document.createElement('p');
+        backupCount.className = 'backup-count';
+        backupCount.style.margin = '10px 0';
+        backupCount.style.fontSize = '0.9em';
+        backupCount.style.color = '#87CEFA';
+        backupCount.textContent = backupCounts
+          ? 'Copias de seguridad: ' + (backupCounts[doc.id] ?? 0)
+          : 'Copias de seguridad: No disponible';
+        card.appendChild(backupCount);
+
+        const backupButton = document.createElement('button');
+        backupButton.className = 'blue';
+        backupButton.textContent = 'CREAR COPIA DE SEGURIDAD';
+        backupButton.onclick = () => crearCopiaSeguridad(doc);
+        card.appendChild(backupButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'red';
+        deleteButton.textContent = 'Eliminar';
+        deleteButton.onclick = () => deleteDoc(doc);
+        card.appendChild(deleteButton);
+      }
+
+      container.appendChild(card);
+    });
+  } catch (error) {
+    console.error(error);
+    container.textContent = 'Error cargando documentos: ' + error.message;
+  }
+}async function addDoc(){const _0x7cbb6=_0xc299a;if(!isAdmin||!db)return;const _0x487c1b=document['getElementById'](_0x7cbb6(0x289))['value']['trim'](),_0x1947ed=document['getElementById'](_0x7cbb6(0x28c))[_0x7cbb6(0x213)][0x0],_0x311249=document[_0x7cbb6(0x27d)]('cover')[_0x7cbb6(0x213)][0x0];if(!_0x487c1b||!_0x1947ed){alert(_0x7cbb6(0x217));return;}if(_0x1947ed[_0x7cbb6(0x206)]!=='application/pdf'){alert('Selecciona\x20un\x20PDF\x20válido');return;}if(_0x1947ed['size']===0x0){alert('El\x20PDF\x20está\x20vacío');return;}if(_0x1947ed['size']>0x14*0x400*0x400){alert('El\x20PDF\x20no\x20puede\x20superar\x20los\x2020\x20MB');return;}const _0x553324=['image/jpeg','image/png','image/webp',_0x7cbb6(0x290)];if(_0x311249&&!_0x553324['includes'](_0x311249['type'])){alert('Formato\x20de\x20imagen\x20no\x20permitido');return;}if(_0x311249&&_0x311249['size']>0x32*0x400*0x400){alert('La\x20imagen\x20no\x20puede\x20superar\x20los\x2050\x20MB');return;}const _0x4a3f49=crypto[_0x7cbb6(0x1f6)](),_0x5c8874=_0x4a3f49+_0x7cbb6(0x218);let _0x4b64b9=null,_0x5856c5=[];try{let _0xf9cdd3=await db[_0x7cbb6(0x222)]['from']('documentos')[_0x7cbb6(0x294)](_0x5c8874,_0x1947ed,{'contentType':'application/pdf'});if(_0xf9cdd3['error'])throw _0xf9cdd3[_0x7cbb6(0x285)];_0x5856c5[_0x7cbb6(0x26d)](_0x5c8874);const _0x4c9832=db[_0x7cbb6(0x222)][_0x7cbb6(0x22d)]('documentos')[_0x7cbb6(0x270)](_0x5c8874)['data']['publicUrl'];let _0x495d0b=null;if(_0x311249){_0x4b64b9=_0x4a3f49+_0x7cbb6(0x1f8),_0xf9cdd3=await db[_0x7cbb6(0x222)][_0x7cbb6(0x22d)](_0x7cbb6(0x28f))['upload'](_0x4b64b9,_0x311249,{'contentType':_0x311249[_0x7cbb6(0x206)]});if(_0xf9cdd3[_0x7cbb6(0x285)])throw _0xf9cdd3[_0x7cbb6(0x285)];_0x5856c5[_0x7cbb6(0x26d)](_0x4b64b9),_0x495d0b=db['storage']['from'](_0x7cbb6(0x28f))['getPublicUrl'](_0x4b64b9)['data'][_0x7cbb6(0x255)];}const {error:_0x3fe52e}=await db['from']('documents')[_0x7cbb6(0x259)]([{'name':_0x487c1b,'file_url':_0x4c9832,'file_path':_0x5c8874,'cover_url':_0x495d0b,'cover_path':_0x4b64b9}]);if(_0x3fe52e)throw _0x3fe52e;document['getElementById'](_0x7cbb6(0x289))[_0x7cbb6(0x234)]='',document[_0x7cbb6(0x27d)]('file')['value']='',document[_0x7cbb6(0x27d)](_0x7cbb6(0x1f0))[_0x7cbb6(0x234)]='',alert('Documento\x20agregado\x20correctamente'),await loadDocs();}catch(_0x487362){console[_0x7cbb6(0x285)](_0x487362);if(_0x5856c5['length'])try{const {error:_0x56baae}=await db[_0x7cbb6(0x222)][_0x7cbb6(0x22d)](_0x7cbb6(0x28f))[_0x7cbb6(0x279)](_0x5856c5);if(_0x56baae)console[_0x7cbb6(0x285)](_0x56baae);}catch(_0x5643ef){console['error'](_0x5643ef);}alert(_0x7cbb6(0x214)+_0x487362['message']);}}async function deleteDoc(_0x409903){const _0x22add1=_0xc299a;if(!isAdmin||!db||!_0x409903?.['id'])return;if(!confirm(_0x22add1(0x223)))return;const _0x3a606b=[_0x409903['file_path'],_0x409903[_0x22add1(0x276)]][_0x22add1(0x283)](_0x5a7d9d=>typeof _0x5a7d9d==='string'&&_0x5a7d9d[_0x22add1(0x1f1)]()!=='');try{if(_0x3a606b[_0x22add1(0x23a)]){const {error:_0x5fd01}=await db[_0x22add1(0x222)][_0x22add1(0x22d)]('documentos')['remove'](_0x3a606b);if(_0x5fd01)throw new Error('No\x20se\x20pudieron\x20eliminar\x20los\x20archivos.\x20'+'El\x20registro\x20se\x20conservará.\x20'+_0x5fd01[_0x22add1(0x246)]);}const {error:_0x417126}=await db[_0x22add1(0x22d)]('documents')[_0x22add1(0x220)]()['eq']('id',_0x409903['id']);if(_0x417126)throw new Error('Los\x20archivos\x20fueron\x20eliminados,\x20pero\x20no\x20se\x20pudo\x20'+'eliminar\x20el\x20registro.\x20'+_0x417126[_0x22add1(0x246)]);alert(_0x22add1(0x23b)),await loadDocs();}catch(_0x173d10){console[_0x22add1(0x285)](_0x22add1(0x24d),_0x173d10),alert(_0x22add1(0x239)+_0x173d10['message']),await loadDocs();}}async function crearCopiaSeguridad(doc, confirmDuplicate = false) {
+  if (!isAdmin || !db || !doc || !doc.id) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  if (
+    !confirmDuplicate &&
+    !confirm('¿Crear una copia de seguridad de "' + doc.name + '"?')
+  ) {
+    return;
+  }
+
+  try {
+    const { data: sessionData, error: sessionError } =
+      await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    const session = sessionData?.session;
+
+    if (!session || session.user.id !== ADMIN_UID) {
+      throw new Error('Sesión administrativa no válida.');
+    }
+
+    const response = await fetch(
+      SUPABASE_URL + '/functions/v1/dynamic-handler',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + session.access_token
+        },
+        body: JSON.stringify({
+          documentId: doc.id,
+          confirmDuplicate: confirmDuplicate
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.error || result.message || 'Error creando la copia.'
+      );
+    }
+
+    if (result.confirmationRequired) {
+      const confirmed = confirm(
+        'Este documento ya tiene ' + result.existingCount +
+        ' copia(s) de seguridad.\n\n¿Deseas crear otra copia?'
+      );
+
+      if (confirmed) {
+        await crearCopiaSeguridad(doc, true);
+      }
+
+      return;
+    }
+
+    if (!result.success) {
+      throw new Error(
+        result.error || 'No se confirmó la creación de la copia.'
+      );
+    }
+
+    alert(
+      '¡Copia de seguridad creada correctamente!\n\n' +
+      'Documento: ' + doc.name +
+      '\nTotal de copias: ' + result.totalBackups
+    );
+
+    console.log('Resultado de la copia:', result);
+
+    // Actualiza el conteo visible en las tarjetas.
+    await loadDocs();
+  } catch (error) {
+    console.error('Error de copia de seguridad:', error);
+    alert('Error: ' + error.message);
+  }
+}function getSecretTargets(){const _0x1258d0=_0xc299a,_0x15d336=document[_0x1258d0(0x211)](_0x1258d0(0x22e));if(!_0x15d336)return[];const _0x260678={'home':[_0x1258d0(0x242)],'secret2':['.secret2-trigger','.secret2-bottom-hotspot']},_0x38af66=_0x260678[_0x15d336['id']]||[];return _0x38af66['map'](_0x6a63c9=>_0x15d336[_0x1258d0(0x211)](_0x6a63c9))['filter'](_0x2bcce1=>_0x2bcce1&&_0x2bcce1[_0x1258d0(0x23d)]()['length']>0x0);}function updateDetector(){const _0x1d955c=_0xc299a;if(!isAdmin)return;const _0x24aa7e=document[_0x1d955c(0x27d)]('detectorPercentage'),_0x3ed3af=document[_0x1d955c(0x27d)](_0x1d955c(0x221)),_0x10d5bf=document['getElementById']('detectorText');if(!_0x24aa7e||!_0x3ed3af||!_0x10d5bf)return;_0x24aa7e['textContent']='0%',_0x3ed3af[_0x1d955c(0x24c)][_0x1d955c(0x20b)]='0%',_0x10d5bf[_0x1d955c(0x260)]='Buscando\x20proximidad...';}function measureSecretProximity(_0x437a6c,_0x2e6534){const _0x1f6019=_0xc299a;if(!isAdmin)return;const _0x52855c=getSecretTargets(),_0xa6038f=document['getElementById'](_0x1f6019(0x258)),_0x3759c0=document[_0x1f6019(0x27d)](_0x1f6019(0x221)),_0x1068f1=document[_0x1f6019(0x27d)](_0x1f6019(0x24a));if(!_0x52855c['length']){_0xa6038f['textContent']='0%',_0x3759c0[_0x1f6019(0x24c)]['width']='0%',_0x1068f1[_0x1f6019(0x260)]=_0x1f6019(0x268);return;}let _0x24705a=Infinity;_0x52855c[_0x1f6019(0x20f)](_0x1591a5=>{const _0x1b5569=_0x1f6019,_0x5e77d4=_0x1591a5[_0x1b5569(0x252)](),_0x27f6ad=_0x5e77d4['left']+_0x5e77d4[_0x1b5569(0x20b)]/0x2,_0xbd2625=_0x5e77d4[_0x1b5569(0x256)]+_0x5e77d4[_0x1b5569(0x204)]/0x2,_0x3cf1ea=Math['hypot'](_0x437a6c-_0x27f6ad,_0x2e6534-_0xbd2625);_0x24705a=Math['min'](_0x24705a,_0x3cf1ea);});const _0xb30d42=Math[_0x1f6019(0x207)](0x0,Math['min'](0x64,Math[_0x1f6019(0x26b)]((0x1-_0x24705a/0x15e)*0x64)));_0xa6038f['textContent']=_0xb30d42+'%',_0x3759c0[_0x1f6019(0x24c)][_0x1f6019(0x20b)]=_0xb30d42+'%';if(_0xb30d42>=0x50)_0x1068f1[_0x1f6019(0x260)]='¡Muy\x20cerca!';else{if(_0xb30d42>=0x28)_0x1068f1[_0x1f6019(0x260)]=_0x1f6019(0x231);else _0xb30d42>0x0?_0x1068f1['textContent']=_0x1f6019(0x219):_0x1068f1[_0x1f6019(0x260)]=_0x1f6019(0x20d);}}document[_0xc299a(0x212)]('pointermove',_0xa0ed8a=>{const _0x287a51=_0xc299a;if(!isAdmin)return;measureSecretProximity(_0xa0ed8a[_0x287a51(0x26c)],_0xa0ed8a['clientY']);}),document[_0xc299a(0x212)]('pointerdown',_0x4930c4=>{const _0x91411c=_0xc299a;if(!isAdmin)return;measureSecretProximity(_0x4930c4[_0x91411c(0x26c)],_0x4930c4[_0x91411c(0x271)]);});const testButton=document[_0xc299a(0x27d)](_0xc299a(0x262));testButton&&testButton[_0xc299a(0x212)]('click',function(){const _0x38803b=_0xc299a;if(!isAdmin)return;document['getElementById']('jsStatus')[_0x38803b(0x260)]='¡JAVASCRIPT\x20FUNCIONA\x20CORRECTAMENTE!';});window['addEventListener'](_0xc299a(0x285),function(_0x4d6fa1){const _0x1b1319=_0xc299a;if(!isAdmin)return;const _0x3e9394=document['getElementById'](_0x1b1319(0x277));_0x3e9394&&(_0x3e9394[_0x1b1319(0x260)]='ERROR:\x20'+_0x4d6fa1['message']);}),window[_0xc299a(0x1fc)]=show,updateAdmin(),checkSession();
 
 (function(){
   const originalShow = window.show;
