@@ -532,7 +532,16 @@ async function toggleBackupHistory() {
         backup.original_document_id;
 
       card.append(name, date, id);
-      list.appendChild(card);
+
+const restoreButton = document.createElement('button');
+restoreButton.className = 'blue';
+restoreButton.textContent = 'RESTAURAR RESPALDO';
+restoreButton.onclick = () => {
+  restaurarRespaldo(backup.id, backup.document_name);
+};
+
+card.appendChild(restoreButton);
+list.appendChild(card);
     });
 
   } catch (error) {
@@ -693,3 +702,64 @@ async function crearRespaldoGeneral() {
 }
 
 window.crearRespaldoGeneral = crearRespaldoGeneral;
+
+async function restaurarRespaldo(backupRecordId, documentName) {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  if (!confirm(
+    '¿Deseas restaurar el respaldo de "' + documentName + '"?'
+  )) return;
+
+  try {
+    let { data, error } = await db.functions.invoke(
+      'restore-document',
+      {
+        body: {
+          backupRecordId: backupRecordId
+        }
+      }
+    );
+
+    if (error) throw error;
+
+    if (data?.confirmationRequired) {
+      const confirmed = confirm(
+        'El documento "' + data.documentName +
+        '" todavía existe.\n\n' +
+        '¿Deseas reemplazar sus archivos actuales con los del respaldo?'
+      );
+
+      if (!confirmed) return;
+
+      ({ data, error } = await db.functions.invoke(
+        'restore-document',
+        {
+          body: {
+            backupRecordId: backupRecordId,
+            confirmReplace: true
+          }
+        }
+      ));
+
+      if (error) throw error;
+    }
+
+    if (!data?.success) {
+      throw new Error(
+        data?.error || 'No se pudo completar la restauración.'
+      );
+    }
+
+    alert(data.message);
+    await loadDocs();
+
+  } catch (error) {
+    console.error('Error restaurando respaldo:', error);
+    alert('ERROR: ' + error.message);
+  }
+}
+
+window.restaurarRespaldo = restaurarRespaldo;
