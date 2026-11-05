@@ -445,8 +445,13 @@ window.updates67Audio.preload='auto';
     audio.onended=()=>{
       if(status) status.textContent='Audio terminado.';
     };
-  }).catch(()=>{
-    if(status) status.textContent='No se pudo reproducir el audio.';
+    }).catch((error)=>{
+    console.error('Error al reproducir 67.mp3:', error);
+
+    if(status){
+      status.textContent =
+        'Error: ' + error.name + ' — ' + error.message;
+    }
   });
 };
   
