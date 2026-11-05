@@ -1,4 +1,4 @@
-const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5-0x1f0;const _0x2810a8=_0x2810();let _0x36b514=_0x2810a8[_0xa19af5];return _0x36b514;}(function(_0x161188,_0x301ef0){const _0x2a96e0=_0x36b5,_0x54b0be=_0x161188();while(!![]){try{const _0x13bffb=parseInt(_0x2a96e0(0x22a))/0x1+parseInt(_0x2a96e0(0x225))/0x2*(parseInt(_0x2a96e0(0x244))/0x3)+-parseInt(_0x2a96e0(0x295))/0x4+parseInt(_0x2a96e0(0x272))/0x5+parseInt(_0x2a96e0(0x269))/0x6+parseInt(_0x2a96e0(0x28d))/0x7+-parseInt(_0x2a96e0(0x267))/0x8;if(_0x13bffb===_0x301ef0)break;else _0x54b0be['push'](_0x54b0be['shift']());}catch(_0x4be892){_0x54b0be['push'](_0x54b0be['shift']());}}}(_0x2810,0x962eb));const SUPABASE_URL='https://wiwqnlhavvmhnwmoyjtw.supabase.co',SUPABASE_KEY=_0xc299a(0x27c),ADMIN_UID=_0xc299a(0x250);let db=null;try{window['supabase']&&typeof window[_0xc299a(0x1f3)][_0xc299a(0x21b)]===_0xc299a(0x1fe)&&(db=window[_0xc299a(0x1f3)][_0xc299a(0x21b)](SUPABASE_URL,SUPABASE_KEY));}catch(_0x2b0b3e){console['error']('Error\x20de\x20Supabase:',_0x2b0b3e);}let isAdmin=![],secret2Interval=null,secret2Seconds=0x1e,secret2Finished=![];function show(_0x522cb7){const _0x367e5f=_0xc299a,_0x1e7588=['home','docs',_0x367e5f(0x263),'secret',_0x367e5f(0x227)];if(!_0x1e7588[_0x367e5f(0x247)](_0x522cb7))return;document[_0x367e5f(0x284)](_0x367e5f(0x22b))['forEach'](_0x5763f0=>{const _0x18002e=_0x367e5f;_0x5763f0['classList'][_0x18002e(0x279)](_0x18002e(0x1fd));}),document['getElementById'](_0x522cb7)[_0x367e5f(0x281)]['add']('active'),document[_0x367e5f(0x20a)][_0x367e5f(0x281)][_0x367e5f(0x23f)]('secret-mode',_0x522cb7===_0x367e5f(0x21e)),document[_0x367e5f(0x20a)][_0x367e5f(0x281)][_0x367e5f(0x23f)]('secret2-mode',_0x522cb7===_0x367e5f(0x227));if(_0x522cb7==='secret'){const _0x349c6b=document['getElementById']('secretMessage');_0x349c6b[_0x367e5f(0x226)]='',_0x349c6b[_0x367e5f(0x24c)][_0x367e5f(0x21d)]=_0x367e5f(0x1f9),_0x349c6b['textContent']='';}_0x522cb7===_0x367e5f(0x227)&&resetSecret2Challenge(),updateDetector();} async function secretCheck() {
+const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5-0x1f0;const _0x2810a8=_0x2810();let _0x36b514=_0x2810a8[_0xa19af5];return _0x36b514;}(function(_0x161188,_0x301ef0){const _0x2a96e0=_0x36b5,_0x54b0be=_0x161188();while(!![]){try{const _0x13bffb=parseInt(_0x2a96e0(0x22a))/0x1+parseInt(_0x2a96e0(0x225))/0x2*(parseInt(_0x2a96e0(0x244))/0x3)+-parseInt(_0x2a96e0(0x295))/0x4+parseInt(_0x2a96e0(0x272))/0x5+parseInt(_0x2a96e0(0x269))/0x6+parseInt(_0x2a96e0(0x28d))/0x7+-parseInt(_0x2a96e0(0x267))/0x8;if(_0x13bffb===_0x301ef0)break;else _0x54b0be['push'](_0x54b0be['shift']());}catch(_0x4be892){_0x54b0be['push'](_0x54b0be['shift']());}}}(_0x2810,0x962eb));const SUPABASE_URL='https://wiwqnlhavvmhnwmoyjtw.supabase.co',SUPABASE_KEY=_0xc299a(0x27c),ADMIN_UID=_0xc299a(0x250);let db=null;try{window['supabase']&&typeof window[_0xc299a(0x1f3)][_0xc299a(0x21b)]===_0xc299a(0x1fe)&&(db=window[_0xc299a(0x1f3)][_0xc299a(0x21b)](SUPABASE_URL,SUPABASE_KEY));}catch(_0x2b0b3e){console['error']('Error\x20de\x20Supabase:',_0x2b0b3e);}let isAdmin=![],secret2Interval=null,secret2Seconds=0x1e,secret2Finished=![];function show(_0x522cb7){const _0x367e5f=_0xc299a,_0x1e7588=['home','docs',_0x367e5f(0x263),'secret',_0x367e5f(0x227),'updates'];if(!_0x1e7588[_0x367e5f(0x247)](_0x522cb7))return;document[_0x367e5f(0x284)](_0x367e5f(0x22b))['forEach'](_0x5763f0=>{const _0x18002e=_0x367e5f;_0x5763f0['classList'][_0x18002e(0x279)](_0x18002e(0x1fd));}),document['getElementById'](_0x522cb7)[_0x367e5f(0x281)]['add']('active'),document[_0x367e5f(0x20a)][_0x367e5f(0x281)][_0x367e5f(0x23f)]('secret-mode',_0x522cb7===_0x367e5f(0x21e)),document[_0x367e5f(0x20a)][_0x367e5f(0x281)][_0x367e5f(0x23f)]('secret2-mode',_0x522cb7===_0x367e5f(0x227));if(_0x522cb7==='secret'){const _0x349c6b=document['getElementById']('secretMessage');_0x349c6b[_0x367e5f(0x226)]='',_0x349c6b[_0x367e5f(0x24c)][_0x367e5f(0x21d)]=_0x367e5f(0x1f9),_0x349c6b['textContent']='';}_0x522cb7===_0x367e5f(0x227)&&resetSecret2Challenge(),updateDetector();} async function secretCheck() {
   const message = document.getElementById('secretMessage');
 
   message.className = '';
@@ -307,6 +307,10 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
   const secretPages = ['secret3','secret3Final'];
 
   window.show = function(id){
+    if(id==='updates' && localStorage.getItem('level2Unlocked')!=='true'){
+      if(typeof originalShow==='function') originalShow('class');
+      return;
+    }
     if(secretPages.includes(id)){
       document.querySelectorAll('.page').forEach(page=>page.classList.remove('active'));
       const target=document.getElementById(id);
@@ -325,6 +329,7 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
     }
     document.body.classList.remove('secret3-mode','secret3-final-mode');
     if(typeof originalShow==='function') originalShow(id);
+    if(id==='updates') window.prepareUpdatesPage();
   };
 
   function level2Decoded(){return localStorage.getItem('level2Decoded')==='true';}
@@ -355,8 +360,87 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
     }
   };
 
+  const updateSeenKey='archivoUpdatesSeen_v1';
+  function getSeenUpdates(){
+    try{return JSON.parse(localStorage.getItem(updateSeenKey)||'[]');}
+    catch(error){return [];}
+  }
+  function markUpdateSeen(id){
+    const seen=getSeenUpdates();
+    if(!seen.includes(id)) seen.push(id);
+    localStorage.setItem(updateSeenKey,JSON.stringify(seen));
+  }
+  window.openUpdatesPage=function(){
+    if(localStorage.getItem('level2Unlocked')!=='true'){
+      window.show('class');
+      return;
+    }
+    window.show('updates');
+  };
+  window.prepareUpdatesPage=function(){
+    if(localStorage.getItem('level2Unlocked')!=='true') return;
+    const entries=[...document.querySelectorAll('#updatesList .update-entry')];
+    const seen=getSeenUpdates();
+    const pending=[];
+    entries.forEach(entry=>{
+      const id=entry.dataset.updateId;
+      const speech=entry.querySelector('.update-speech');
+      const unseen=!seen.includes(id);
+      entry.classList.toggle('is-unseen',unseen);
+      entry.classList.toggle('is-seen',!unseen);
+      if(unseen){
+        pending.push(entry);
+        if(speech) speech.hidden=false;
+      }else if(speech){speech.hidden=true;}
+    });
+    const status=document.getElementById('updatesPending');
+    if(status) status.textContent=pending.length?pending.length+' NOVEDAD(ES) SIN VER':'TODO AL DÍA';
+    if(!pending.length) return;
+    if('speechSynthesis' in window){
+      window.speechSynthesis.cancel();
+      pending.forEach((entry,index)=>{
+        const title=entry.querySelector('h2')?.textContent||'Actualización';
+        const description=entry.querySelector('.update-copy p')?.textContent||'';
+        const utterance=new SpeechSynthesisUtterance('Hola. '+title+'. '+description);
+        utterance.lang='es-ES';
+        utterance.rate=1;
+        utterance.onend=()=>{
+          markUpdateSeen(entry.dataset.updateId);
+          entry.classList.remove('is-unseen');
+          entry.classList.add('is-seen');
+          const bubble=entry.querySelector('.update-speech');
+          if(bubble) bubble.hidden=true;
+          const remaining=entries.filter(item=>!getSeenUpdates().includes(item.dataset.updateId)).length;
+          if(status) status.textContent=remaining?remaining+' NOVEDAD(ES) SIN VER':'TODO AL DÍA';
+        };
+        if(index===0){utterance.onstart=()=>{const audioStatus=document.getElementById('updatesAudioStatus');if(audioStatus)audioStatus.textContent='Pepe está leyendo las novedades pendientes.';};}
+        window.speechSynthesis.speak(utterance);
+      });
+    }else{
+      pending.forEach(entry=>markUpdateSeen(entry.dataset.updateId));
+      if(status) status.textContent='NOVEDADES MOSTRADAS';
+    }
+  };
+  window.playUpdates67=function(){
+    const status=document.getElementById('updatesAudioStatus');
+    if(!('speechSynthesis' in window)){
+      if(status) status.textContent='Este navegador no admite audio de voz.';
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const voice=new SpeechSynthesisUtterance('Sesenta y siete. 67.');
+    voice.lang='es-ES';
+    voice.rate=0.85;
+    voice.onstart=()=>{if(status)status.textContent='Reproduciendo: sesenta y siete.';};
+    voice.onend=()=>{if(status)status.textContent='Audio terminado.';};
+    window.speechSynthesis.speak(voice);
+  };
+
   window.updateLevel2UI=function(){
     const status=document.getElementById('level2Status');
+    const updatesButton=document.getElementById('updatesEntryButton');
+    const unlocked=level2Unlocked();
+    if(updatesButton) updatesButton.style.display=unlocked?'inline-block':'none';
     if(!status)return;
     if(level2Unlocked()){
       status.className='green';
@@ -412,6 +496,7 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
     message.style.display='block';
     returnButton.style.display='inline-block';
     localStorage.setItem('level2Unlocked','true');
+    updateLevel2UI();
   };
 
   window.finishSecret3=function(){
@@ -420,7 +505,12 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
     window.show('home');
   };
 
+  // Sincroniza el acceso al Registro al cargar y al volver a la pestaña.
   updateLevel2UI();
+  window.addEventListener('pageshow', updateLevel2UI);
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden) updateLevel2UI();
+  });
 })();
 
 async function restaurarDocumentoPrueba() {
@@ -457,3 +547,365 @@ async function restaurarDocumentoPrueba() {
     alert('Error de restauración: ' + error.message);
   }
 }
+
+async function toggleBackupHistory() {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  const panel = document.getElementById('backupHistory');
+  const list = document.getElementById('backupHistoryList');
+
+  if (panel.style.display === 'block') {
+    panel.style.display = 'none';
+    return;
+  }
+
+  panel.style.display = 'block';
+  list.textContent = 'Consultando historial...';
+
+  try {
+    const { data, error } = await db.auth.getSession();
+
+    if (error) throw error;
+
+    const session = data?.session;
+
+    if (!session || session.user.id !== ADMIN_UID) {
+      throw new Error('Sesión administrativa no válida.');
+    }
+
+    const response = await fetch(
+      SUPABASE_URL + '/functions/v1/dynamic-handler',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + session.access_token
+        },
+        body: JSON.stringify({
+          action: 'getBackupHistory'
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || 'No se pudo consultar el historial.'
+      );
+    }
+
+    list.replaceChildren();
+
+    if (!result.history.length) {
+      list.textContent = 'Todavía no hay respaldos registrados.';
+      return;
+    }
+
+    result.history.forEach(backup => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const name = document.createElement('h3');
+      name.textContent = backup.document_name || 'Documento sin nombre';
+
+      const date = document.createElement('p');
+      date.textContent = 'Fecha: ' +
+        new Date(backup.created_at).toLocaleString();
+
+      const id = document.createElement('small');
+      id.textContent = 'ID original: ' +
+        backup.original_document_id;
+
+      card.append(name, date, id);
+
+const restoreButton = document.createElement('button');
+restoreButton.className = 'blue';
+restoreButton.textContent = 'RESTAURAR RESPALDO';
+restoreButton.onclick = () => {
+  restaurarRespaldo(backup.id, backup.document_name);
+};
+
+card.appendChild(restoreButton);
+
+const deleteButton = document.createElement('button');
+deleteButton.className = 'blue';
+deleteButton.textContent = 'ELIMINAR RESPALDO';
+deleteButton.onclick = () => {
+  eliminarRespaldo(backup.id, backup.document_name);
+};
+
+card.appendChild(deleteButton);
+list.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error('Error consultando historial:', error);
+    list.textContent = 'ERROR: ' + error.message;
+  }
+}
+
+window.toggleBackupHistory = toggleBackupHistory;
+
+async function crearRespaldoGeneral() {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  const status = document.getElementById('generalBackupStatus');
+
+  if (!confirm(
+    '¿Crear respaldos de TODOS los documentos registrados?\n\n' +
+    'El proceso se realizará uno por uno.'
+  )) return;
+
+  const button = document.querySelector(
+    'button[onclick="window.crearRespaldoGeneral()"]'
+  );
+
+  button.disabled = true;
+  status.textContent = 'Preparando respaldos...';
+
+  const resultados = {
+    exitosos: [],
+    omitidos: [],
+    errores: []
+  };
+
+  try {
+    const { data: sessionData, error: sessionError } =
+      await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    const session = sessionData?.session;
+
+    if (!session || session.user.id !== ADMIN_UID) {
+      throw new Error('Sesión administrativa no válida.');
+    }
+
+    const { data: documents, error } = await db
+      .from('documents')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error) throw error;
+
+    if (!documents || documents.length === 0) {
+      status.textContent = 'No hay documentos para respaldar.';
+      return;
+    }
+
+    for (let i = 0; i < documents.length; i++) {
+      const doc = documents[i];
+
+      status.textContent =
+        'Respaldando ' + (i + 1) + ' de ' +
+        documents.length + ': ' + doc.name;
+
+      try {
+        let response = await fetch(
+          SUPABASE_URL + '/functions/v1/dynamic-handler',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_KEY,
+              'Authorization': 'Bearer ' + session.access_token
+            },
+            body: JSON.stringify({
+              documentId: doc.id,
+              confirmDuplicate: false
+            })
+          }
+        );
+
+        let result = await response.json();
+
+        if (result.confirmationRequired) {
+          const confirmed = confirm(
+            '"' + doc.name + '" ya tiene ' +
+            result.existingCount +
+            ' copia(s).\n\n¿Crear otra copia?'
+          );
+
+          if (!confirmed) {
+            resultados.omitidos.push(doc.name);
+            continue;
+          }
+
+          response = await fetch(
+            SUPABASE_URL + '/functions/v1/dynamic-handler',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + session.access_token
+              },
+              body: JSON.stringify({
+                documentId: doc.id,
+                confirmDuplicate: true
+              })
+            }
+          );
+
+          result = await response.json();
+        }
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.error || result.message || 'Respaldo fallido.'
+          );
+        }
+
+        resultados.exitosos.push(doc.name);
+
+      } catch (error) {
+        console.error('Error respaldando ' + doc.name, error);
+        resultados.errores.push(
+          doc.name + ': ' + error.message
+        );
+      }
+    }
+
+    status.textContent =
+      'Proceso terminado. Correctos: ' +
+      resultados.exitosos.length +
+      ' | Omitidos: ' + resultados.omitidos.length +
+      ' | Errores: ' + resultados.errores.length;
+
+    alert(
+      'RESPALDO GENERAL TERMINADO\n\n' +
+      'Correctos: ' + resultados.exitosos.length +
+      '\nOmitidos: ' + resultados.omitidos.length +
+      '\nErrores: ' + resultados.errores.length
+    );
+
+    console.log('Resultados del respaldo general:', resultados);
+
+    await loadDocs();
+
+  } catch (error) {
+    console.error('Error en respaldo general:', error);
+    status.textContent = 'ERROR: ' + error.message;
+
+  } finally {
+    button.disabled = false;
+  }
+}
+
+window.crearRespaldoGeneral = crearRespaldoGeneral;
+
+async function restaurarRespaldo(backupRecordId, documentName) {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  if (!confirm(
+    '¿Deseas restaurar el respaldo de "' + documentName + '"?'
+  )) return;
+
+  try {
+    let { data, error } = await db.functions.invoke(
+      'restore-document',
+      {
+        body: {
+          backupRecordId: backupRecordId
+        }
+      }
+    );
+
+    if (error) throw error;
+
+    if (data?.confirmationRequired) {
+      const confirmed = confirm(
+        'El documento "' + data.documentName +
+        '" todavía existe.\n\n' +
+        '¿Deseas reemplazar sus archivos actuales con los del respaldo?'
+      );
+
+      if (!confirmed) return;
+
+      ({ data, error } = await db.functions.invoke(
+        'restore-document',
+        {
+          body: {
+            backupRecordId: backupRecordId,
+            confirmReplace: true
+          }
+        }
+      ));
+
+      if (error) throw error;
+    }
+
+    if (!data?.success) {
+      throw new Error(
+        data?.error || 'No se pudo completar la restauración.'
+      );
+    }
+
+    alert(data.message);
+    await loadDocs();
+
+  } catch (error) {
+    console.error('Error restaurando respaldo:', error);
+    alert('ERROR: ' + error.message);
+  }
+}
+
+window.restaurarRespaldo = restaurarRespaldo;
+
+async function eliminarRespaldo(backupRecordId, documentName) {
+  if (!isAdmin || !db) {
+    alert('Acceso administrativo requerido.');
+    return;
+  }
+
+  const confirmed = confirm(
+    '¿Estás seguro de que deseas eliminar el respaldo de "' +
+    documentName +
+    '"?\n\nEsta acción no eliminará el documento original.'
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const { data, error } = await db.functions.invoke(
+      'dynamic-handler',
+      {
+        body: {
+          action: 'deleteBackup',
+          backupRecordId: backupRecordId
+        }
+      }
+    );
+
+    if (error) throw error;
+
+    if (!data?.success) {
+      throw new Error(
+        data?.error || 'No se pudo eliminar el respaldo.'
+      );
+    }
+
+    alert(data.message);
+
+    const panel = document.getElementById('backupHistory');
+    panel.style.display = 'none';
+    await toggleBackupHistory();
+
+  } catch (error) {
+    console.error('Error eliminando respaldo:', error);
+    alert('ERROR: ' + error.message);
+  }
+}
+
+window.eliminarRespaldo = eliminarRespaldo;
