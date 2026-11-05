@@ -413,10 +413,6 @@ const _0xc299a=_0x36b5;function _0x36b5(_0xa19af5,_0x15ab8f){_0xa19af5=_0xa19af5
           const remaining=entries.filter(item=>!getSeenUpdates().includes(item.dataset.updateId)).length;
           if(status) status.textContent=remaining?remaining+' NOVEDAD(ES) SIN VER':'TODO AL DÍA';
         };
-        if(index===0){utterance.onstart=()=>{const audioStatus=document.getElementById('updatesAudioStatus');if(audioStatus)audioStatus.textContent='Pepe está leyendo las novedades pendientes.';};}
-        window.speechSynthesis.speak(utterance);
-      });
-    }else{
       pending.forEach(entry=>markUpdateSeen(entry.dataset.updateId));
       if(status) status.textContent='NOVEDADES MOSTRADAS';
     }
