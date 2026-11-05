@@ -32,8 +32,63 @@
 <section id="home" class="page active">
 <button class="green" onclick="show('docs')">Documentos</button>
 <button class="blue" onclick="show('class')">Clasificación</button>
+<button class="updates-entry" id="updatesEntryButton" onclick="show('updates')" style="display:none">Registro de actualizaciones</button>
 <button class="secret-trigger" aria-label="Acceso secreto" onclick="show('secret')">
 </button>
+</section>
+<section id="updates" class="page">
+  <div class="updates-shell">
+    <div class="updates-topbar">
+      <div class="updates-brand">
+        <span class="updates-folder" aria-hidden="true">▣</span>
+        <div><strong>ARCHIVO CLASIFICADO</strong><small>67 67 67 67 67 67 67 67</small></div>
+      </div>
+      <div class="updates-access"><span class="updates-dot"></span><strong>NIVEL 2</strong><small>Acceso autorizado</small></div>
+    </div>
+
+    <div class="updates-heading">
+      <div class="updates-pepe updates-pepe-large" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img" aria-label="Pepe pixel art">
+          <path fill="#28a92b" d="M10 15h8V7h12v5h10V7h12v10h5v18h-5v10H43v7H18v-7h-8V35H5V22h5z"/>
+          <path fill="#16851f" d="M10 15h8V7h12v5h10V7h12v10h5v18h-5v10H43v7H18v-7h-8V35H5V22h5z" opacity=".35"/>
+          <path fill="#fff" d="M14 20h14v11H14zM36 20h14v11H36z"/>
+          <path fill="#111" d="M20 22h6v7h-6zM42 22h6v7h-6z"/>
+          <path fill="#111" d="M13 18h16v3H13zM35 18h16v3H35z"/>
+          <path fill="#e87936" d="M14 34h36v9H43v5H24v-4h-8z"/>
+          <path fill="#111" d="M15 33h35v3H15zM17 43h7v3h-7zM43 43h7v3h-7z"/>
+          <path fill="#1457b8" d="M13 49h38v8H9v-4h4z"/>
+          <path fill="#111" d="M5 22h5v13H5zM55 17h5v19h-5zM18 7h12v5H18zM40 7h12v5H40z" opacity=".8"/>
+        </svg>
+      </div>
+      <div class="updates-heading-copy">
+        <div class="updates-kicker">CENTRO DE INFORMACIÓN / NIVEL 02</div>
+        <h1>Registro de actualizaciones</h1>
+        <p>Mantente al día con los cambios y novedades de ARCHIVO CLASIFICADO.</p>
+      </div>
+    </div>
+
+    <div class="updates-log-header"><span>REGISTRO DEL SISTEMA</span><span id="updatesPending">CONSULTANDO NOVEDADES...</span></div>
+    <div id="updatesList" class="updates-list" aria-live="polite">
+      <article class="update-entry" data-update-id="updates-section-2026-11-04">
+        <div class="updates-pepe" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path fill="#28a92b" d="M10 15h8V7h12v5h10V7h12v10h5v18h-5v10H43v7H18v-7h-8V35H5V22h5z"/><path fill="#fff" d="M14 20h14v11H14zM36 20h14v11H36z"/><path fill="#111" d="M20 22h6v7h-6zM42 22h6v7h-6zM13 18h16v3H13zM35 18h16v3H35z"/><path fill="#e87936" d="M14 34h36v9H43v5H24v-4h-8z"/><path fill="#111" d="M15 33h35v3H15z"/><path fill="#1457b8" d="M13 49h38v8H9v-4h4z"/></svg>
+        </div>
+        <div class="update-copy">
+          <div class="update-meta"><time datetime="2026-11-04">04/11/2026</time><span class="update-type type-new">NOVEDAD</span></div>
+          <h2>¡Nueva sección disponible!</h2>
+          <p>Se ha añadido el Registro de actualizaciones. Aquí podrás consultar las novedades del proyecto.</p>
+          <div class="update-speech" hidden>¡Hey! Aquí puedes revisar las últimas actualizaciones del archivo.</div>
+        </div>
+        <span class="update-unseen" aria-label="No vista">NUEVO</span>
+      </article>
+    </div>
+
+    <div class="updates-footer">
+      <button class="updates-audio" type="button" onclick="playUpdates67()"><span aria-hidden="true">◖))</span> 67</button>
+      <p id="updatesAudioStatus">Presiona el botón para escuchar el famoso «67».</p>
+      <button class="updates-back" type="button" onclick="show('home')">← Regresar</button>
+    </div>
+  </div>
 </section>
 <section id="docs" class="page">
 <h1 id="docsTitle">DOCUMENTOS</h1>
