@@ -69,6 +69,37 @@
     </div>
 </div>
 
+<!-- SECCIONES DEL PERFIL -->
+<section id="profileSecrets" class="profile-section">
+    <h2>SECRETOS DESCUBIERTOS</h2>
+    <div id="profileSecretsList">Cargando...</div>
+    <button onclick="openProfileSection('secrets')">Actualizar</button>
+    <button onclick="closeProfileSection()">Regresar</button>
+</section>
+
+<section id="profileTime" class="profile-section">
+    <h2>TIEMPO</h2>
+    <div id="profileElapsedTime" class="profile-stat">Calculando...</div>
+
+    <h3>ACCESO A ESTADÍSTICAS</h3>
+    <input id="profileTimeCode" type="password"
+           placeholder="Introduce el código">
+    <button onclick="unlockProfileGraph()">COMPROBAR</button>
+    <p id="profileTimeMessage"></p>
+
+    <canvas id="profileSecretGraph" width="550" height="240"
+            style="display:none"></canvas>
+
+    <button onclick="closeProfileSection()">Regresar</button>
+</section>
+
+<section id="profileLevels" class="profile-section">
+    <h2>CLASIFICACIÓN INDIVIDUAL</h2>
+    <div id="profileCurrentLevel">Calculando...</div>
+    <div id="profileNextLevel" class="profile-next-level"></div>
+    <button onclick="closeProfileSection()">Regresar</button>
+</section>
+
 <section id="home" class="page active">
 
 <button class="green" onclick="show('docs')">Documentos</button>
