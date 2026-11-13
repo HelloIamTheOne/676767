@@ -9,8 +9,10 @@ const { minify } = require("html-minifier-terser");
   const files = [
     "index.html",
     "styles.css",
-    "app.js"
-  ];
+    "app.js",
+"profiles.js"
+  
+];
 
   // Comprobar que existan los archivos necesarios.
   for (const file of files) {
