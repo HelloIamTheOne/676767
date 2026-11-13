@@ -1,3 +1,4 @@
+window.profileScriptLoaded = true;
 
 const profileDB = window.supabase.createClient(
     "https://wiwqnlhavvmhnwmoyjtw.supabase.co",
