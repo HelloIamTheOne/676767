@@ -181,34 +181,43 @@ async function loadProfile(user) {
    AVATAR
 ================================= */
 
+
 function setupAvatarInput() {
     const card = document.getElementById("userProfileCard");
-    if (!card || document.getElementById("profileAvatarInput")) return;
+    const avatar = document.getElementById("userProfileAvatar");
 
-    const avatarButton = document.createElement("button");
-    avatarButton.type = "button";
-    avatarButton.className = "profile-avatar-upload";
-    avatarButton.textContent = "CAMBIAR AVATAR";
+    if (!card || !avatar) return;
 
-    const input = document.createElement("input");
-    input.type = "file";
-    input.id = "profileAvatarInput";
-    input.accept = "image/png,image/jpeg,image/webp,image/gif";
-    input.style.display = "none";
+    let input = document.getElementById("profileAvatarInput");
 
-    avatarButton.onclick = () => input.click();
+    if (!input) {
+        input = document.createElement("input");
+        input.type = "file";
+        input.id = "profileAvatarInput";
+        input.accept = "image/png,image/jpeg,image/webp,image/gif";
+        input.style.display = "none";
 
-    input.addEventListener("change", async () => {
-        const file = input.files[0];
-        if (!file) return;
+        input.addEventListener("change", async () => {
+            const file = input.files[0];
+            if (!file) return;
 
-        await uploadProfileAvatar(file);
-        input.value = "";
-    });
+            await uploadProfileAvatar(file);
+            input.value = "";
+        });
 
-    card.parentNode.insertBefore(avatarButton, card.nextSibling);
-    card.parentNode.insertBefore(input, avatarButton.nextSibling);
+        card.appendChild(input);
+    }
+
+    avatar.style.cursor = "pointer";
+    avatar.title = "Toca para cambiar tu imagen";
+
+    avatar.onclick = () => {
+        if (confirm("¿Quieres cambiar tu imagen de perfil?")) {
+            input.click();
+        }
+    };
 }
+
 
 async function loadProfileAvatar() {
     const container = document.getElementById("userProfileAvatar");
