@@ -22,10 +22,8 @@ function profileMessage(message) {
 }
 
 async function registerProfile() {
-    alert("La función registerProfile se está ejecutando");
-    const username = document.getElementById("profileUsername").value.trim();
-    const username = document.getElementById("profileUsername").value.trim();
-    const password = document.getElementById("profilePassword").value;
+    document.getElementById("profileUsername").value.trim();
+    const username =  = document.getElementById("profilePassword").value;
 
     if (!username || !password) {
         profileMessage("Completa ambos campos.");
