@@ -135,3 +135,10 @@ profileDB.auth.onAuthStateChange((event, session) => {
         document.getElementById("profileAuthForm").style.display = "block";
     }
 });
+
+function toggleProfileAuth() {
+    const area = document.getElementById("profileAuthArea");
+
+    area.style.display =
+        area.style.display === "none" ? "block" : "none";
+}
