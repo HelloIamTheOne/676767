@@ -26,9 +26,49 @@
 <p id="jsStatus">Esperando prueba...</p>
 </div>
 <header>
+<header>
 <h1>ARCHIVO CLASIFICADO</h1>
 <p>67 67 67 67 67 67 67 67 67 67</p>
 </header>
+
+<!-- SISTEMA DE REGISTRO E INICIO DE SESIÓN -->
+<div id="profileAuthArea">
+    <div class="profile-form" id="profileAuthForm">
+        <h2>IDENTIFICACIÓN DE USUARIO</h2>
+
+        <input type="text" id="profileUsername"
+               placeholder="Nombre de usuario" maxlength="20"
+               autocomplete="username">
+
+        <input type="password" id="profilePassword"
+               placeholder="Contraseña"
+               autocomplete="current-password">
+
+        <button onclick="registerProfile()">REGISTRARSE</button>
+        <button onclick="loginProfile()">INICIAR SESIÓN</button>
+
+        <p id="profileMessage"></p>
+    </div>
+</div>
+
+<!-- TARJETA DEL PERFIL -->
+<div id="userProfileArea" style="display:none">
+    <div id="userProfileCard">
+        <div id="userProfileAvatar">?</div>
+        <span id="userProfileName"></span>
+    </div>
+
+    <button id="userProfileMenuButton"
+            onclick="toggleProfileMenu()">!!!</button>
+
+    <div id="userProfileMenu">
+        <button onclick="openProfileSection('secrets')">Secretos</button>
+        <button onclick="openProfileSection('time')">Tiempo</button>
+        <button onclick="openProfileSection('levels')">Niveles</button>
+        <button onclick="logoutProfile()">Cerrar sesión</button>
+    </div>
+</div>
+
 <section id="home" class="page active">
 <button class="green" onclick="show('docs')">Documentos</button>
 <button class="blue" onclick="show('class')">Clasificación</button>
