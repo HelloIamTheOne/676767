@@ -10,8 +10,7 @@ const { minify } = require("html-minifier-terser");
     "index.html",
     "styles.css",
     "app.js",
-"profiles.js"
-  
+"profiles.js" 
 ];
 
   // Comprobar que existan los archivos necesarios.
@@ -58,6 +57,11 @@ const { minify } = require("html-minifier-terser");
     "styles.css",
     path.join(outputDir, "styles.css")
   );
+
+fs.copyFileSync(
+  "profiles.js",
+  path.join(outputDir, "profiles.js")
+);
 
   console.log("Versión protegida creada correctamente en dist.");
 })().catch(error => {
