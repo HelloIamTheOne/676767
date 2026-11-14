@@ -678,7 +678,9 @@ function calculateProfileLevel(total) {
 
     if (!current || !next) return;
 
-    const total = profileHistory.length;
+    const total = new Set(
+    profileHistory.map(item => item.secret_key)
+).size;
     const level = calculateProfileLevel(total);
 
     const nextLevel = level + 1;
