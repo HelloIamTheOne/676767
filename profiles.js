@@ -474,8 +474,12 @@ async function loadProfileHistory() {
     renderProfileLevels();
 }
 
+
 window.recordSecretUnlock = async function(secretKey) {
-    if (!PROFILE_SECRETS[secretKey]) return;
+    if (!PROFILE_SECRETS[secretKey]) {
+        alert("Error: secreto no reconocido.");
+        return;
+    }
 
     let user = window.currentProfileUser;
 
@@ -483,7 +487,8 @@ window.recordSecretUnlock = async function(secretKey) {
         const { data, error } = await profileDB.auth.getSession();
 
         if (error) {
-            console.error("Error comprobando la sesión:", error);
+            alert("Error comprobando la sesión: " + error.message);
+            return;
         }
 
         user = data?.session?.user || null;
@@ -491,6 +496,7 @@ window.recordSecretUnlock = async function(secretKey) {
 
     if (!user) {
         queuePendingSecretUnlock(secretKey);
+        alert("Desbloqueo guardado localmente. Se sincronizará al iniciar sesión.");
         return;
     }
 
@@ -511,12 +517,15 @@ window.recordSecretUnlock = async function(secretKey) {
             await loadProfileHistory();
         }
 
+        alert("Desbloqueo registrado correctamente.");
+
     } catch (error) {
         console.error("Error registrando secreto:", error);
+        alert("No se pudo registrar el desbloqueo: " + error.message);
         queuePendingSecretUnlock(secretKey);
     }
 };
-
+            
         
 /* =================================
    SECCIÓN SECRETOS
