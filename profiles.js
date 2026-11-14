@@ -659,6 +659,16 @@ function renderProfile87() {
    SECCIÓN NIVELES
 ================================= */
 
+function calculateProfileLevel(total) {
+    if (typeof isAdmin !== "undefined" && isAdmin) return 5;
+
+    if (total >= 9) return 4;
+    if (total >= 6) return 3;
+    if (total >= 3) return 2;
+
+    return 1;
+}
+
   function renderProfileLevels() {
     const current =
         document.getElementById("profileCurrentLevel");
