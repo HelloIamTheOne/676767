@@ -448,6 +448,44 @@ function toggleLogin(){const _0x3d677c=_0xc299a,_0xcb7955=document[_0x3d677c(0x2
     window.show('updates');
   };
 window.prepareUpdatesPage=function(){
+
+  // Determinar el nivel actual del perfil.
+  const level =
+    typeof window.getProfileClassificationLevel === 'function'
+      ? window.getProfileClassificationLevel()
+      : 2;
+
+  // Aplicar la temática correspondiente.
+  const updatesPage = document.getElementById('updates');
+
+  if (updatesPage) {
+    updatesPage.classList.remove(
+      'updates-theme-2',
+      'updates-theme-3',
+      'updates-theme-4',
+      'updates-theme-5'
+    );
+
+    updatesPage.classList.add('updates-theme-' + level);
+  }
+
+  // Actualizar el nivel mostrado en pantalla.
+  const accessLevel = document.getElementById('updatesAccessLevel');
+
+  if (accessLevel) {
+    accessLevel.textContent = 'NIVEL ' + level;
+  }
+
+  // Actualizar el encabezado.
+  const kicker = document.getElementById('updatesKicker');
+
+  if (kicker) {
+    kicker.textContent =
+      'CENTRO DE INFORMACIÓN / NIVEL ' +
+      String(level).padStart(2, '0');
+  }
+
+  // Conservar la comprobación anterior.
   if(localStorage.getItem('level2Unlocked')!=='true') return;
 
   const entries=[
