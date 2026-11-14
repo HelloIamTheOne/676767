@@ -280,3 +280,90 @@ body.admin-mode .profile-section h3{
     }
 }
 
+
+/* NUEVOS PERFILES — COLORES DEL MODO ADMINISTRADOR */
+
+body.admin-mode #userProfileCard {
+    background: #071c2c;
+    border-color: #87cefa;
+    box-shadow: 0 0 10px #174a6b;
+}
+
+body.admin-mode #userProfileAvatar {
+    border-color: #87cefa;
+    background: #061326;
+}
+
+body.admin-mode #userProfileMenuButton {
+    background: #061326;
+    color: #87cefa;
+    border-color: #87cefa;
+}
+
+body.admin-mode #userProfileMenu {
+    background: #061326;
+    border-color: #87cefa;
+    box-shadow: 0 0 15px #174a6b;
+}
+
+body.admin-mode #userProfileMenu button {
+    background: #071c2c;
+    color: #87cefa;
+    border-color: #285878;
+}
+
+body.admin-mode .profile-section {
+    background: #071c2c;
+}
+
+body.admin-mode .profile-stat {
+    background: #061326;
+    border-color: #285878;
+    color: #d5efff;
+}
+
+body.admin-mode .secret-badge {
+    background: #061326;
+    color: #87cefa;
+    border-color: #87cefa;
+}
+
+body.admin-mode .secret-badge.locked {
+    background: #101b27;
+    color: #788b9b;
+    border-color: #405365;
+}
+
+body.admin-mode .profile-level {
+    color: #87cefa;
+    text-shadow: 0 0 12px #287bb5;
+}
+
+body.admin-mode .profile-level.cyan,
+body.admin-mode .profile-next-level .cyan {
+    color: #b5eaff;
+    text-shadow: 0 0 13px #87cefa;
+}
+
+body.admin-mode .profile-next-level {
+    background: #061326;
+    border-color: #87cefa;
+}
+
+body.admin-mode #profileSecretGraph {
+    background: #061326;
+    border-color: #285878;
+}
+
+body.admin-mode .profile-form {
+    background: #071c2c;
+}
+
+body.admin-mode .profile-form button {
+    background: #87cefa;
+    color: #061326;
+}
+
+body.admin-mode #profileMessage {
+    color: #87cefa;
+}
