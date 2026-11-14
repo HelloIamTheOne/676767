@@ -835,6 +835,7 @@ function calculateProfileLevel(total) {
 
     return 1;
 }
+
 window.getProfileClassificationLevel = function() {
     const registeredSecrets = profileHistory.map(
         item => item.secret_key
