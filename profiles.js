@@ -171,6 +171,7 @@ async function loadProfile(user) {
         document.getElementById("profileAuthArea").style.display = "none";
         document.getElementById("userProfileArea").style.display = "flex";
 
+document.body.classList.add("profile-session-active");
         document.getElementById("userProfileName").textContent =
             data.username;
 
