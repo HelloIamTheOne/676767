@@ -367,3 +367,148 @@ body.admin-mode .profile-form button {
 body.admin-mode #profileMessage {
     color: #87cefa;
 }
+
+
+/* =====================================
+   TEMAS DINÁMICOS — REGISTRO DE ACTUALIZACIONES
+===================================== */
+
+/* NIVEL 2 — VERDE */
+#updates.updates-theme-2 {
+    background: #061306;
+}
+
+#updates.updates-theme-2 .updates-shell {
+    border-color: #39ff14;
+    box-shadow: 0 0 22px #164d16;
+}
+
+#updates.updates-theme-2 .updates-topbar,
+#updates.updates-theme-2 .updates-access {
+    border-color: #39ff14;
+}
+
+#updates.updates-theme-2 .updates-folder,
+#updates.updates-theme-2 .updates-access,
+#updates.updates-theme-2 .updates-kicker,
+#updates.updates-theme-2 .updates-log-header {
+    color: #39ff14;
+}
+
+#updates.updates-theme-2 .updates-log-header {
+    border-color: #39ff14;
+}
+
+#updates.updates-theme-2 .updates-list {
+    border-color: #287d20;
+}
+
+#updates.updates-theme-2 .updates-audio,
+#updates.updates-theme-2 .updates-back {
+    border-color: #39ff14;
+}
+
+/* NIVEL 3 — ROJO */
+#updates.updates-theme-3 {
+    background: #190606;
+}
+
+#updates.updates-theme-3 .updates-shell {
+    border-color: #ff3030;
+    box-shadow: 0 0 22px #650000;
+}
+
+#updates.updates-theme-3 .updates-topbar,
+#updates.updates-theme-3 .updates-access {
+    border-color: #ff3030;
+}
+
+#updates.updates-theme-3 .updates-folder,
+#updates.updates-theme-3 .updates-access,
+#updates.updates-theme-3 .updates-kicker,
+#updates.updates-theme-3 .updates-log-header {
+    color: #ff5555;
+}
+
+#updates.updates-theme-3 .updates-log-header {
+    border-color: #ff3030;
+}
+
+#updates.updates-theme-3 .updates-list {
+    border-color: #8f2929;
+}
+
+#updates.updates-theme-3 .updates-audio,
+#updates.updates-theme-3 .updates-back {
+    border-color: #ff3030;
+}
+
+/* NIVEL 4 — BLANCO */
+#updates.updates-theme-4 {
+    background: #101010;
+}
+
+#updates.updates-theme-4 .updates-shell {
+    border-color: #fff;
+    box-shadow: 0 0 22px #777;
+}
+
+#updates.updates-theme-4 .updates-topbar,
+#updates.updates-theme-4 .updates-access {
+    border-color: #ddd;
+}
+
+#updates.updates-theme-4 .updates-folder,
+#updates.updates-theme-4 .updates-access,
+#updates.updates-theme-4 .updates-kicker,
+#updates.updates-theme-4 .updates-log-header {
+    color: #fff;
+}
+
+#updates.updates-theme-4 .updates-log-header {
+    border-color: #ddd;
+}
+
+#updates.updates-theme-4 .updates-list {
+    border-color: #aaa;
+}
+
+#updates.updates-theme-4 .updates-audio,
+#updates.updates-theme-4 .updates-back {
+    border-color: #fff;
+}
+
+/* NIVEL 5 — CELESTE */
+#updates.updates-theme-5 {
+    background: #03101b;
+}
+
+#updates.updates-theme-5 .updates-shell {
+    border-color: #87cefa;
+    box-shadow: 0 0 22px #174a6b;
+}
+
+#updates.updates-theme-5 .updates-topbar,
+#updates.updates-theme-5 .updates-access {
+    border-color: #87cefa;
+}
+
+#updates.updates-theme-5 .updates-folder,
+#updates.updates-theme-5 .updates-access,
+#updates.updates-theme-5 .updates-kicker,
+#updates.updates-theme-5 .updates-log-header {
+    color: #87cefa;
+}
+
+#updates.updates-theme-5 .updates-log-header {
+    border-color: #87cefa;
+}
+
+#updates.updates-theme-5 .updates-list {
+    border-color: #285878;
+}
+
+#updates.updates-theme-5 .updates-audio,
+#updates.updates-theme-5 .updates-back {
+    border-color: #87cefa;
+}
