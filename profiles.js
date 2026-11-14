@@ -94,9 +94,9 @@ try {
 
 if (!response.ok) {
     profileMessage(
-        "Error " + response.status + ": " +
-        (result.error || "No se pudo crear la cuenta.")
-    );
+    "Error " + response.status + ": " + responseText
+);
+        
     return;
 }
 
