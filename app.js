@@ -525,8 +525,15 @@ window.updates67Audio.preload='auto';
   window.updateLevel2UI=function(){
     const status=document.getElementById('level2Status');
     const updatesButton=document.getElementById('updatesEntryButton');
-    const unlocked=level2Unlocked();
-    if(updatesButton) updatesButton.style.display=unlocked?'inline-block':'none';
+    const profileLevel =
+    typeof window.getProfileClassificationLevel === 'function'
+        ? window.getProfileClassificationLevel()
+        : 1;
+
+if (updatesButton) {
+    updatesButton.style.display =
+        profileLevel >= 2 ? 'inline-block' : 'none';
+}
     if(!status)return;
     if(level2Unlocked()){
       status.className='green';
