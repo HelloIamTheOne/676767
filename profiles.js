@@ -506,9 +506,9 @@ window.recordSecretUnlock = async function(secretKey) {
         const { error } = await profileDB
             .from("secret_unlock_history")
             .insert({
-                user_id: user.id,
-                secret_key: secretKey
-            });
+    user_id: user.id,
+    secret_number: Number(secretKey.replace("secret", ""))
+});
 
         if (error) throw error;
 
