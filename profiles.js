@@ -330,13 +330,15 @@ function getPendingSecretUnlocks() {
 
         if (!Array.isArray(stored)) return [];
 
-        return stored
-            .map(item => {
-                // Compatibilidad con desbloqueos guardados
-                // anteriormente como simples cadenas.
+        let migrated = false;
+
+        const pending = stored
+            .map((item, index) => {
                 if (typeof item === "string") {
+                    migrated = true;
+
                     return {
-                        id: "legacy_" + Math.random().toString(36).slice(2),
+                        id: "legacy_" + index + "_" + item,
                         secretKey: item
                     };
                 }
@@ -348,6 +350,15 @@ function getPendingSecretUnlocks() {
                 typeof item.id === "string" &&
                 PROFILE_SECRETS[item.secretKey]
             );
+
+        // Guarda los identificadores para que no cambien
+        // cada vez que se consultan los registros pendientes.
+        if (migrated) {
+            savePendingSecretUnlocks(pending);
+        }
+
+        return pending;
+
     } catch (error) {
         console.error("Error leyendo desbloqueos pendientes:", error);
         return [];
