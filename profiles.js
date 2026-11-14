@@ -312,13 +312,138 @@ async function uploadProfileAvatar(file) {
     }
 }
 
+
 /* =================================
    HISTORIAL DE SECRETOS
 ================================= */
 
+const PENDING_SECRET_UNLOCKS =
+    "archivo_clasificado_pending_secret_unlocks";
+
+let pendingSyncPromise = null;
+
+function getPendingSecretUnlocks() {
+    try {
+        const stored = JSON.parse(
+            localStorage.getItem(PENDING_SECRET_UNLOCKS) || "[]"
+        );
+
+        if (!Array.isArray(stored)) return [];
+
+        return stored
+            .map(item => {
+                // Compatibilidad con desbloqueos guardados
+                // anteriormente como simples cadenas.
+                if (typeof item === "string") {
+                    return {
+                        id: "legacy_" + Math.random().toString(36).slice(2),
+                        secretKey: item
+                    };
+                }
+
+                return item;
+            })
+            .filter(item =>
+                item &&
+                typeof item.id === "string" &&
+                PROFILE_SECRETS[item.secretKey]
+            );
+    } catch (error) {
+        console.error("Error leyendo desbloqueos pendientes:", error);
+        return [];
+    }
+}
+
+function savePendingSecretUnlocks(pending) {
+    try {
+        if (pending.length) {
+            localStorage.setItem(
+                PENDING_SECRET_UNLOCKS,
+                JSON.stringify(pending)
+            );
+        } else {
+            localStorage.removeItem(PENDING_SECRET_UNLOCKS);
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Error guardando desbloqueos pendientes:", error);
+        return false;
+    }
+}
+
+function queuePendingSecretUnlock(secretKey) {
+    if (!PROFILE_SECRETS[secretKey]) return;
+
+    const pending = getPendingSecretUnlocks();
+
+    pending.push({
+        id: Date.now().toString(36) +
+            "_" + Math.random().toString(36).slice(2),
+        secretKey
+    });
+
+    savePendingSecretUnlocks(pending);
+}
+
+async function syncPendingSecretUnlocks(user) {
+    if (!user) return;
+
+    if (pendingSyncPromise) {
+        await pendingSyncPromise;
+        return;
+    }
+
+    pendingSyncPromise = (async () => {
+        const pending = getPendingSecretUnlocks();
+
+        if (!pending.length) return;
+
+        const records = pending.map(item => ({
+            user_id: user.id,
+            secret_key: item.secretKey
+        }));
+
+        const { error } = await profileDB
+            .from("secret_unlock_history")
+            .insert(records);
+
+        if (error) {
+            console.error(
+                "Error sincronizando desbloqueos pendientes:",
+                error
+            );
+            return;
+        }
+
+        // Solo elimina los registros que se enviaron.
+        // Los desbloqueos nuevos permanecen pendientes.
+        const currentPending = getPendingSecretUnlocks();
+
+        const syncedIds = new Set(
+            pending.map(item => item.id)
+        );
+
+        const remaining = currentPending.filter(
+            item => !syncedIds.has(item.id)
+        );
+
+        savePendingSecretUnlocks(remaining);
+
+    })();
+
+    try {
+        await pendingSyncPromise;
+    } finally {
+        pendingSyncPromise = null;
+    }
+}
+
 async function loadProfileHistory() {
     const user = window.currentProfileUser;
     if (!user) return;
+
+    await syncPendingSecretUnlocks(user);
 
     const { data, error } = await profileDB
         .from("secret_unlock_history")
@@ -339,9 +464,14 @@ async function loadProfileHistory() {
 }
 
 window.recordSecretUnlock = async function(secretKey) {
+    if (!PROFILE_SECRETS[secretKey]) return;
+
     const user = window.currentProfileUser;
 
-    if (!user || !PROFILE_SECRETS[secretKey]) return;
+    if (!user) {
+        queuePendingSecretUnlock(secretKey);
+        return;
+    }
 
     try {
         const { error } = await profileDB
@@ -357,9 +487,11 @@ window.recordSecretUnlock = async function(secretKey) {
 
     } catch (error) {
         console.error("Error registrando secreto:", error);
+        queuePendingSecretUnlock(secretKey);
     }
 };
 
+        
 /* =================================
    SECCIÓN SECRETOS
 ================================= */
