@@ -82,14 +82,23 @@ async function registerProfile() {
             }
         );
 
-        const result = await response.json();
+        const responseText = await response.text();
 
-        if (!response.ok) {
-            profileMessage(
-                result.error || "No se pudo crear la cuenta."
-            );
-            return;
-        }
+let result = {};
+
+try {
+    result = JSON.parse(responseText);
+} catch {
+    result = { error: responseText || "Respuesta no válida del servidor." };
+}
+
+if (!response.ok) {
+    profileMessage(
+        "Error " + response.status + ": " +
+        (result.error || "No se pudo crear la cuenta.")
+    );
+    return;
+}
 
         profileMessage(
             "Cuenta creada correctamente. Ahora puedes iniciar sesión."
