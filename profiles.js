@@ -835,6 +835,22 @@ function calculateProfileLevel(total) {
 
     return 1;
 }
+window.getProfileClassificationLevel = function() {
+    const registeredSecrets = profileHistory.map(
+        item => item.secret_key
+    );
+
+    const pendingSecrets = getPendingSecretUnlocks().map(
+        item => item.secretKey
+    );
+
+    const total = new Set([
+        ...registeredSecrets,
+        ...pendingSecrets
+    ]).size;
+
+    return calculateProfileLevel(total);
+};
 
   function renderProfileLevels() {
     const current =
