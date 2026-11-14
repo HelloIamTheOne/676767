@@ -77,8 +77,6 @@ async function registerProfile() {
                 headers: {
                     "Content-Type": "application/json",
                     "apikey": "sb_publishable_vQHchnFMxR4K5NuWYZD3HA_bXXpyHxZ",
-                    "Authorization":
-                        "Bearer sb_publishable_vQHchnFMxR4K5NuWYZD3HA_bXXpyHxZ"
                 },
                 body: JSON.stringify({ username, password })
             }
