@@ -486,7 +486,7 @@ window.prepareUpdatesPage=function(){
   }
 
   // Conservar la comprobación anterior.
-  if(localStorage.getItem('level2Unlocked')!=='true') return;
+  if (level < 2) return;
 
   const entries=[
     ...document.querySelectorAll('#updatesList .update-entry')
