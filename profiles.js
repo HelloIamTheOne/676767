@@ -471,11 +471,13 @@ async function loadProfileHistory() {
 }));
     }
 
-    renderProfileSecrets();
+        renderProfileSecrets();
     renderProfileTime();
     renderProfileLevels();
-if (typeof window.updateLevel2UI === "function") {
-    window.updateLevel2UI();
+
+    if (typeof window.updateLevel2UI === "function") {
+        window.updateLevel2UI();
+    }
 }
 
 
