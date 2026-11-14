@@ -474,6 +474,8 @@ async function loadProfileHistory() {
     renderProfileSecrets();
     renderProfileTime();
     renderProfileLevels();
+if (typeof window.updateLevel2UI === "function") {
+    window.updateLevel2UI();
 }
 
 
