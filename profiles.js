@@ -820,7 +820,7 @@ profileDB.auth.onAuthStateChange((event, session) => {
             loadProfile(session.user);
         }, 0);
     } else if (event === "SIGNED_OUT") {
-        document.getElementById("userProfileArea").style.display = "none";
+       document.body.classList.remove("profile-session-active"); document.getElementById("userProfileArea").style.display = "none";
 
         window.currentProfile = null;
         window.currentProfileUser = null;
