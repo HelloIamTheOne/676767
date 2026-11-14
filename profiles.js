@@ -456,10 +456,10 @@ async function loadProfileHistory() {
     await syncPendingSecretUnlocks(user);
 
     const { data, error } = await profileDB
-        .from("secret_unlock_history")
-        .select("secret_key, unlocked_at")
-        .eq("user_id", user.id)
-        .order("unlocked_at", { ascending: true });
+    .from("secret_unlock_history")
+    .select("secret_number, unlocked_at")
+    .eq("user_id", user.id)
+    .order("unlocked_at", { ascending: true });
 
     if (error) {
         console.error("Error cargando historial:", error);
