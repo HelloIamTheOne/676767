@@ -3,7 +3,7 @@ window.profileScriptLoaded = true;
 
 const profileDB = window.supabase.createClient(
     "https://wiwqnlhavvmhnwmoyjtw.supabase.co",
-    "sb_publishable_vQHchnFMxR4K5NuWYZD3HA_bXXpyHxZ",
+    "sb_publishable_Gv_HEVvrHYarvp6Exf5OXQ_raWWq59s",
     {
         auth: {
             storageKey: "archivo_clasificado_profile_auth",
@@ -76,7 +76,7 @@ async function registerProfile() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "apikey": "sb_publishable_vQHchnFMxR4K5NuWYZD3HA_bXXpyHxZ",
+                    "apikey": "sb_publishable_Gv_HEVvrHYarvp6Exf5OXQ_raWWq59s",
                 },
                 body: JSON.stringify({ username, password })
             }
