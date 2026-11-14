@@ -367,7 +367,13 @@ function toggleLogin(){const _0x3d677c=_0xc299a,_0xcb7955=document[_0x3d677c(0x2
   const secretPages = ['secret3','secret3Final'];
 
   window.show = function(id){
-    if(id==='updates' && localStorage.getItem('level2Unlocked')!=='true'){
+    if(
+    id === 'updates' &&
+    (
+        typeof window.getProfileClassificationLevel !== 'function' ||
+        window.getProfileClassificationLevel() < 2
+    )
+){
       if(typeof originalShow==='function') originalShow('class');
       return;
     }
