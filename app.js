@@ -525,6 +525,11 @@ window.updates67Audio.preload='auto';
     const message=document.getElementById('secret3FinalMessage');
     const returnButton=document.getElementById('secret3Return');
     if(value!=='101080')return;
+
+if (typeof window.recordSecretUnlock === 'function') {
+    window.recordSecretUnlock('secret3');
+}
+
     const sentence='¡Felicidades! ¡Has logrado descifrar el último secreto del nivel 1! Ahora, puedes reclamar tu siguiente Nivel de Clasificación al tocar el botón de abajo.';
     message.replaceChildren();
     [...sentence].forEach((character,index)=>{
