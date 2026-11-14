@@ -790,6 +790,7 @@ async function logoutProfile() {
     }
 
     document.getElementById("userProfileArea").style.display = "none";
+document.body.classList.remove("profile-session-active");
     document.getElementById("profileAuthArea").style.display = "none";
     document.getElementById("profileAuthForm").style.display = "block";
 
