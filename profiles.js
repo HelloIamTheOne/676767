@@ -499,9 +499,14 @@ window.recordSecretUnlock = async function(secretKey) {
     }
 
     if (!user) {
-        queuePendingSecretUnlock(secretKey);
-        return;
+    queuePendingSecretUnlock(secretKey);
+
+    if (typeof window.updateLevel2UI === "function") {
+        window.updateLevel2UI();
     }
+
+    return;
+}
 
     try {
         const { error } = await profileDB
