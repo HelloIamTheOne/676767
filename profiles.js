@@ -976,6 +976,8 @@ function toggleProfileAuth() {
         area.style.display === "none" ? "block" : "none";
 }
 
+window.toggleProfileAuth = toggleProfileAuth;
+
 /* =================================
    CERRAR SESIÓN
 ================================= */
