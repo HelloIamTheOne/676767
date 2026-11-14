@@ -440,13 +440,19 @@ function toggleLogin(){const _0x3d677c=_0xc299a,_0xcb7955=document[_0x3d677c(0x2
     if(!seen.includes(id)) seen.push(id);
     localStorage.setItem(updateSeenKey,JSON.stringify(seen));
   }
-  window.openUpdatesPage=function(){
-    if(localStorage.getItem('level2Unlocked')!=='true'){
-      window.show('class');
-      return;
-    }
-    window.show('updates');
-  };
+window.openUpdatesPage=function(){
+  const level =
+    typeof window.getProfileClassificationLevel === 'function'
+      ? window.getProfileClassificationLevel()
+      : 1;
+
+  if(level < 2){
+    window.show('class');
+    return;
+  }
+
+  window.show('updates');
+};
 window.prepareUpdatesPage=function(){
 
   // Determinar el nivel actual del perfil.
