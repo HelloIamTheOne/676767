@@ -477,7 +477,17 @@ async function loadProfileHistory() {
 window.recordSecretUnlock = async function(secretKey) {
     if (!PROFILE_SECRETS[secretKey]) return;
 
-    const user = window.currentProfileUser;
+    let user = window.currentProfileUser;
+
+    if (!user) {
+        const { data, error } = await profileDB.auth.getSession();
+
+        if (error) {
+            console.error("Error comprobando la sesión:", error);
+        }
+
+        user = data?.session?.user || null;
+    }
 
     if (!user) {
         queuePendingSecretUnlock(secretKey);
@@ -494,7 +504,12 @@ window.recordSecretUnlock = async function(secretKey) {
 
         if (error) throw error;
 
-        await loadProfileHistory();
+        if (
+            window.currentProfileUser &&
+            window.currentProfileUser.id === user.id
+        ) {
+            await loadProfileHistory();
+        }
 
     } catch (error) {
         console.error("Error registrando secreto:", error);
