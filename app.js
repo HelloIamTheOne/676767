@@ -91,7 +91,7 @@ _0x522cb7===_0x367e5f(0x227)&&resetSecret2Challenge(),updateDetector();} async f
     }
 
     if (!result) {
-        console.error('No se encontró secret2Result.');
+        alert('No se encontró el cuadro de resultado del Secreto 2.');
         return;
     }
 
@@ -105,14 +105,25 @@ _0x522cb7===_0x367e5f(0x227)&&resetSecret2Challenge(),updateDetector();} async f
         result.className = 'secret2-result secret2-success';
         result.innerHTML =
             '01000001 01100010 01100001 01101010 01101111' +
-            '<button class="secret2-close" onclick="closeSecret2Result()">X</button>';
+            '<button class="secret2-close" onclick="window.closeSecret2Result()">X</button>';
+
     } else {
         result.className = 'secret2-result secret2-failure';
         result.innerHTML =
             'ACCESO DENEGADO' +
-            '<button class="secret2-close" onclick="closeSecret2Result()">X</button>';
+            '<button class="secret2-close" onclick="window.closeSecret2Result()">X</button>';
     }
-} function resetSecret2Challenge(){const _0x577ded=_0xc299a;clearInterval(secret2Interval),secret2Finished=![],secret2Seconds=0x1e,document['getElementById'](_0x577ded(0x201))[_0x577ded(0x24c)]['display']=_0x577ded(0x1f9),document[_0x577ded(0x27d)](_0x577ded(0x251))['style'][_0x577ded(0x21d)]='none',document['getElementById']('secret2Timer')['textContent']='30',document['getElementById']('secret2Answer')['value']='';}function revealSecret2Bottom(){const _0x33f5c5=_0xc299a;document[_0x33f5c5(0x27d)](_0x33f5c5(0x22f))['style'][_0x33f5c5(0x21d)]=_0x33f5c5(0x241);}function checkSecret2Bottom(){const _0x65bdd2=_0xc299a,_0x3ebd34=document['getElementById']('secret2BottomInput')['value'];document['getElementById'](_0x65bdd2(0x26a))['style']['display']=_0x3ebd34===_0x65bdd2(0x233)?_0x65bdd2(0x241):_0x65bdd2(0x1f9);}function closeSecret2Abajo(){const _0x40c82a=_0xc299a;document[_0x40c82a(0x27d)](_0x40c82a(0x26a))['style']['display']='none';} function updateAdmin() {
+}
+
+window.closeSecret2Result = function() {
+    const result = document.getElementById('secret2Result');
+
+    if (result) {
+        result.style.display = 'none';
+    }
+};
+         
+function resetSecret2Challenge(){const _0x577ded=_0xc299a;clearInterval(secret2Interval),secret2Finished=![],secret2Seconds=0x1e,document['getElementById'](_0x577ded(0x201))[_0x577ded(0x24c)]['display']=_0x577ded(0x1f9),document[_0x577ded(0x27d)](_0x577ded(0x251))['style'][_0x577ded(0x21d)]='none',document['getElementById']('secret2Timer')['textContent']='30',document['getElementById']('secret2Answer')['value']='';}function revealSecret2Bottom(){const _0x33f5c5=_0xc299a;document[_0x33f5c5(0x27d)](_0x33f5c5(0x22f))['style'][_0x33f5c5(0x21d)]=_0x33f5c5(0x241);}function checkSecret2Bottom(){const _0x65bdd2=_0xc299a,_0x3ebd34=document['getElementById']('secret2BottomInput')['value'];document['getElementById'](_0x65bdd2(0x26a))['style']['display']=_0x3ebd34===_0x65bdd2(0x233)?_0x65bdd2(0x241):_0x65bdd2(0x1f9);}function closeSecret2Abajo(){const _0x40c82a=_0xc299a;document[_0x40c82a(0x27d)](_0x40c82a(0x26a))['style']['display']='none';} function updateAdmin() {
   document.body.classList.toggle('admin-mode', isAdmin);
 
   document.querySelectorAll('.adminOnly').forEach(element => {
