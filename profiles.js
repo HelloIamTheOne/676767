@@ -465,7 +465,10 @@ async function loadProfileHistory() {
         console.error("Error cargando historial:", error);
         profileHistory = [];
     } else {
-        profileHistory = data || [];
+         profileHistory = (data || []).map(item => ({
+    ...item,
+    secret_key: "secret" + item.secret_number
+}));
     }
 
     renderProfileSecrets();
