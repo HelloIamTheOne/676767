@@ -78,6 +78,31 @@ body.admin-mode #restorePanel {
     --update-bg:#10200a;
 }
 
+/* COLORES POR CATEGORÍA */
+.update-entry.category-improvement{
+    --update-color:#55ddff;
+    --update-glow:rgba(55,221,255,.24);
+    --update-bg:#08202a;
+}
+
+.update-entry.category-fix{
+    --update-color:#ffe45c;
+    --update-glow:rgba(255,228,92,.23);
+    --update-bg:#282108;
+}
+
+.update-entry.category-important{
+    --update-color:#ff5555;
+    --update-glow:rgba(255,55,55,.24);
+    --update-bg:#290909;
+}
+
+.update-entry.category-content{
+    --update-color:#ffffff;
+    --update-glow:rgba(255,255,255,.20);
+    --update-bg:#1b2029;
+}
+
 .update-entry:last-child{border-bottom:0}.update-entry.is-unseen{background:linear-gradient(90deg,rgba(20,210,225,.12),transparent);outline:1px solid #20c9df;border-radius:7px}.update-copy{flex:1;min-width:0}.update-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.update-meta time{color:#50ed5b;font:700 14px monospace}.update-type{padding:3px 8px;border-radius:20px;font:700 10px monospace;letter-spacing:.5px}.type-new{color:#a8ff3e;border:1px solid #73d82b}.update-copy h2{
     margin:5px 0 3px;
     color:#fff;
