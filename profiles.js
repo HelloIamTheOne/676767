@@ -659,17 +659,7 @@ function renderProfile87() {
    SECCIÓN NIVELES
 ================================= */
 
-  function calculateProfileLevel(total) {
-    if (typeof isAdmin !== "undefined" && isAdmin) return 5;
-
-    if (total >= 9) return 4;
-    if (total >= 6) return 3;
-    if (total >= 3) return 2;
-
-    return 1;
-}
-
-function renderProfileLevels() {
+  function renderProfileLevels() {
     const current =
         document.getElementById("profileCurrentLevel");
 
@@ -681,8 +671,7 @@ function renderProfileLevels() {
     const total = profileHistory.length;
     const level = calculateProfileLevel(total);
 
-    const nextThresholds = [3, 6, 9, 12, 15];
-    const nextLevel = Math.min(level + 1, 5);
+    const nextLevel = level + 1;
 
     current.replaceChildren();
 
@@ -698,11 +687,17 @@ function renderProfileLevels() {
 
     if (level >= 5) {
         next.textContent =
+            "CLASIFICACIÓN ADMINISTRATIVA: NIVEL MÁXIMO.";
+        return;
+    }
+
+    if (level >= 4) {
+        next.textContent =
             "Has alcanzado el nivel máximo disponible.";
         return;
     }
 
-    const remaining = nextThresholds[level] - total;
+    const remaining = (level * 3) - total;
 
     next.replaceChildren();
 
