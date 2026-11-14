@@ -519,7 +519,6 @@ window.recordSecretUnlock = async function(secretKey) {
             await loadProfileHistory();
         }
 
-        alert("Desbloqueo registrado correctamente.");
 
     } catch (error) {
         console.error("Error registrando secreto:", error);
