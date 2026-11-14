@@ -410,11 +410,10 @@ async function syncPendingSecretUnlocks(user) {
 
         if (!pending.length) return;
 
-        const records = pending.map(item => ({
-            user_id: user.id,
-            secret_key: item.secretKey
-        }));
-
+const records = pending.map(item => ({
+    user_id: user.id,
+    secret_number: Number(item.secretKey.replace("secret", ""))
+}));
         const { error } = await profileDB
             .from("secret_unlock_history")
             .insert(records);
