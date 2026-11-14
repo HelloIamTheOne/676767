@@ -498,7 +498,6 @@ window.recordSecretUnlock = async function(secretKey) {
 
     if (!user) {
         queuePendingSecretUnlock(secretKey);
-        alert("Desbloqueo guardado localmente. Se sincronizará al iniciar sesión.");
         return;
     }
 
