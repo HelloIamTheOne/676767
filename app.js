@@ -1148,54 +1148,47 @@ window.testGithubWrite = async function () {
     }
 };
 
+
 window.testGithubDelete = async function () {
     const result = document.getElementById("githubConsoleTestResult");
 
     result.textContent = "Comprobando protección de eliminación...";
 
     try {
-        const { data, error } = await db.functions.invoke(
-            "github-console",
+        const { data: sessionData, error: sessionError } =
+            await db.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        const session = sessionData?.session;
+
+        if (!session || session.user.id !== ADMIN_UID) {
+            throw new Error("Sesión administrativa no válida.");
+        }
+
+        const response = await fetch(
+            SUPABASE_URL + "/functions/v1/github-console",
             {
-                body: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + session.access_token
+                },
+                body: JSON.stringify({
                     action: "delete",
                     path: "github-console-test.txt"
-                }
+                })
             }
         );
 
-        if (error) {
-    let details = "Sin detalles adicionales.";
+        const responseText = await response.text();
 
-    if (error.context) {
-        details += "\nContexto: " + String(error.context);
-
-        if (typeof error.context.json === "function") {
-            try {
-                const body = await error.context.clone().json();
-                details += "\nRespuesta: " + JSON.stringify(body);
-            } catch (_) {}
-        }
-    }
-
-    throw new Error(error.message + "\n" + details);
-}
-
-            if (error.context) {
-                try {
-                    details = await error.context.text();
-                } catch (_) {
-                    details = error.message;
-                }
-            }
-
-            throw new Error(details || error.message);
-        }
-
-        result.textContent = JSON.stringify(data, null, 2);
+        result.textContent =
+            "ESTADO HTTP: " + response.status +
+            "\nRESPUESTA DEL SERVIDOR:\n" + responseText;
 
     } catch (error) {
         result.textContent = "ERROR: " + error.message;
     }
 };
-
