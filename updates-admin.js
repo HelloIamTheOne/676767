@@ -13,6 +13,8 @@
     const dateInput = document.getElementById("updateProposalDate");
     const categoryInput = document.getElementById("updateProposalCategory");
 
+const technicalDetails = document.getElementById("updateTechnicalDetails");
+
     const publishButton = document.getElementById("publishUpdateButton");
     const rejectButton = document.getElementById("rejectUpdateButton");
 
