@@ -49,6 +49,9 @@ body.admin-mode #restorePanel {
 
 .updates-entry-wrap .updates-entry {
     margin: 0;
+}
+
+.updates-entry-wrap.has-alert .updates-entry {
     padding-right: 58px;
 }
 
