@@ -1,2 +1,2 @@
 ARCHIVO DE PRUEBA
-GitHub Console: escritura confirmada.
+GitHub Console: escritura y actualización confirmadas.
