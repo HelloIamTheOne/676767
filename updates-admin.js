@@ -740,6 +740,7 @@ button.parentElement.classList.toggle(
         );
 
         alertElement.hidden = true;
+button.parentElement.classList.remove("has-alert");
     }
 
     button.addEventListener("click", markUpdatesAsSeen);
