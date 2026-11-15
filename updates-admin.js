@@ -134,48 +134,85 @@ const technicalDetails = document.getElementById("updateTechnicalDetails");
     return "Nueva actualización del proyecto";
 }
 
-    function createDescription(commit) {
-        const message = (commit.commit.message || "")
-            .trim();
+ 
+function createDescription(commit) {
+    const files = commit.files || [];
 
-        const files = commit.files || [];
-
-        const fileList = files.length
-            ? files.map(file => {
-                return "- " + file.filename +
-                    " (" + file.status + ")";
-            }).join("\n")
-            : "No se obtuvo información de los archivos.";
-
-        const additions = files.reduce(
-            (total, file) => total + (file.additions || 0),
-            0
-        );
-
-        const deletions = files.reduce(
-            (total, file) => total + (file.deletions || 0),
-            0
-        );
-
-        return [
-            "RESUMEN DEL CAMBIO",
-            message || "Sin descripción en el commit.",
-            "",
-            "ARCHIVOS MODIFICADOS",
-            fileList,
-            "",
-            "ESTADÍSTICAS",
-            "Archivos afectados: " + files.length,
-            "Líneas añadidas: " + additions,
-            "Líneas eliminadas: " + deletions,
-            "",
-            "INFORMACIÓN DEL COMMIT",
-            "Identificador: " + commit.sha.slice(0, 7),
-            "",
-            "Esta propuesta se ha generado a partir del historial de GitHub.",
-            "El administrador debe revisar y editar su contenido antes de publicarla."
-        ].join("\n");
+    if (files.length === 0) {
+        return "Se han realizado cambios en ARCHIVO CLASIFICADO como parte del desarrollo y mantenimiento del proyecto.";
     }
+
+    const areas = [];
+
+    const addArea = (name, status) => {
+        if (!areas.some(area => area.name === name)) {
+            areas.push({ name, status });
+        }
+    };
+
+    files.forEach(file => {
+        const path = file.filename.toLowerCase();
+        const status = file.status;
+
+        let area = null;
+
+        if (path.includes("profiles.js")) {
+            area = "el sistema de perfiles y clasificación";
+        } else if (path.includes("updates-admin.js")) {
+            area = "las herramientas administrativas del Registro de Actualizaciones";
+        } else if (path.includes("styles.css")) {
+            area = "la apariencia visual del proyecto";
+        } else if (path.includes("build.js")) {
+            area = "el sistema de compilación y publicación";
+        } else if (path.includes("app.js")) {
+            area = "el funcionamiento general del sistema";
+        } else if (path.includes("index.html")) {
+            area = "la estructura y el contenido de las páginas";
+        } else if (
+            /(^|\/)(docs|documentos|content)(\/|$)|\.pdf$/i.test(path)
+        ) {
+            area = "los documentos y contenidos del proyecto";
+        } else {
+            area = "otros componentes del proyecto";
+        }
+
+        addArea(area, status);
+    });
+
+    const added = files.filter(file => file.status === "added").length;
+    const removed = files.filter(file => file.status === "removed").length;
+    const modified = files.filter(file => file.status === "modified").length;
+    const renamed = files.filter(file => file.status === "renamed").length;
+
+    let opening = "Se han realizado cambios";
+
+    if (added > 0 && modified === 0 && removed === 0) {
+        opening = "Se han incorporado nuevos elementos";
+    } else if (removed > 0 && added === 0 && modified === 0) {
+        opening = "Se han realizado ajustes y retirado elementos";
+    } else if (modified > 0 || renamed > 0) {
+        opening = "Se han realizado modificaciones y ajustes";
+    }
+
+    const areaNames = areas.map(area => area.name);
+
+    let areaText;
+
+    if (areaNames.length === 1) {
+        areaText = areaNames[0];
+    } else if (areaNames.length === 2) {
+        areaText = areaNames[0] + " y " + areaNames[1];
+    } else {
+        areaText =
+            areaNames.slice(0, -1).join(", ") +
+            " y " +
+            areaNames[areaNames.length - 1];
+    }
+
+    return opening + " en " + areaText +
+        ", como parte del desarrollo continuo de ARCHIVO CLASIFICADO.";
+}
+
 
 function createTechnicalDetails(commit) {
     const files = commit.files || [];
