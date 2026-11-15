@@ -15,6 +15,7 @@ const profileDB = window.supabase.createClient(
 
 let profileHistory = [];
 let profileLoadingId = null;
+window.profileHistoryReady = false;
 
 const PROFILE_SECRETS = {
     secret1: { name: "SECRETO 1", emblem: "🔴" },
@@ -469,6 +470,9 @@ async function loadProfileHistory() {
     ...item,
     secret_key: "secret" + item.secret_number
 }));
+
+window.profileHistoryReady = true;
+
     }
 
         renderProfileSecrets();
