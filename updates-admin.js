@@ -5,6 +5,8 @@
     const analyzeButton = document.getElementById("analyzeUpdatesButton");
     const statusBox = document.getElementById("updatesAnalysisStatus");
 
+statusBox.textContent = "UPDATES-ADMIN.JS SE HA CARGADO CORRECTAMENTE";
+
     if (!analyzeButton || !statusBox) return;
 
     analyzeButton.addEventListener("click", async () => {
