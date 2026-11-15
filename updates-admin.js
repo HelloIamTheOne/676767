@@ -647,6 +647,7 @@ if (technicalDetails) {
 })();
 
 
+
 /* =================================
    INDICADOR DE ACTUALIZACIONES NUEVAS
 ================================= */
@@ -655,31 +656,18 @@ if (technicalDetails) {
     "use strict";
 
     const alertElement = document.getElementById("updatesEntryAlert");
+    const button = document.getElementById("updatesEntryButton");
 
-    if (!alertElement || typeof profileDB === "undefined") return;
+    if (!alertElement || !button || typeof profileDB === "undefined") return;
 
     const STORAGE_PREFIX = "archivo_updates_seen_";
 
-    let latestUpdateId = null;
+    async function getViewerKey() {
+        const { data } = await profileDB.auth.getUser();
 
-    function getViewerKey() {
-        return window.currentProfileUser?.id || "guest";
-    }
+        const user = data?.user || window.currentProfileUser;
 
-    function getStorageKey() {
-        return STORAGE_PREFIX + getViewerKey();
-    }
-
-    function applyAlertColor() {
-        alertElement.className = "updates-entry-alert";
-
-        const level = typeof window.getProfileClassificationLevel === "function"
-            ? window.getProfileClassificationLevel()
-            : 1;
-
-        if (level >= 2 && level <= 5) {
-            alertElement.classList.add("level-" + level);
-        }
+        return user?.id || "guest";
     }
 
     async function getLatestUpdate() {
@@ -692,29 +680,43 @@ if (technicalDetails) {
             .maybeSingle();
 
         if (error) {
-            console.error("Error consultando la última actualización:", error);
+            console.error("Error consultando actualizaciones:", error);
             return null;
         }
 
         return data;
     }
 
+    function applyAlertColor() {
+        alertElement.className = "updates-entry-alert";
+
+        let level = 1;
+
+        if (typeof window.getProfileClassificationLevel === "function") {
+            level = window.getProfileClassificationLevel();
+        }
+
+        if (level >= 2 && level <= 5) {
+            alertElement.classList.add("level-" + level);
+        }
+    }
+
     async function refreshUpdatesAlert() {
         const latest = await getLatestUpdate();
 
         if (!latest) {
-            latestUpdateId = null;
             alertElement.hidden = true;
             return;
         }
 
-        latestUpdateId = latest.update_id;
-
-        const seenId = localStorage.getItem(getStorageKey());
+        const viewerKey = await getViewerKey();
+        const seenId = localStorage.getItem(
+            STORAGE_PREFIX + viewerKey
+        );
 
         applyAlertColor();
 
-        alertElement.hidden = seenId === latestUpdateId;
+        alertElement.hidden = seenId === latest.update_id;
     }
 
     async function markUpdatesAsSeen() {
@@ -722,26 +724,25 @@ if (technicalDetails) {
 
         if (!latest) return;
 
-        latestUpdateId = latest.update_id;
+        const viewerKey = await getViewerKey();
 
         localStorage.setItem(
-            getStorageKey(),
-            latestUpdateId
+            STORAGE_PREFIX + viewerKey,
+            latest.update_id
         );
 
         alertElement.hidden = true;
     }
 
-    const button = document.getElementById("updatesEntryButton");
+    button.addEventListener("click", markUpdatesAsSeen);
 
-    if (button) {
-        button.addEventListener("click", markUpdatesAsSeen);
-    }
+    profileDB.auth.onAuthStateChange(() => {
+        setTimeout(refreshUpdatesAlert, 0);
+    });
 
     refreshUpdatesAlert();
 
-    setInterval(refreshUpdatesAlert, 20000);
-
     window.refreshUpdatesEntryAlert = refreshUpdatesAlert;
-})();
 
+    setInterval(refreshUpdatesAlert, 20000);
+})();
