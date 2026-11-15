@@ -38,6 +38,58 @@ body.admin-mode #restorePanel {
 
 /* REGISTRO DE ACTUALIZACIONES — ARCHIVO DIGITAL RETRO */
 .updates-entry{display:none;background:#071c2c;color:#7cecff;border:1px solid #21cfff;box-shadow:0 0 12px #087da0;font-weight:700}
+
+/* INDICADOR DE ACTUALIZACIONES NUEVAS */
+.updates-entry {
+    position: relative;
+    padding-right: 58px;
+}
+
+.updates-entry-alert {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 900;
+    letter-spacing: 2px;
+    animation: updatesAlertGlow 1.5s ease-in-out infinite alternate;
+}
+
+.updates-entry-alert[hidden] {
+    display: none !important;
+}
+
+.updates-entry-alert.level-2 {
+    color: #39FF14;
+    text-shadow: 0 0 5px #39FF14, 0 0 12px #39FF14;
+}
+
+.updates-entry-alert.level-3 {
+    color: #ff2020;
+    text-shadow: 0 0 5px #ff2020, 0 0 12px #ff2020;
+}
+
+.updates-entry-alert.level-4 {
+    color: #ffffff;
+    text-shadow: 0 0 5px #ffffff, 0 0 12px #ffffff;
+}
+
+.updates-entry-alert.level-5 {
+    color: #87CEFA;
+    text-shadow: 0 0 5px #87CEFA, 0 0 12px #87CEFA;
+}
+
+@keyframes updatesAlertGlow {
+    from {
+        opacity: 0.7;
+        filter: brightness(0.8);
+    }
+    to {
+        opacity: 1;
+        filter: brightness(1.5);
+    }
+}
+
 #updates{min-height:100vh;background:#050d19;padding:14px 12px 28px;color:#e8f3ff}
 .updates-shell{max-width:900px;margin:0 auto;padding:14px;background:linear-gradient(145deg,#0b1c30,#07101e);border:1px solid #168fbd;border-radius:16px;box-shadow:0 0 22px #063b5b}
 .updates-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border:1px solid #147ca7;border-radius:10px;background:#061426;text-align:left}
