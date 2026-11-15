@@ -1909,3 +1909,114 @@ window.saveGithubConsolePageFile = async function () {
             (error.message || "Error desconocido");
     }
 };
+
+
+
+// ========================================
+// CODE - ELIMINAR DESDE CONSOLA
+// ========================================
+
+window.deleteGithubConsolePageFile = async function () {
+    if (!isAdmin) return;
+
+    const editor = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    const selectedFile = document.getElementById(
+        "githubConsolePageSelectedFile"
+    );
+
+    const status = document.getElementById(
+        "githubConsolePageStatus"
+    );
+
+    if (!editor || !selectedFile || !status) return;
+
+    if (!githubConsolePageSelectedPath) {
+        status.textContent =
+            "ERROR: NO HAY NINGÚN ARCHIVO SELECCIONADO.";
+        return;
+    }
+
+    const path = githubConsolePageSelectedPath;
+
+    const confirmed = window.confirm(
+        "CONFIRMAR ELIMINACIÓN\n\n" +
+        "ARCHIVO: " + path + "\n\n" +
+        "Esta acción eliminará el archivo del repositorio.\n\n" +
+        "¿Deseas continuar?"
+    );
+
+    if (!confirmed) {
+        status.textContent = "ELIMINACIÓN CANCELADA.";
+        return;
+    }
+
+    status.textContent = "PREPARANDO ELIMINACIÓN...";
+
+    try {
+        let sha = githubConsolePageSelectedSha;
+
+        if (!sha) {
+            const readResult = await db.functions.invoke(
+                "github-console",
+                {
+                    body: {
+                        action: "read",
+                        path: path
+                    }
+                }
+            );
+
+            if (readResult.error) throw readResult.error;
+
+            if (
+                !readResult.data ||
+                readResult.data.success !== true ||
+                !readResult.data.sha
+            ) {
+                throw new Error("No se pudo obtener el SHA del archivo.");
+            }
+
+            sha = readResult.data.sha;
+        }
+
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "delete",
+                    path: path,
+                    sha: sha,
+                    confirmed: true
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        if (!data || data.success !== true) {
+            throw new Error(
+                data?.error || "GitHub no confirmó la eliminación."
+            );
+        }
+
+        githubConsolePageSelectedPath = "";
+        githubConsolePageSelectedSha = "";
+
+        editor.value = "";
+        selectedFile.textContent = "NINGÚN ARCHIVO SELECCIONADO.";
+
+        status.textContent = "ARCHIVO ELIMINADO CORRECTAMENTE.";
+
+        await window.loadGithubConsolePageFiles(
+            githubConsolePageCurrentPath
+        );
+
+    } catch (error) {
+        status.textContent =
+            "ERROR AL ELIMINAR: " +
+            (error.message || "Error desconocido");
+    }
+};
