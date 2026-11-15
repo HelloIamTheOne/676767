@@ -1623,3 +1623,32 @@ window.deleteGithubConsoleFile = async function () {
 };
 
 
+
+// ========================================
+// CODE - APERTURA DE CONSOLA INDEPENDIENTE
+// ========================================
+
+window.openGithubConsolePage = function () {
+    if (!isAdmin) return;
+
+    const menu = document.getElementById("githubConsoleMenu");
+    const floatingWindow = document.getElementById("githubConsoleWindow");
+    const consolePage = document.getElementById("githubConsolePage");
+
+    if (!menu || !floatingWindow || !consolePage) return;
+
+    menu.style.display = "none";
+    floatingWindow.style.display = "none";
+    consolePage.style.display = "flex";
+
+    window.loadGithubConsolePageFiles();
+};
+
+window.closeGithubConsolePage = function () {
+    const consolePage = document.getElementById("githubConsolePage");
+
+    if (!consolePage) return;
+
+    consolePage.style.display = "none";
+};
+
