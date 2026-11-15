@@ -1055,3 +1055,28 @@ async function eliminarRespaldo(backupRecordId, documentName) {
 }
 
 window.eliminarRespaldo = eliminarRespaldo;
+
+window.testGithubConsole = async function () {
+    const result = document.getElementById("githubConsoleTestResult");
+
+    result.textContent = "Comprobando conexión...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "list",
+                    path: ""
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        result.textContent = JSON.stringify(data, null, 2);
+
+    } catch (error) {
+        result.textContent = "ERROR: " + error.message;
+    }
+};
