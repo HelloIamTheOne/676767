@@ -696,6 +696,8 @@ if (technicalDetails) {
             level = window.getProfileClassificationLevel();
         }
 
+alert("Nivel detectado para el indicador: " + level);
+
         if (level >= 2 && level <= 5) {
             alertElement.classList.add("level-" + level);
         }
