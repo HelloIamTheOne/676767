@@ -319,6 +319,22 @@ if (technicalDetails) {
             return;
         }
 
+        const existingUpdates = new Set();
+
+        updatesList.querySelectorAll(
+            ".update-entry:not([data-dynamic-update])"
+        ).forEach(card => {
+            const title = card.querySelector(".update-title")?.textContent
+                .trim().toLowerCase();
+
+            const date = card.querySelector(".update-date")?.textContent
+                .trim();
+
+            if (title && date) {
+                existingUpdates.add(title + "|" + date);
+            }
+        });
+
         const categories = {
             new: {
                 className: "category-new",
