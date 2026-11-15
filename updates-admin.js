@@ -296,17 +296,17 @@ if (technicalDetails) {
             .order("date", { ascending: false })
             .order("created_at", { ascending: false });
 
-    if (error) {
-    console.error("Error al cargar actualizaciones:", error);
-    return;
-}
-
-console.log("ACTUALIZACIONES RECIBIDAS:", data);
+    
+        if (error) {
+            console.error("Error al cargar actualizaciones:", error);
             return;
         }
 
-statusBox.textContent =
-    "ACTUALIZACIONES RECIBIDAS: " + data.length;
+        console.log("ACTUALIZACIONES RECIBIDAS:", data);
+
+        statusBox.textContent =
+            "ACTUALIZACIONES RECIBIDAS: " + data.length;
+
 
         updatesList
             .querySelectorAll("[data-dynamic-update]")
