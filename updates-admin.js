@@ -305,6 +305,9 @@ console.log("ACTUALIZACIONES RECIBIDAS:", data);
             return;
         }
 
+statusBox.textContent =
+    "ACTUALIZACIONES RECIBIDAS: " + data.length;
+
         updatesList
             .querySelectorAll("[data-dynamic-update]")
             .forEach(card => card.remove());
