@@ -607,3 +607,8 @@ if (technicalDetails) {
             }
         });
     }
+
+
+    console.log("Generador administrativo de actualizaciones cargado.");
+
+})();
