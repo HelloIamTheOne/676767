@@ -1230,3 +1230,40 @@ window.testGithubDelete = async function () {
         result.textContent = "ERROR: " + error.message;
     }
 };
+
+
+
+// ========================================
+// CODE - CONTROL DE INTERFAZ
+// ========================================
+
+window.toggleGithubConsoleMenu = function () {
+    if (!isAdmin) return;
+
+    const menu = document.getElementById("githubConsoleMenu");
+
+    if (!menu) return;
+
+    menu.style.display =
+        menu.style.display === "none" ? "block" : "none";
+};
+
+window.openGithubConsoleWindow = function () {
+    if (!isAdmin) return;
+
+    const menu = document.getElementById("githubConsoleMenu");
+    const windowPanel = document.getElementById("githubConsoleWindow");
+
+    if (!menu || !windowPanel) return;
+
+    menu.style.display = "none";
+    windowPanel.style.display = "flex";
+};
+
+window.closeGithubConsoleWindow = function () {
+    const windowPanel = document.getElementById("githubConsoleWindow");
+
+    if (!windowPanel) return;
+
+    windowPanel.style.display = "none";
+};
