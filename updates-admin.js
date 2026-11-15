@@ -508,8 +508,9 @@ if (technicalDetails) {
         });
     }
 
+    
     if (publishButton) {
-        publishButton.addEventListener("click", () => {
+        publishButton.addEventListener("click", async () => {
             if (!isAdministrator()) {
                 statusBox.textContent = "ACCESO DENEGADO.";
                 return;
@@ -531,12 +532,78 @@ if (technicalDetails) {
                 return;
             }
 
+            if (typeof db === "undefined" || !db) {
+                statusBox.textContent =
+                    "ERROR: SUPABASE NO ESTÁ DISPONIBLE.";
+                return;
+            }
+
+            const allowedCategories = [
+                "new",
+                "improvement",
+                "fix",
+                "important",
+                "content"
+            ];
+
+            if (!allowedCategories.includes(categoryInput.value)) {
+                statusBox.textContent =
+                    "ERROR: CATEGORÍA NO VÁLIDA.";
+                return;
+            }
+
+            publishButton.disabled = true;
             statusBox.textContent =
-                "PUBLICACIÓN NO CONFIGURADA. " +
-                "LA PROPUESTA SIGUE SIN PUBLICARSE.";
+                "VERIFICANDO AUTORIZACIÓN Y PUBLICANDO...";
+
+            try {
+                const { data: userData, error: userError } =
+                    await db.auth.getUser();
+
+                if (
+                    userError ||
+                    !userData.user ||
+                    userData.user.id !==
+                        "a899ab31-456a-40dc-b03d-af59182afd41"
+                ) {
+                    statusBox.textContent = "ACCESO DENEGADO.";
+                    return;
+                }
+
+                const { error } = await db
+                    .from("updates")
+                    .insert({
+                        update_id: "update-" + crypto.randomUUID(),
+                        title: titleInput.value.trim(),
+                        description: descriptionInput.value.trim(),
+                        date: dateInput.value,
+                        category: categoryInput.value
+                    });
+
+                if (error) {
+                    throw error;
+                }
+
+                await loadPublishedUpdates();
+
+                proposalReady = false;
+                proposalPanel.style.display = "none";
+
+                statusBox.textContent =
+                    "¡ACTUALIZACIÓN PUBLICADA CORRECTAMENTE!";
+
+                titleInput.value = "";
+                descriptionInput.value = "";
+                dateInput.value = "";
+
+            } catch (error) {
+                console.error("Error al publicar:", error);
+
+                statusBox.textContent =
+                    "ERROR AL PUBLICAR: " + error.message;
+
+            } finally {
+                publishButton.disabled = false;
+            }
         });
     }
-
-    console.log("Generador administrativo de actualizaciones cargado.");
-
-})();
