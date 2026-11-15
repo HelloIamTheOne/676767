@@ -177,6 +177,43 @@ const technicalDetails = document.getElementById("updateTechnicalDetails");
         ].join("\n");
     }
 
+function createTechnicalDetails(commit) {
+    const files = commit.files || [];
+
+    const fileList = files.length
+        ? files.map(file =>
+            "• " + file.filename +
+            " | Estado: " + file.status +
+            " | +" + (file.additions || 0) +
+            " -" + (file.deletions || 0)
+        ).join("\n")
+        : "No hay información de archivos.";
+
+    const additions = files.reduce(
+        (total, file) => total + (file.additions || 0),
+        0
+    );
+
+    const deletions = files.reduce(
+        (total, file) => total + (file.deletions || 0),
+        0
+    );
+
+    return [
+        "IDENTIFICADOR: " + commit.sha.slice(0, 7),
+        "MENSAJE ORIGINAL: " + (commit.commit.message || "Sin mensaje"),
+        "FECHA: " + getCommitDate(commit),
+        "",
+        "ARCHIVOS MODIFICADOS:",
+        fileList,
+        "",
+        "RESUMEN:",
+        "Archivos afectados: " + files.length,
+        "Líneas añadidas: " + additions,
+        "Líneas eliminadas: " + deletions
+    ].join("\n");
+}
+
     function createProposal(commit) {
         titleInput.value = createTitle(commit);
         descriptionInput.value = createDescription(commit);
