@@ -2018,3 +2018,20 @@ window.deleteGithubConsolePageFile = async function () {
             (error.message || "Error desconocido");
     }
 };
+
+
+// ========================================
+// CODE - CIERRE DE CONSOLA INDEPENDIENTE
+// ========================================
+
+window.closeGithubConsolePage = function () {
+    const consolePage = document.getElementById("githubConsolePage");
+
+    if (!consolePage) return;
+
+    consolePage.style.display = "none";
+
+    if (isAdmin && typeof updateAdmin === "function") {
+        updateAdmin();
+    }
+};
