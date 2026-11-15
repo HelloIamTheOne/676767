@@ -1133,7 +1133,18 @@ window.testGithubWrite = async function () {
 
         result.textContent = JSON.stringify(data, null, 2);
 
-    } catch (error) {
-        result.textContent = "ERROR: " + error.message;
+       } catch (error) {
+        let details = "Sin detalles adicionales.";
+
+        try {
+            if (error.context) {
+                details = await error.context.text();
+            }
+        } catch (e) {
+            details = String(e);
+        }
+
+        result.textContent =
+            "ERROR: " + error.message +
+            "\nDETALLES: " + details;
     }
-};
