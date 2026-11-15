@@ -721,6 +721,10 @@ if (technicalDetails) {
         applyAlertColor();
 
         alertElement.hidden = seenId === latest.update_id;
+button.parentElement.classList.toggle(
+    "has-alert",
+    !alertElement.hidden
+);
     }
 
     async function markUpdatesAsSeen() {
