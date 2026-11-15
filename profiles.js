@@ -480,6 +480,9 @@ async function loadProfileHistory() {
     }
 }
 
+window.dispatchEvent(
+    new Event("profile-history-loaded")
+);
 
 window.recordSecretUnlock = async function(secretKey) {
     if (!PROFILE_SECRETS[secretKey]) {
