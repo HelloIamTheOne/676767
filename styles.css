@@ -126,7 +126,12 @@ body.admin-mode #restorePanel {
     --update-bg:#1b2029;
 }
 
-.update-entry:last-child{border-bottom:0}.update-entry.is-unseen{background:linear-gradient(90deg,rgba(20,210,225,.12),transparent);outline:1px solid #20c9df;border-radius:7px}.update-copy{flex:1;min-width:0}.update-meta{
+.update-entry:last-child{border-bottom:0}.update-entry.is-unseen{background:linear-gradient(90deg,rgba(20,210,225,.12),transparent);outline:1px solid #20c9df;border-radius:7px}.update-copy{
+    flex:1;
+    min-width:0;
+    position:relative;
+    z-index:1;
+} .update-meta{
     display:flex;
     align-items:center;
     gap:10px;
