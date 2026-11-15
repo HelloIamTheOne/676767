@@ -41,23 +41,26 @@ body.admin-mode #restorePanel {
 
 /* INDICADOR EXTERIOR DE ACTUALIZACIONES */
 .updates-entry-wrap {
+    position: relative;
     display: inline-flex;
-    align-items: center;
-    gap: 2px;
     width: fit-content;
     max-width: 100%;
 }
 
 .updates-entry-wrap .updates-entry {
     margin: 0;
+    padding-right: 58px;
 }
 
 .updates-entry-alert {
-    display: none;
-    flex-shrink: 0;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 1.25em;
     font-weight: 900;
     letter-spacing: 2px;
+    pointer-events: none;
     animation: updatesAlertGlow 1.5s ease-in-out infinite alternate;
 }
 
