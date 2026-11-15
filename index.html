@@ -273,6 +273,52 @@
       </article>
     </div>
 
+<!-- PANEL ADMINISTRATIVO DE ACTUALIZACIONES -->
+<div id="adminUpdatesPanel" class="adminOnly" style="display:none">
+
+  <h2>GENERADOR DE ACTUALIZACIONES</h2>
+  <p>Centro administrativo de análisis y publicación.</p>
+
+  <button type="button" id="analyzeUpdatesButton">
+    ANALIZAR CAMBIOS DE GITHUB
+  </button>
+
+  <div id="updatesAnalysisStatus" aria-live="polite">
+    Esperando análisis...
+  </div>
+
+  <div id="updatesProposal" style="display:none">
+
+    <h3>PROPUESTA DE ACTUALIZACIÓN</h3>
+
+    <label for="updateProposalTitle">Título</label>
+    <input id="updateProposalTitle" type="text">
+
+    <label for="updateProposalDescription">Descripción</label>
+    <textarea id="updateProposalDescription"></textarea>
+
+    <label for="updateProposalDate">Fecha</label>
+    <input id="updateProposalDate" type="date">
+
+    <label for="updateProposalCategory">Categoría</label>
+    <select id="updateProposalCategory">
+      <option value="new">NOVEDAD</option>
+      <option value="improvement">MEJORA</option>
+      <option value="fix">CORRECCIÓN</option>
+      <option value="important">CAMBIO IMPORTANTE</option>
+      <option value="content">CONTENIDO NUEVO</option>
+    </select>
+
+    <button type="button" id="publishUpdateButton">
+      PUBLICAR ACTUALIZACIÓN
+    </button>
+
+    <button type="button" id="rejectUpdateButton">
+      RECHAZAR PROPUESTA
+    </button>
+
+  </div>
+</div>
 
     <div class="updates-footer">
       <button class="updates-audio" type="button" onclick="playUpdates67()"><span aria-hidden="true">◖))</span> 67</button>
