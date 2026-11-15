@@ -113,10 +113,15 @@
     CUENTA DE USUARIO
 </button>
 
-<button class="updates-entry" id="updatesEntryButton" onclick="show('updates')" style="display:none">
-    <span class="updates-entry-label">Registro de actualizaciones</span>
-    <span class="updates-entry-alert" id="updatesEntryAlert" hidden>!!!</span>
-</button>
+<div class="updates-entry-wrap">
+    <button class="updates-entry" id="updatesEntryButton"
+        onclick="show('updates')" style="display:none">
+        <span class="updates-entry-label">Registro de actualizaciones</span>
+    </button>
+
+    <span class="updates-entry-alert" id="updatesEntryAlert"
+        aria-label="Actualizaciones nuevas" hidden>!!!</span>
+</div>
 <button class="secret-trigger" aria-label="Acceso secreto" onclick="show('secret')">
 </button>
 </section>
