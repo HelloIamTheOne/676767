@@ -279,6 +279,140 @@ if (technicalDetails) {
         return response.json();
     }
 
+
+    async function loadPublishedUpdates() {
+        if (typeof db === "undefined" || !db) {
+            console.error("El cliente de Supabase no está disponible.");
+            return;
+        }
+
+        const updatesList = document.getElementById("updatesList");
+
+        if (!updatesList) return;
+
+        const { data, error } = await db
+            .from("updates")
+            .select("update_id,title,description,date,category,created_at")
+            .order("date", { ascending: false })
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.error("Error al cargar actualizaciones:", error);
+            return;
+        }
+
+        updatesList
+            .querySelectorAll("[data-dynamic-update]")
+            .forEach(card => card.remove());
+
+        const template = updatesList.querySelector(".update-entry");
+
+        if (!template) {
+            console.error("No se encontró una tarjeta de plantilla.");
+            return;
+        }
+
+        const categories = {
+            new: {
+                className: "category-new",
+                typeClass: "type-new",
+                label: "NOVEDAD"
+            },
+            improvement: {
+                className: "category-improvement",
+                typeClass: "type-improvement",
+                label: "MEJORA"
+            },
+            fix: {
+                className: "category-fix",
+                typeClass: "type-fix",
+                label: "CORRECCIÓN"
+            },
+            important: {
+                className: "category-important",
+                typeClass: "type-important",
+                label: "CAMBIO IMPORTANTE"
+            },
+            content: {
+                className: "category-content",
+                typeClass: "type-content",
+                label: "CONTENIDO NUEVO"
+            }
+        };
+
+        data.forEach(update => {
+            const category = categories[update.category];
+
+            if (!category) return;
+
+            const card = template.cloneNode(true);
+
+            card.dataset.updateId = update.update_id;
+            card.dataset.dynamicUpdate = "true";
+
+            [
+                "category-new",
+                "category-improvement",
+                "category-fix",
+                "category-important",
+                "category-content"
+            ].forEach(className => card.classList.remove(className));
+
+            card.classList.add(category.className);
+
+            const dateElement = card.querySelector(".update-date");
+            const typeElement = card.querySelector(".update-type");
+            const titleElement = card.querySelector(".update-title");
+            const descriptionElement = card.querySelector(".update-description");
+            const speechElement = card.querySelector(".update-speech");
+
+            if (dateElement) {
+                const [year, month, day] = update.date.split("-");
+                dateElement.textContent = `${day}/${month}/${year}`;
+            }
+
+            if (typeElement) {
+                typeElement.textContent = category.label;
+
+                typeElement.classList.remove(
+                    "type-new",
+                    "type-improvement",
+                    "type-fix",
+                    "type-important",
+                    "type-content"
+                );
+
+                typeElement.classList.add(category.typeClass);
+            }
+
+            if (titleElement) {
+                titleElement.textContent = update.title;
+            }
+
+            if (descriptionElement) {
+                descriptionElement.textContent = update.description;
+            }
+
+            if (speechElement) {
+                speechElement.textContent = "";
+                speechElement.hidden = true;
+            }
+
+            card.querySelectorAll(".update-unseen").forEach(element => {
+                element.textContent = "NUEVO";
+            });
+
+            updatesList.prepend(card);
+        });
+    }
+
+    window.loadPublishedUpdates = loadPublishedUpdates;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadPublishedUpdates();
+    });
+
+
     analyzeButton.addEventListener("click", async () => {
         if (!isAdministrator()) {
             statusBox.textContent = "ACCESO DENEGADO.";
