@@ -1147,3 +1147,28 @@ window.testGithubWrite = async function () {
         result.textContent = "ERROR: " + error.message;
     }
 };
+
+window.testGithubDelete = async function () {
+    const result = document.getElementById("githubConsoleTestResult");
+
+    result.textContent = "Comprobando protección de eliminación...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "delete",
+                    path: "github-console-test.txt"
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        result.textContent = JSON.stringify(data, null, 2);
+
+    } catch (error) {
+        result.textContent = "ERROR: " + error.message;
+    }
+};
