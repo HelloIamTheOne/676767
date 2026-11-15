@@ -1761,3 +1761,72 @@ window.loadGithubConsolePageFiles = async function (path = "") {
             "ERROR: " + (error.message || "Error desconocido");
     }
 };
+
+
+
+// ========================================
+// CODE - LECTOR DE CONSOLA
+// ========================================
+
+let githubConsolePageSelectedPath = "";
+let githubConsolePageSelectedSha = "";
+
+window.readGithubConsolePageFile = async function (path) {
+    if (!isAdmin) return;
+
+    const editor = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    const selectedFile = document.getElementById(
+        "githubConsolePageSelectedFile"
+    );
+
+    const status = document.getElementById(
+        "githubConsolePageStatus"
+    );
+
+    if (!editor || !selectedFile || !status) return;
+
+    selectedFile.textContent = "ABRIENDO: " + path;
+    status.textContent = "LEYENDO ARCHIVO...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "read",
+                    path: path
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        if (
+            !data ||
+            data.success !== true ||
+            typeof data.content !== "string" ||
+            !data.sha
+        ) {
+            throw new Error(
+                data?.error || "No se pudo obtener el contenido del archivo."
+            );
+        }
+
+        editor.value = data.content;
+
+        githubConsolePageSelectedPath = path;
+        githubConsolePageSelectedSha = data.sha;
+
+        selectedFile.textContent = "ARCHIVO: " + path;
+        status.textContent = "ARCHIVO CARGADO CORRECTAMENTE.";
+
+    } catch (error) {
+        selectedFile.textContent = "ERROR AL ABRIR ARCHIVO.";
+
+        status.textContent =
+            "ERROR: " + (error.message || "Error desconocido");
+    }
+};
