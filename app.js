@@ -1131,6 +1131,7 @@ window.testGithubWrite = async function () {
             {
                 body: {
                     action: "write",
+                    confirmed: true,
                     path: "github-console-test.txt",
                     sha: readData.sha,
                     content: "ARCHIVO DE PRUEBA\nGitHub Console: escritura y actualización confirmadas."
