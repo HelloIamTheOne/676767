@@ -1474,13 +1474,11 @@ window.saveGithubConsoleFile = async function () {
             { body }
         );
 
-        if (error) throw error;
-
-        if (!data || data.error) {
-            throw new Error(
-                data?.error || "GitHub no confirmó la operación."
-            );
-        }
+        if (!data || data.success !== true) {
+    throw new Error(
+        data?.error || "GitHub no confirmó la operación."
+    );
+}
 
         if (data.content && data.content.sha) {
             githubConsoleSelectedSha = data.content.sha;
@@ -1594,13 +1592,11 @@ window.deleteGithubConsoleFile = async function () {
             }
         );
 
-        if (error) throw error;
-
-        if (!data || data.error) {
-            throw new Error(
-                data?.error || "GitHub no confirmó la eliminación."
-            );
-        }
+        if (!data || data.success !== true) {
+    throw new Error(
+        data?.error || "GitHub no confirmó la operación."
+    );
+}
 
         githubConsoleSelectedPath = "";
         githubConsoleSelectedSha = "";
