@@ -651,3 +651,71 @@ body.admin-mode #profileMessage {
 #updates.updates-theme-5 .updates-back {
     border-color: #87cefa;
 }
+
+/* PANEL ADMINISTRATIVO DE ACTUALIZACIONES */
+#adminUpdatesPanel{
+    margin:20px 0;
+    padding:20px;
+    text-align:left;
+    background:linear-gradient(145deg,#101c2a,#050b13);
+    border:1px solid #87cefa;
+    border-radius:12px;
+    box-shadow:0 0 12px rgba(135,206,250,.2);
+}
+
+#adminUpdatesPanel h2{
+    color:#87cefa;
+    text-shadow:0 0 8px rgba(135,206,250,.5);
+    font-family:monospace;
+}
+
+#adminUpdatesPanel h3{
+    color:#fff;
+    font-family:monospace;
+}
+
+#adminUpdatesPanel p,
+#updatesAnalysisStatus{
+    color:#c2d3e7;
+    font-size:13px;
+    line-height:1.5;
+}
+
+#adminUpdatesPanel label{
+    display:block;
+    margin:12px 0 5px;
+    color:#87cefa;
+    font-size:12px;
+    font-weight:bold;
+}
+
+#adminUpdatesPanel input,
+#adminUpdatesPanel textarea,
+#adminUpdatesPanel select{
+    box-sizing:border-box;
+    width:100%;
+    padding:11px;
+    color:#fff;
+    background:#030b14;
+    border:1px solid #28516b;
+    border-radius:7px;
+    font:14px Arial,sans-serif;
+}
+
+#adminUpdatesPanel textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+#adminUpdatesPanel button{
+    margin:10px 5px 5px 0;
+    border:1px solid #87cefa;
+    color:#87cefa;
+    background:#10283a;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+#adminUpdatesPanel button:hover{
+    box-shadow:0 0 12px rgba(135,206,250,.45);
+}
