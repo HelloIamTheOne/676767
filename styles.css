@@ -854,3 +854,15 @@ body.admin-mode #profileMessage {
     </div>
 
 </div>
+
+
+/* CODE - VISIBILIDAD INICIAL */
+
+#githubConsoleMenu,
+#githubConsoleWindow {
+    display: none;
+}
+
+#githubConsoleAccess {
+    display: block;
+}
