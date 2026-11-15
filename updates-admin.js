@@ -667,7 +667,7 @@ if (technicalDetails) {
 
         const user = data?.user || window.currentProfileUser;
 
-        return user?.id || "guest";
+        return user?.id || null;
     }
 
     async function getLatestUpdate() {
@@ -710,6 +710,10 @@ if (technicalDetails) {
         }
 
         const viewerKey = await getViewerKey();
+        if (!viewerKey) {
+    alertElement.hidden = true;
+    return;
+}
         const seenId = localStorage.getItem(
             STORAGE_PREFIX + viewerKey
         );
