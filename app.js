@@ -1103,51 +1103,88 @@ window.testGithubRead = async function () {
 };
 
 
+
 window.testGithubWrite = async function () {
     const result = document.getElementById("githubConsoleTestResult");
+
     result.textContent = "Preparando actualización...";
 
     try {
-        // 1. Leer el archivo existente y obtener su SHA.
-        const { data: readData, error: readError } =
-            await db.functions.invoke("github-console", {
-                body: {
-                    action: "read",
-                    path: "github-console-test.txt"
-                }
-            });
+        // 1. Obtener la sesión administrativa.
+        const { data: sessionData, error: sessionError } =
+            await db.auth.getSession();
 
-        if (readError) throw readError;
+        if (sessionError) throw sessionError;
 
-        if (!readData.success || !readData.sha) {
+        const session = sessionData?.session;
+
+        if (!session || session.user.id !== ADMIN_UID) {
+            throw new Error("Sesión administrativa no válida.");
+        }
+
+        const headers = {
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + session.access_token
+        };
+
+        const endpoint =
+            SUPABASE_URL + "/functions/v1/github-console";
+
+        // 2. Leer el archivo y obtener su SHA.
+        const readResponse = await fetch(endpoint, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+                action: "read",
+                path: "github-console-test.txt"
+            })
+        });
+
+        const readText = await readResponse.text();
+
+        if (!readResponse.ok) {
             throw new Error(
-                readData.error || "No se pudo obtener el SHA del archivo."
+                "ERROR AL LEER. HTTP " +
+                readResponse.status +
+                "\n" + readText
             );
         }
 
-        // 2. Actualizar el archivo utilizando su SHA.
-        const { data, error } = await db.functions.invoke(
-            "github-console",
-            {
-                body: {
-                    action: "write",
-                    confirmed: true,
-                    path: "github-console-test.txt",
-                    sha: readData.sha,
-                    content: "ARCHIVO DE PRUEBA\nGitHub Console: escritura y actualización confirmadas."
-                }
-            }
-        );
+        const readData = JSON.parse(readText);
 
-        if (error) throw error;
+        if (!readData.success || !readData.sha) {
+            throw new Error(
+                readData.error || "No se pudo obtener el SHA."
+            );
+        }
 
-        // 3. Mostrar el resultado.
-        result.textContent = JSON.stringify(data, null, 2);
+        // 3. Actualizar el archivo con confirmación.
+        const writeResponse = await fetch(endpoint, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+                action: "write",
+                confirmed: true,
+                path: "github-console-test.txt",
+                sha: readData.sha,
+                content:
+                    "ARCHIVO DE PRUEBA\n" +
+                    "GitHub Console: escritura y actualización confirmadas."
+            })
+        });
+
+        const writeText = await writeResponse.text();
+
+        result.textContent =
+            "ESTADO HTTP: " + writeResponse.status +
+            "\nRESPUESTA DEL SERVIDOR:\n" + writeText;
 
     } catch (error) {
         result.textContent = "ERROR: " + error.message;
     }
 };
+
 
 
 window.testGithubDelete = async function () {
