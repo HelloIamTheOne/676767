@@ -296,8 +296,12 @@ if (technicalDetails) {
             .order("date", { ascending: false })
             .order("created_at", { ascending: false });
 
-        if (error) {
-            console.error("Error al cargar actualizaciones:", error);
+    if (error) {
+    console.error("Error al cargar actualizaciones:", error);
+    return;
+}
+
+console.log("ACTUALIZACIONES RECIBIDAS:", data);
             return;
         }
 
