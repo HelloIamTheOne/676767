@@ -1362,3 +1362,58 @@ window.loadGithubConsoleFiles = async function (path = "") {
     }
 };
 
+
+
+// ========================================
+// CODE - LECTOR DE ARCHIVOS
+// ========================================
+
+let githubConsoleSelectedPath = "";
+let githubConsoleSelectedSha = "";
+
+window.readGithubConsoleFile = async function (path) {
+    if (!isAdmin) return;
+
+    const editor = document.getElementById("githubConsoleEditor");
+    const selectedFile = document.getElementById("githubConsoleSelectedFile");
+    const status = document.getElementById("githubConsoleStatus");
+
+    if (!editor || !selectedFile || !status) return;
+
+    selectedFile.textContent = "Abriendo: " + path;
+    status.textContent = "Solicitando contenido a GitHub...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "read",
+                    path: path
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        if (!data || typeof data.content !== "string" || !data.sha) {
+            throw new Error(
+                data?.error || "GitHub no devolvió el contenido y SHA del archivo."
+            );
+        }
+
+        editor.value = data.content;
+        githubConsoleSelectedPath = path;
+        githubConsoleSelectedSha = data.sha;
+
+        selectedFile.textContent = "ARCHIVO: " + path;
+        status.textContent = "Archivo cargado correctamente.";
+
+    } catch (error) {
+        selectedFile.textContent = "No se pudo abrir el archivo.";
+
+        status.textContent =
+            "ERROR: " + (error.message || "Error desconocido");
+    }
+};
+
