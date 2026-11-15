@@ -1417,3 +1417,106 @@ window.readGithubConsoleFile = async function (path) {
     }
 };
 
+
+
+// ========================================
+// CODE - GUARDAR ARCHIVOS
+// ========================================
+
+window.saveGithubConsoleFile = async function () {
+    if (!isAdmin) return;
+
+    const editor = document.getElementById("githubConsoleEditor");
+    const status = document.getElementById("githubConsoleStatus");
+
+    if (!editor || !status) return;
+
+    if (!githubConsoleSelectedPath) {
+        status.textContent = "ERROR: No hay ningún archivo seleccionado.";
+        return;
+    }
+
+    const path = githubConsoleSelectedPath;
+    const content = editor.value;
+
+    const operation = githubConsoleSelectedSha
+        ? "actualizar"
+        : "crear";
+
+    const confirmed = window.confirm(
+        "CONFIRMAR OPERACIÓN\n\n" +
+        "Acción: " + operation.toUpperCase() + "\n" +
+        "Archivo: " + path + "\n\n" +
+        "¿Deseas continuar?"
+    );
+
+    if (!confirmed) {
+        status.textContent = "Operación cancelada.";
+        return;
+    }
+
+    status.textContent = "Enviando cambios a GitHub...";
+
+    try {
+        const body = {
+            action: "write",
+            path: path,
+            content: content,
+            confirmed: true
+        };
+
+        if (githubConsoleSelectedSha) {
+            body.sha = githubConsoleSelectedSha;
+        }
+
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            { body }
+        );
+
+        if (error) throw error;
+
+        if (!data || data.error) {
+            throw new Error(
+                data?.error || "GitHub no confirmó la operación."
+            );
+        }
+
+        if (data.content && data.content.sha) {
+            githubConsoleSelectedSha = data.content.sha;
+        } else if (data.sha) {
+            githubConsoleSelectedSha = data.sha;
+        } else {
+            // Recuperar el SHA actualizado mediante una lectura.
+            const refreshed = await db.functions.invoke(
+                "github-console",
+                {
+                    body: {
+                        action: "read",
+                        path: path
+                    }
+                }
+            );
+
+            if (refreshed.error) throw refreshed.error;
+
+            if (!refreshed.data?.sha) {
+                throw new Error("No se pudo recuperar el SHA actualizado.");
+            }
+
+            githubConsoleSelectedSha = refreshed.data.sha;
+        }
+
+        status.textContent = "Cambios guardados correctamente.";
+
+        await window.loadGithubConsoleFiles(
+            githubConsoleCurrentPath
+        );
+
+    } catch (error) {
+        status.textContent =
+            "ERROR AL GUARDAR: " +
+            (error.message || "Error desconocido");
+    }
+};
+
