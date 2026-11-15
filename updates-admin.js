@@ -197,9 +197,10 @@ function createDescription(commit) {
             areaList[areaList.length - 1];
     }
 
-    return "¡ARCHIVO CLASIFICADO continúa evolucionando! Se han detectado cambios relacionados con " +
-        description +
-        ". Revisa esta propuesta antes de publicarla para confirmar los detalles de la actualización.";
+return "¡ARCHIVO CLASIFICADO continúa evolucionando! Se han realizado cambios relacionados con " +
+    description +
+    ".";
+
 }
 
 
