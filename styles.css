@@ -39,17 +39,22 @@ body.admin-mode #restorePanel {
 /* REGISTRO DE ACTUALIZACIONES — ARCHIVO DIGITAL RETRO */
 .updates-entry{display:none;background:#071c2c;color:#7cecff;border:1px solid #21cfff;box-shadow:0 0 12px #087da0;font-weight:700}
 
-/* INDICADOR DE ACTUALIZACIONES NUEVAS */
-.updates-entry {
-    position: relative;
-    padding-right: 58px;
+/* INDICADOR EXTERIOR DE ACTUALIZACIONES */
+.updates-entry-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.updates-entry-wrap .updates-entry {
+    margin: 0;
 }
 
 .updates-entry-alert {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
+    flex-shrink: 0;
+    font-size: 1.25em;
     font-weight: 900;
     letter-spacing: 2px;
     animation: updatesAlertGlow 1.5s ease-in-out infinite alternate;
