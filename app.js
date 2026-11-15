@@ -1165,7 +1165,21 @@ window.testGithubDelete = async function () {
         );
 
         if (error) {
-            let details = "";
+    let details = "Sin detalles adicionales.";
+
+    if (error.context) {
+        details += "\nContexto: " + String(error.context);
+
+        if (typeof error.context.json === "function") {
+            try {
+                const body = await error.context.clone().json();
+                details += "\nRespuesta: " + JSON.stringify(body);
+            } catch (_) {}
+        }
+    }
+
+    throw new Error(error.message + "\n" + details);
+}
 
             if (error.context) {
                 try {
