@@ -220,6 +220,10 @@ function createTechnicalDetails(commit) {
         dateInput.value = getCommitDate(commit);
         categoryInput.value = detectCategory(commit);
 
+if (technicalDetails) {
+    technicalDetails.textContent = createTechnicalDetails(commit);
+}
+
         proposalReady = true;
         proposalPanel.style.display = "block";
     }
