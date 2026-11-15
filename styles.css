@@ -866,3 +866,224 @@ body.admin-mode #profileMessage {
 #githubConsoleAccess {
     display: block;
 }
+
+
+
+/* ========================================
+   CODE - CONSOLA INDEPENDIENTE
+======================================== */
+
+#githubConsolePage {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    flex-direction: column;
+    overflow: hidden;
+    color: #dff7ff;
+    background:
+        radial-gradient(ellipse at top, #102b43 0%, #050d16 65%);
+    font-family: monospace;
+}
+
+#githubConsolePageHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px;
+    background: #091a29;
+    border-bottom: 1px solid #299fc5;
+    box-shadow: 0 0 18px #005b83;
+}
+
+#githubConsolePageHeader span {
+    color: #65dfff;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+#githubConsolePageHeader h1 {
+    margin: 8px 0;
+    color: #a5efff;
+    font-size: 30px;
+    letter-spacing: 8px;
+    text-shadow: 0 0 12px #00bfff;
+}
+
+#githubConsolePageHeader p {
+    margin: 0;
+    color: #82b9ce;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+#githubConsolePageHeader button {
+    padding: 12px 18px;
+    color: #e5faff;
+    background: #54202b;
+    border: 1px solid #d75c75;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#githubConsolePageWorkspace {
+    display: grid;
+    grid-template-columns: minmax(200px, 25%) 1fr;
+    flex: 1;
+    min-height: 0;
+}
+
+#githubConsolePageFiles {
+    min-width: 0;
+    padding: 18px;
+    overflow-y: auto;
+    background: #071522;
+    border-right: 1px solid #17445c;
+}
+
+#githubConsolePageFiles h2,
+#githubConsolePageEditor h2 {
+    color: #80e4ff;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+#githubConsolePageFiles > button {
+    width: 100%;
+    padding: 11px;
+    color: #e5faff;
+    background: #10415d;
+    border: 1px solid #36a9d0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#githubConsolePageFileList {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 15px;
+}
+
+#githubConsolePageFileList button {
+    width: 100%;
+    padding: 10px;
+    overflow-wrap: anywhere;
+    color: #c9efff;
+    background: #0d2639;
+    border: 1px solid #183f57;
+    border-radius: 5px;
+    text-align: left;
+    cursor: pointer;
+}
+
+#githubConsolePageFileList button:hover {
+    background: #164766;
+    border-color: #56dfff;
+}
+
+#githubConsolePageEditor {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 18px;
+}
+
+#githubConsolePageSelectedFile {
+    margin-bottom: 12px;
+    color: #8beaff;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+#githubConsolePageTextarea {
+    flex: 1;
+    width: 100%;
+    min-height: 150px;
+    resize: none;
+    padding: 15px;
+    color: #d5f5ff;
+    background: #02070c;
+    border: 1px solid #20516c;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    tab-size: 4;
+}
+
+#githubConsolePageActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+#githubConsolePageActions button {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px;
+    color: #e5faff;
+    background: #10415d;
+    border: 1px solid #36a9d0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#githubConsolePageActions button:last-child {
+    background: #54202b;
+    border-color: #c94e67;
+}
+
+#githubConsolePageStatus {
+    padding: 13px 18px;
+    color: #9ceaff;
+    background: #091522;
+    border-top: 1px solid #17445c;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* ADAPTACIÓN A MÓVILES */
+
+@media (max-width: 650px) {
+    #githubConsolePageHeader {
+        padding: 12px;
+    }
+
+    #githubConsolePageHeader h1 {
+        font-size: 23px;
+    }
+
+    #githubConsolePageHeader p {
+        font-size: 8px;
+    }
+
+    #githubConsolePageWorkspace {
+        grid-template-columns: 115px minmax(0, 1fr);
+    }
+
+    #githubConsolePageFiles,
+    #githubConsolePageEditor {
+        padding: 9px;
+    }
+
+    #githubConsolePageFiles h2,
+    #githubConsolePageEditor h2 {
+        font-size: 11px;
+    }
+
+    #githubConsolePageTextarea {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    #githubConsolePageActions {
+        flex-direction: column;
+    }
+
+    #githubConsolePageActions button {
+        width: 100%;
+    }
+}
