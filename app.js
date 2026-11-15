@@ -1520,3 +1520,105 @@ window.saveGithubConsoleFile = async function () {
     }
 };
 
+
+
+// ========================================
+// CODE - ELIMINAR ARCHIVOS
+// ========================================
+
+window.deleteGithubConsoleFile = async function () {
+    if (!isAdmin) return;
+
+    const editor = document.getElementById("githubConsoleEditor");
+    const selectedFile = document.getElementById("githubConsoleSelectedFile");
+    const status = document.getElementById("githubConsoleStatus");
+
+    if (!editor || !selectedFile || !status) return;
+
+    if (!githubConsoleSelectedPath) {
+        status.textContent = "ERROR: No hay ningún archivo seleccionado.";
+        return;
+    }
+
+    const path = githubConsoleSelectedPath;
+
+    const confirmed = window.confirm(
+        "CONFIRMAR ELIMINACIÓN\n\n" +
+        "Archivo: " + path + "\n\n" +
+        "Esta acción eliminará el archivo del repositorio.\n" +
+        "¿Estás seguro de que deseas continuar?"
+    );
+
+    if (!confirmed) {
+        status.textContent = "Eliminación cancelada.";
+        return;
+    }
+
+    status.textContent = "Preparando eliminación...";
+
+    try {
+        let sha = githubConsoleSelectedSha;
+
+        // Recuperar el SHA si todavía no está disponible.
+        if (!sha) {
+            const readResult = await db.functions.invoke(
+                "github-console",
+                {
+                    body: {
+                        action: "read",
+                        path: path
+                    }
+                }
+            );
+
+            if (readResult.error) throw readResult.error;
+
+            sha = readResult.data?.sha;
+
+            if (!sha) {
+                throw new Error("No se pudo obtener el SHA del archivo.");
+            }
+        }
+
+        status.textContent = "Enviando solicitud de eliminación...";
+
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "delete",
+                    path: path,
+                    sha: sha,
+                    confirmed: true
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        if (!data || data.error) {
+            throw new Error(
+                data?.error || "GitHub no confirmó la eliminación."
+            );
+        }
+
+        githubConsoleSelectedPath = "";
+        githubConsoleSelectedSha = "";
+
+        editor.value = "";
+        selectedFile.textContent = "Ningún archivo seleccionado.";
+
+        status.textContent = "Archivo eliminado correctamente.";
+
+        await window.loadGithubConsoleFiles(
+            githubConsoleCurrentPath
+        );
+
+    } catch (error) {
+        status.textContent =
+            "ERROR AL ELIMINAR: " +
+            (error.message || "Error desconocido");
+    }
+};
+
+
