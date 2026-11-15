@@ -368,6 +368,16 @@ if (technicalDetails) {
 
             if (!category) return;
 
+            const [year, month, day] = update.date.split("-");
+            const formattedDate = `${day}/${month}/${year}`;
+
+            const updateKey =
+                update.title.trim().toLowerCase() + "|" + formattedDate;
+
+            if (existingUpdates.has(updateKey)) return;
+
+            existingUpdates.add(updateKey);
+
             const card = template.cloneNode(true);
 
             card.dataset.updateId = update.update_id;
