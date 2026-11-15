@@ -1119,7 +1119,17 @@ window.testGithubWrite = async function () {
             }
         );
 
-        if (error) throw error;
+        if (error) {
+    const details = error.context
+        ? await error.context.json().catch(() => null)
+        : null;
+
+    throw new Error(
+        details?.error ||
+        details?.message ||
+        error.message
+    );
+}
 
         result.textContent = JSON.stringify(data, null, 2);
 
