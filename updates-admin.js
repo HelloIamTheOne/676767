@@ -749,6 +749,11 @@ button.parentElement.classList.remove("has-alert");
         setTimeout(refreshUpdatesAlert, 0);
     });
 
+window.addEventListener(
+    "profile-history-loaded",
+    refreshUpdatesAlert
+);
+
     refreshUpdatesAlert();
 
     window.refreshUpdatesEntryAlert = refreshUpdatesAlert;
