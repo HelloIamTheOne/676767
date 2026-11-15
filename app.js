@@ -1164,7 +1164,19 @@ window.testGithubDelete = async function () {
             }
         );
 
-        if (error) throw error;
+        if (error) {
+            let details = "";
+
+            if (error.context) {
+                try {
+                    details = await error.context.text();
+                } catch (_) {
+                    details = error.message;
+                }
+            }
+
+            throw new Error(details || error.message);
+        }
 
         result.textContent = JSON.stringify(data, null, 2);
 
@@ -1172,3 +1184,4 @@ window.testGithubDelete = async function () {
         result.textContent = "ERROR: " + error.message;
     }
 };
+
