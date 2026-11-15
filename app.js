@@ -1635,23 +1635,21 @@ window.openGithubConsolePage = function () {
     const floatingWindow = document.getElementById("githubConsoleWindow");
     const consolePage = document.getElementById("githubConsolePage");
 
+    const secretDetector = document.getElementById("secretDetector");
+    const jsTestPanel = document.getElementById("jsTestPanel");
+
     if (!menu || !floatingWindow || !consolePage) return;
 
     menu.style.display = "none";
     floatingWindow.style.display = "none";
+
+    if (secretDetector) secretDetector.style.display = "none";
+    if (jsTestPanel) jsTestPanel.style.display = "none";
+
     consolePage.style.display = "flex";
 
     window.loadGithubConsolePageFiles();
 };
-
-window.closeGithubConsolePage = function () {
-    const consolePage = document.getElementById("githubConsolePage");
-
-    if (!consolePage) return;
-
-    consolePage.style.display = "none";
-};
-
 
 
 // ========================================
