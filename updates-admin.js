@@ -1,84 +1,327 @@
 
 (() => {
+    "use strict";
+
     const REPOSITORY = "helloiamtheone/676767";
 
     const analyzeButton = document.getElementById("analyzeUpdatesButton");
     const statusBox = document.getElementById("updatesAnalysisStatus");
+    const proposalPanel = document.getElementById("updatesProposal");
 
-statusBox.textContent = "UPDATES-ADMIN.JS SE HA CARGADO CORRECTAMENTE";
+    const titleInput = document.getElementById("updateProposalTitle");
+    const descriptionInput = document.getElementById("updateProposalDescription");
+    const dateInput = document.getElementById("updateProposalDate");
+    const categoryInput = document.getElementById("updateProposalCategory");
 
-    if (!analyzeButton || !statusBox) return;
+    const publishButton = document.getElementById("publishUpdateButton");
+    const rejectButton = document.getElementById("rejectUpdateButton");
+
+    if (
+        !analyzeButton ||
+        !statusBox ||
+        !proposalPanel ||
+        !titleInput ||
+        !descriptionInput ||
+        !dateInput ||
+        !categoryInput
+    ) {
+        console.error("No se encontraron todos los elementos del generador.");
+        return;
+    }
+
+    let proposalReady = false;
+
+    function isAdministrator() {
+        return typeof isAdmin !== "undefined" && isAdmin === true;
+    }
+
+    function getCommitDate(commit) {
+        const date =
+            commit.commit.author?.date ||
+            commit.commit.committer?.date;
+
+        if (!date) {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        const parsedDate = new Date(date);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        return date.slice(0, 10);
+    }
+
+    function detectCategory(commit) {
+        const message = (commit.commit.message || "").toLowerCase();
+
+        const files = commit.files || [];
+
+        const filePaths = files
+            .map(file => file.filename.toLowerCase());
+
+        const addedFiles = files.some(
+            file => file.status === "added"
+        );
+
+        // Cambios importantes.
+        if (
+            /security|seguridad|critical|critico|crítico|breaking|permission|permisos|vulnerabilidad/.test(message)
+        ) {
+            return "important";
+        }
+
+        // Correcciones.
+        if (
+            /fix|bug|error|correg|arregl|repair|hotfix/.test(message)
+        ) {
+            return "fix";
+        }
+
+        // Contenido nuevo o documental.
+        if (
+            /content|contenido|document|documento|docs/.test(message) ||
+            filePaths.some(file =>
+                /(^|\/)(docs|documentos|content)(\/|$)|\.pdf$/i.test(file)
+            )
+        ) {
+            return "content";
+        }
+
+        // Novedades.
+        if (
+            /add|create|new|nuevo|nueva|agreg|añad|feat/.test(message) ||
+            addedFiles
+        ) {
+            return "new";
+        }
+
+        // Si no se identifica una categoría específica.
+        return "improvement";
+    }
+
+    function createTitle(commit) {
+        let title = (commit.commit.message || "")
+            .split("\n")[0]
+            .trim();
+
+        if (!title) {
+            return "Actualización del proyecto";
+        }
+
+        title = title
+            .replace(/^(feat|fix|docs|chore|refactor|update|create|add)(\([^)]+\))?:?\s*/i, "")
+            .trim();
+
+        if (!title) {
+            return "Actualización del proyecto";
+        }
+
+        return title.charAt(0).toUpperCase() + title.slice(1);
+    }
+
+    function createDescription(commit) {
+        const message = (commit.commit.message || "")
+            .trim();
+
+        const files = commit.files || [];
+
+        const fileList = files.length
+            ? files.map(file => {
+                return "- " + file.filename +
+                    " (" + file.status + ")";
+            }).join("\n")
+            : "No se obtuvo información de los archivos.";
+
+        const additions = files.reduce(
+            (total, file) => total + (file.additions || 0),
+            0
+        );
+
+        const deletions = files.reduce(
+            (total, file) => total + (file.deletions || 0),
+            0
+        );
+
+        return [
+            "RESUMEN DEL CAMBIO",
+            message || "Sin descripción en el commit.",
+            "",
+            "ARCHIVOS MODIFICADOS",
+            fileList,
+            "",
+            "ESTADÍSTICAS",
+            "Archivos afectados: " + files.length,
+            "Líneas añadidas: " + additions,
+            "Líneas eliminadas: " + deletions,
+            "",
+            "INFORMACIÓN DEL COMMIT",
+            "Identificador: " + commit.sha.slice(0, 7),
+            "",
+            "Esta propuesta se ha generado a partir del historial de GitHub.",
+            "El administrador debe revisar y editar su contenido antes de publicarla."
+        ].join("\n");
+    }
+
+    function createProposal(commit) {
+        titleInput.value = createTitle(commit);
+        descriptionInput.value = createDescription(commit);
+        dateInput.value = getCommitDate(commit);
+        categoryInput.value = detectCategory(commit);
+
+        proposalReady = true;
+        proposalPanel.style.display = "block";
+    }
+
+    async function githubRequest(url) {
+        const response = await fetch(url);
+
+        if (response.status === 403) {
+            throw new Error(
+                "GitHub ha limitado temporalmente las consultas. Inténtalo más tarde."
+            );
+        }
+
+        if (response.status === 404) {
+            throw new Error(
+                "No se encontró el repositorio o el recurso solicitado."
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                "Error de GitHub. Código: " + response.status
+            );
+        }
+
+        return response.json();
+    }
 
     analyzeButton.addEventListener("click", async () => {
-        if (typeof isAdmin === "undefined" || !isAdmin) {
+        if (!isAdministrator()) {
             statusBox.textContent = "ACCESO DENEGADO.";
             return;
         }
 
         analyzeButton.disabled = true;
-        statusBox.textContent = "Consultando el repositorio...";
+        proposalReady = false;
+        proposalPanel.style.display = "none";
+
+        statusBox.textContent =
+            "CONSULTANDO EL REPOSITORIO Y ANALIZANDO CAMBIOS...";
 
         try {
-            const repositoryResponse = await fetch(
+            const repository = await githubRequest(
                 `https://api.github.com/repos/${REPOSITORY}`
             );
 
-            if (!repositoryResponse.ok) {
-                throw new Error("No se pudo consultar el repositorio.");
-            }
-
-            const repository = await repositoryResponse.json();
-
-            const commitsResponse = await fetch(
+            const commits = await githubRequest(
                 `https://api.github.com/repos/${REPOSITORY}/commits?sha=${encodeURIComponent(repository.default_branch)}&per_page=5`
             );
 
-            if (!commitsResponse.ok) {
-                throw new Error("No se pudo consultar el historial.");
-            }
-
-            const commits = await commitsResponse.json();
-
-            if (!commits.length) {
-                statusBox.textContent = "No se encontraron cambios.";
+            if (!Array.isArray(commits) || commits.length === 0) {
+                statusBox.textContent =
+                    "No se encontraron cambios en el historial.";
                 return;
             }
 
             const details = await Promise.all(
-                commits.map(async commit => {
-                    const response = await fetch(
+                commits.map(commit =>
+                    githubRequest(
                         `https://api.github.com/repos/${REPOSITORY}/commits/${commit.sha}`
-                    );
-
-                    if (!response.ok) {
-                        throw new Error("No se pudieron consultar los archivos modificados.");
-                    }
-
-                    return response.json();
-                })
+                    )
+                )
             );
+
+            if (!isAdministrator()) {
+                statusBox.textContent = "ACCESO DENEGADO.";
+                return;
+            }
 
             const report = details.map(commit => {
                 const files = (commit.files || [])
-                    .map(file => `• ${file.filename} (${file.status})`)
+                    .map(file =>
+                        `• ${file.filename} (${file.status})`
+                    )
                     .join("\n");
 
                 return [
-                    `COMMIT: ${commit.sha.slice(0, 7)}`,
-                    commit.commit.message,
-                    `FECHA: ${commit.commit.author.date}`,
+                    "COMMIT: " + commit.sha.slice(0, 7),
+                    commit.commit.message || "Sin mensaje",
+                    "FECHA: " + getCommitDate(commit),
                     "ARCHIVOS MODIFICADOS:",
                     files || "Sin información de archivos."
                 ].join("\n");
             }).join("\n\n--------------------\n\n");
 
+            createProposal(details[0]);
+
             statusBox.textContent =
-                "ANÁLISIS COMPLETADO\n\n" + report;
+                "ANÁLISIS COMPLETADO\n\n" +
+                report +
+                "\n\nPROPUESTA PRELIMINAR GENERADA." +
+                "\nREVISA Y EDITA LOS CAMPOS ANTES DE PUBLICAR.";
 
         } catch (error) {
-            statusBox.textContent = "ERROR: " + error.message;
+            statusBox.textContent =
+                "ERROR: " + error.message;
+
+            console.error("Error en el generador:", error);
+
         } finally {
             analyzeButton.disabled = false;
         }
     });
+
+    if (rejectButton) {
+        rejectButton.addEventListener("click", () => {
+            if (!isAdministrator()) {
+                statusBox.textContent = "ACCESO DENEGADO.";
+                return;
+            }
+
+            proposalReady = false;
+            proposalPanel.style.display = "none";
+
+            titleInput.value = "";
+            descriptionInput.value = "";
+            dateInput.value = "";
+
+            statusBox.textContent =
+                "PROPUESTA RECHAZADA.";
+        });
+    }
+
+    if (publishButton) {
+        publishButton.addEventListener("click", () => {
+            if (!isAdministrator()) {
+                statusBox.textContent = "ACCESO DENEGADO.";
+                return;
+            }
+
+            if (!proposalReady) {
+                statusBox.textContent =
+                    "NO HAY NINGUNA PROPUESTA DISPONIBLE.";
+                return;
+            }
+
+            if (
+                !titleInput.value.trim() ||
+                !descriptionInput.value.trim() ||
+                !dateInput.value
+            ) {
+                statusBox.textContent =
+                    "COMPLETA EL TÍTULO, LA DESCRIPCIÓN Y LA FECHA.";
+                return;
+            }
+
+            statusBox.textContent =
+                "PUBLICACIÓN NO CONFIGURADA. " +
+                "LA PROPUESTA SIGUE SIN PUBLICARSE.";
+        });
+    }
+
+    console.log("Generador administrativo de actualizaciones cargado.");
+
 })();
