@@ -53,6 +53,7 @@ body.admin-mode #restorePanel {
 }
 
 .updates-entry-alert {
+    display: none;
     flex-shrink: 0;
     font-size: 1.25em;
     font-weight: 900;
@@ -62,6 +63,10 @@ body.admin-mode #restorePanel {
 
 .updates-entry-alert[hidden] {
     display: none !important;
+}
+
+.updates-entry-alert:not([hidden]) {
+    display: inline-block;
 }
 
 .updates-entry-alert.level-2 {
