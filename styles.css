@@ -95,7 +95,7 @@ body.admin-mode #restorePanel {
     }
 }
 
-#updates{min-height:100vh;background:#050d19;padding:14px 12px 28px;color:#e8f3ff}
+.updates{min-height:100vh;background:#050d19;padding:14px 12px 28px;color:#e8f3ff}
 .updates-shell{max-width:900px;margin:0 auto;padding:14px;background:linear-gradient(145deg,#0b1c30,#07101e);border:1px solid #168fbd;border-radius:16px;box-shadow:0 0 22px #063b5b}
 .updates-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border:1px solid #147ca7;border-radius:10px;background:#061426;text-align:left}
 .updates-brand{display:flex;align-items:center;gap:10px;min-width:0}.updates-folder{font-size:32px;color:#20d8f5}.updates-brand strong{display:block;color:#eaf7ff;font-family:monospace;letter-spacing:1px;font-size:clamp(13px,3vw,19px)}.updates-brand small{display:block;color:#22d9f4;font-family:monospace;letter-spacing:2px;font-size:10px}
