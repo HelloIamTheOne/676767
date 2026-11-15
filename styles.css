@@ -787,3 +787,70 @@ body.admin-mode #profileMessage {
 #adminUpdatesPanel button:hover{
     box-shadow:0 0 12px rgba(135,206,250,.45);
 }
+
+
+<!-- VENTANA DE CONSOLA DESPLEGABLE -->
+<div id="githubConsoleWindow" class="adminOnly" style="display:none">
+
+    <div id="githubConsoleWindowHeader">
+        <div>
+            <span>CODE / TERMINAL</span>
+            <h2>CONSOLA DESPLEGABLE</h2>
+        </div>
+
+        <button type="button"
+                onclick="closeGithubConsoleWindow()">
+            X
+        </button>
+    </div>
+
+    <div id="githubConsoleWorkspace">
+
+        <aside id="githubConsoleFilePanel">
+            <h3>ARCHIVOS DEL REPOSITORIO</h3>
+
+            <button type="button"
+                    onclick="loadGithubConsoleFiles()">
+                ACTUALIZAR LISTA
+            </button>
+
+            <div id="githubConsoleFileList">
+                Esperando conexión...
+            </div>
+        </aside>
+
+        <main id="githubConsoleEditorPanel">
+            <h3>EDITOR DE ARCHIVOS</h3>
+
+            <div id="githubConsoleSelectedFile">
+                Ningún archivo seleccionado.
+            </div>
+
+            <textarea
+                id="githubConsoleEditor"
+                spellcheck="false"
+                placeholder="Selecciona un archivo para comenzar..."
+            ></textarea>
+
+            <div id="githubConsoleEditorActions">
+
+                <button type="button"
+                        onclick="saveGithubConsoleFile()">
+                    GUARDAR CAMBIOS
+                </button>
+
+                <button type="button"
+                        onclick="deleteGithubConsoleFile()">
+                    ELIMINAR ARCHIVO
+                </button>
+
+            </div>
+        </main>
+
+    </div>
+
+    <div id="githubConsoleStatus" aria-live="polite">
+        Sistema preparado.
+    </div>
+
+</div>
