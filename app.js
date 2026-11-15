@@ -1101,3 +1101,29 @@ window.testGithubRead = async function () {
         result.textContent = "ERROR: " + error.message;
     }
 };
+
+window.testGithubWrite = async function () {
+    const result = document.getElementById("githubConsoleTestResult");
+
+    result.textContent = "Creando archivo de prueba...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "write",
+                    path: "github-console-test.txt",
+                    content: "ARCHIVO DE PRUEBA\nGitHub Console: escritura confirmada."
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        result.textContent = JSON.stringify(data, null, 2);
+
+    } catch (error) {
+        result.textContent = "ERROR: " + error.message;
+    }
+};
