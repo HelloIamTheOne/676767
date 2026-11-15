@@ -1083,18 +1083,12 @@ window.testGithubConsole = async function () {
 
 window.testGithubRead = async function () {
     const result = document.getElementById("githubConsoleTestResult");
-
     result.textContent = "Leyendo archivo...";
 
     try {
         const { data, error } = await db.functions.invoke(
             "github-console",
-            {
-                body: {
-                    action: "read",
-                    path: "package.json"
-                }
-            }
+            { body: { action: "read", path: "package.json" } }
         );
 
         if (error) throw error;
