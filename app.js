@@ -1830,3 +1830,82 @@ window.readGithubConsolePageFile = async function (path) {
             "ERROR: " + (error.message || "Error desconocido");
     }
 };
+
+
+
+// ========================================
+// CODE - GUARDAR DESDE CONSOLA
+// ========================================
+
+window.saveGithubConsolePageFile = async function () {
+    if (!isAdmin) return;
+
+    const editor = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    const status = document.getElementById(
+        "githubConsolePageStatus"
+    );
+
+    if (!editor || !status) return;
+
+    if (!githubConsolePageSelectedPath) {
+        status.textContent = "ERROR: NO HAY NINGÚN ARCHIVO SELECCIONADO.";
+        return;
+    }
+
+    const path = githubConsolePageSelectedPath;
+    const content = editor.value;
+
+    const confirmed = window.confirm(
+        "CONFIRMAR OPERACIÓN\n\n" +
+        "ACCIÓN: ACTUALIZAR\n" +
+        "ARCHIVO: " + path + "\n\n" +
+        "¿Deseas guardar los cambios en GitHub?"
+    );
+
+    if (!confirmed) {
+        status.textContent = "OPERACIÓN CANCELADA.";
+        return;
+    }
+
+    status.textContent = "ENVIANDO CAMBIOS A GITHUB...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "write",
+                    path: path,
+                    content: content,
+                    sha: githubConsolePageSelectedSha,
+                    confirmed: true
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        if (!data || data.success !== true || !data.sha) {
+            throw new Error(
+                data?.error || "GitHub no confirmó el guardado."
+            );
+        }
+
+        githubConsolePageSelectedSha = data.sha;
+
+        status.textContent =
+            "CAMBIOS GUARDADOS CORRECTAMENTE.";
+
+        await window.loadGithubConsolePageFiles(
+            githubConsolePageCurrentPath
+        );
+
+    } catch (error) {
+        status.textContent =
+            "ERROR AL GUARDAR: " +
+            (error.message || "Error desconocido");
+    }
+};
