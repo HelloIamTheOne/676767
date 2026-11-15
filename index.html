@@ -571,6 +571,74 @@
         Sistema preparado.
     </div>
 
+
+<!-- CONSOLA INDEPENDIENTE CODE -->
+<div id="githubConsolePage" style="display:none">
+
+    <header id="githubConsolePageHeader">
+        <div>
+            <span>ARCHIVO CLASIFICADO / CODE</span>
+            <h1>CONSOLA</h1>
+            <p>ENTORNO INDEPENDIENTE DE ADMINISTRACIÓN</p>
+        </div>
+
+        <button
+            type="button"
+            onclick="closeGithubConsolePage()"
+        >
+            VOLVER
+        </button>
+    </header>
+
+    <div id="githubConsolePageWorkspace">
+
+        <aside id="githubConsolePageFiles">
+            <h2>EXPLORADOR</h2>
+
+            <button
+                type="button"
+                onclick="loadGithubConsolePageFiles()"
+            >
+                ACTUALIZAR LISTA
+            </button>
+
+            <div id="githubConsolePageFileList">
+                Esperando conexión...
+            </div>
+        </aside>
+
+        <main id="githubConsolePageEditor">
+            <h2>EDITOR DE CÓDIGO</h2>
+
+            <div id="githubConsolePageSelectedFile">
+                Ningún archivo seleccionado.
+            </div>
+
+            <textarea
+                id="githubConsolePageTextarea"
+                spellcheck="false"
+                placeholder="Selecciona un archivo..."
+            ></textarea>
+
+            <div id="githubConsolePageActions">
+
+                <button type="button">
+                    GUARDAR CAMBIOS
+                </button>
+
+                <button type="button">
+                    ELIMINAR ARCHIVO
+                </button>
+
+            </div>
+        </main>
+
+    </div>
+
+    <footer id="githubConsolePageStatus">
+        SISTEMA PREPARADO.
+    </footer>
+
 </div>
 <button class="blue" onclick="show('home')">Regresar</button>
 <button class="red adminOnly" onclick="logout()">Cerrar sesión</button>
