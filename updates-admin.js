@@ -139,78 +139,67 @@ function createDescription(commit) {
     const files = commit.files || [];
 
     if (files.length === 0) {
-        return "Se han realizado cambios en ARCHIVO CLASIFICADO como parte del desarrollo y mantenimiento del proyecto.";
+        return "Se han realizado ajustes internos en ARCHIVO CLASIFICADO como parte del desarrollo continuo del proyecto.";
     }
 
-    const areas = [];
-
-    const addArea = (name, status) => {
-        if (!areas.some(area => area.name === name)) {
-            areas.push({ name, status });
-        }
-    };
+    const areas = new Set();
 
     files.forEach(file => {
         const path = file.filename.toLowerCase();
-        const status = file.status;
 
-        let area = null;
-
-        if (path.includes("profiles.js")) {
-            area = "el sistema de perfiles y clasificación";
-        } else if (path.includes("updates-admin.js")) {
-            area = "las herramientas administrativas del Registro de Actualizaciones";
-        } else if (path.includes("styles.css")) {
-            area = "la apariencia visual del proyecto";
-        } else if (path.includes("build.js")) {
-            area = "el sistema de compilación y publicación";
-        } else if (path.includes("app.js")) {
-            area = "el funcionamiento general del sistema";
-        } else if (path.includes("index.html")) {
-            area = "la estructura y el contenido de las páginas";
-        } else if (
-            /(^|\/)(docs|documentos|content)(\/|$)|\.pdf$/i.test(path)
-        ) {
-            area = "los documentos y contenidos del proyecto";
-        } else {
-            area = "otros componentes del proyecto";
+        if (/(^|\/)profiles\.js$/.test(path)) {
+            areas.add("el sistema de perfiles y clasificación");
         }
 
-        addArea(area, status);
+        if (/(^|\/)updates-admin\.js$/.test(path)) {
+            areas.add("las herramientas administrativas del Registro de Actualizaciones");
+        }
+
+        if (/(^|\/)app\.js$/.test(path)) {
+            areas.add("el funcionamiento general del sistema");
+        }
+
+        if (/(^|\/)styles\.css$/.test(path)) {
+            areas.add("la presentación visual del proyecto");
+        }
+
+        if (/(^|\/)build\.js$/.test(path)) {
+            areas.add("el sistema de compilación y publicación");
+        }
+
+        if (/(^|\/)index\.html$/.test(path)) {
+            areas.add("la estructura y el contenido de las páginas");
+        }
+
+        if (
+            /(^|\/)(docs|documentos|content)(\/|$)|\.pdf$/i.test(path)
+        ) {
+            areas.add("los documentos y contenidos del proyecto");
+        }
     });
 
-    const added = files.filter(file => file.status === "added").length;
-    const removed = files.filter(file => file.status === "removed").length;
-    const modified = files.filter(file => file.status === "modified").length;
-    const renamed = files.filter(file => file.status === "renamed").length;
+    const areaList = Array.from(areas);
 
-    let opening = "Se han realizado cambios";
-
-    if (added > 0 && modified === 0 && removed === 0) {
-        opening = "Se han incorporado nuevos elementos";
-    } else if (removed > 0 && added === 0 && modified === 0) {
-        opening = "Se han realizado ajustes y retirado elementos";
-    } else if (modified > 0 || renamed > 0) {
-        opening = "Se han realizado modificaciones y ajustes";
+    if (areaList.length === 0) {
+        return "Se han realizado modificaciones en componentes internos de ARCHIVO CLASIFICADO. Consulta el análisis técnico para conocer los archivos afectados.";
     }
 
-    const areaNames = areas.map(area => area.name);
+    let description;
 
-    let areaText;
-
-    if (areaNames.length === 1) {
-        areaText = areaNames[0];
-    } else if (areaNames.length === 2) {
-        areaText = areaNames[0] + " y " + areaNames[1];
+    if (areaList.length === 1) {
+        description = areaList[0];
+    } else if (areaList.length === 2) {
+        description = areaList[0] + " y " + areaList[1];
     } else {
-        areaText =
-            areaNames.slice(0, -1).join(", ") +
+        description =
+            areaList.slice(0, -1).join(", ") +
             " y " +
-            areaNames[areaNames.length - 1];
+            areaList[areaList.length - 1];
     }
 
-    return opening + " en " + areaText +
-        ", como parte del desarrollo continuo de ARCHIVO CLASIFICADO.";
+    return "¡ARCHIVO CLASIFICADO continúa evolucionando! Se han detectado cambios relacionados con " +
+        description +
+        ". Revisa esta propuesta antes de publicarla para confirmar los detalles de la actualización.";
 }
 
 
