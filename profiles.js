@@ -176,10 +176,14 @@ document.body.classList.add("profile-session-active");
         document.getElementById("userProfileName").textContent =
             data.username;
 
-        await loadProfileAvatar();
-        await loadProfileHistory();
+   await loadProfileAvatar();
+await loadProfileHistory();
 
-        profileMessage("");
+if (typeof window.refreshUpdatesEntryAlert === "function") {
+    window.refreshUpdatesEntryAlert();
+}
+
+profileMessage("");     
 
     } finally {
         profileLoadingId = null;
