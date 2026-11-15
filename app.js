@@ -1300,13 +1300,15 @@ window.loadGithubConsoleFiles = async function (path = "") {
             }
         );
 
-        if (error) throw error;
-
-        if (!data || !Array.isArray(data.files)) {
-            throw new Error(
-                data?.error || "La respuesta del servidor no contiene una lista válida."
-            );
-        }
+        if (
+    !data ||
+    data.success !== true ||
+    !Array.isArray(data.files)
+) {
+    throw new Error(
+        data?.error || "La respuesta del servidor no contiene una lista válida."
+    );
+}
 
         fileList.replaceChildren();
 
