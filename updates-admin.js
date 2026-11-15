@@ -645,3 +645,103 @@ if (technicalDetails) {
     console.log("Generador administrativo de actualizaciones cargado.");
 
 })();
+
+
+/* =================================
+   INDICADOR DE ACTUALIZACIONES NUEVAS
+================================= */
+
+(() => {
+    "use strict";
+
+    const alertElement = document.getElementById("updatesEntryAlert");
+
+    if (!alertElement || typeof profileDB === "undefined") return;
+
+    const STORAGE_PREFIX = "archivo_updates_seen_";
+
+    let latestUpdateId = null;
+
+    function getViewerKey() {
+        return window.currentProfileUser?.id || "guest";
+    }
+
+    function getStorageKey() {
+        return STORAGE_PREFIX + getViewerKey();
+    }
+
+    function applyAlertColor() {
+        alertElement.className = "updates-entry-alert";
+
+        const level = typeof window.getProfileClassificationLevel === "function"
+            ? window.getProfileClassificationLevel()
+            : 1;
+
+        if (level >= 2 && level <= 5) {
+            alertElement.classList.add("level-" + level);
+        }
+    }
+
+    async function getLatestUpdate() {
+        const { data, error } = await profileDB
+            .from("updates")
+            .select("update_id,date,created_at")
+            .order("date", { ascending: false })
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Error consultando la última actualización:", error);
+            return null;
+        }
+
+        return data;
+    }
+
+    async function refreshUpdatesAlert() {
+        const latest = await getLatestUpdate();
+
+        if (!latest) {
+            latestUpdateId = null;
+            alertElement.hidden = true;
+            return;
+        }
+
+        latestUpdateId = latest.update_id;
+
+        const seenId = localStorage.getItem(getStorageKey());
+
+        applyAlertColor();
+
+        alertElement.hidden = seenId === latestUpdateId;
+    }
+
+    async function markUpdatesAsSeen() {
+        const latest = await getLatestUpdate();
+
+        if (!latest) return;
+
+        latestUpdateId = latest.update_id;
+
+        localStorage.setItem(
+            getStorageKey(),
+            latestUpdateId
+        );
+
+        alertElement.hidden = true;
+    }
+
+    const button = document.getElementById("updatesEntryButton");
+
+    if (button) {
+        button.addEventListener("click", markUpdatesAsSeen);
+    }
+
+    refreshUpdatesAlert();
+
+    setInterval(refreshUpdatesAlert, 20000);
+
+    window.refreshUpdatesEntryAlert = refreshUpdatesAlert;
+})();
+
