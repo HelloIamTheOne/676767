@@ -688,20 +688,23 @@ if (technicalDetails) {
     }
 
     function applyAlertColor() {
-        alertElement.className = "updates-entry-alert";
+    if (window.profileHistoryReady !== true) return;
 
-        let level = 1;
+    alertElement.className = "updates-entry-alert";
 
-        if (typeof window.getProfileClassificationLevel === "function") {
-            level = window.getProfileClassificationLevel();
-        }
+    const level = window.getProfileClassificationLevel();
 
-alert("Nivel detectado para el indicador: " + level);
+    const colors = {
+        2: "level-2",
+        3: "level-3",
+        4: "level-4",
+        5: "level-5"
+    };
 
-        if (level >= 2 && level <= 5) {
-            alertElement.classList.add("level-" + level);
-        }
+    if (colors[level]) {
+        alertElement.classList.add(colors[level]);
     }
+}
 
     async function refreshUpdatesAlert() {
         const latest = await getLatestUpdate();
