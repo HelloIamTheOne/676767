@@ -1105,46 +1105,40 @@ window.testGithubRead = async function () {
 window.testGithubWrite = async function () {
     const result = document.getElementById("githubConsoleTestResult");
 
-    result.textContent = "Creando archivo de prueba...";
+    result.textContent = "Comprobando escritura...";
 
     try {
-        const { data, error } = await db.functions.invoke(
-            "github-console",
+        const { data: sessionData } = await db.auth.getSession();
+        const token = sessionData.session?.access_token;
+
+        if (!token) {
+            throw new Error("No hay una sesión activa.");
+        }
+
+        const response = await fetch(
+            "https://wiwqnlhavvmhnwmoyjtw.supabase.co/functions/v1/github-console",
             {
-                body: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
+                    "apikey": "sb_publishable_Gv_HEVvrHYarvp6Exf5OXQ_raWWq59s"
+                },
+                body: JSON.stringify({
                     action: "write",
                     path: "github-console-test.txt",
                     content: "ARCHIVO DE PRUEBA\nGitHub Console: escritura confirmada."
-                }
+                })
             }
         );
 
-        if (error) {
-    const details = error.context
-        ? await error.context.json().catch(() => null)
-        : null;
-
-    throw new Error(
-        details?.error ||
-        details?.message ||
-        error.message
-    );
-}
-
-        result.textContent = JSON.stringify(data, null, 2);
-
-       } catch (error) {
-        let details = "Sin detalles adicionales.";
-
-        try {
-            if (error.context) {
-                details = await error.context.text();
-            }
-        } catch (e) {
-            details = String(e);
-        }
+        const responseText = await response.text();
 
         result.textContent =
-            "ERROR: " + error.message +
-            "\nDETALLES: " + details;
+            "ESTADO HTTP: " + response.status +
+            "\nRESPUESTA:\n" + responseText;
+
+    } catch (error) {
+        result.textContent = "ERROR: " + error.message;
     }
+};
