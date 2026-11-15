@@ -1394,13 +1394,16 @@ window.readGithubConsoleFile = async function (path) {
             }
         );
 
-        if (error) throw error;
-
-        if (!data || typeof data.content !== "string" || !data.sha) {
-            throw new Error(
-                data?.error || "GitHub no devolvió el contenido y SHA del archivo."
-            );
-        }
+        if (
+    !data ||
+    data.success !== true ||
+    typeof data.content !== "string" ||
+    !data.sha
+) {
+    throw new Error(
+        data?.error || "GitHub no devolvió el contenido y SHA del archivo."
+    );
+}
 
         editor.value = data.content;
         githubConsoleSelectedPath = path;
