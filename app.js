@@ -1652,3 +1652,112 @@ window.closeGithubConsolePage = function () {
     consolePage.style.display = "none";
 };
 
+
+
+// ========================================
+// CODE - EXPLORADOR DE CONSOLA
+// ========================================
+
+let githubConsolePageCurrentPath = "";
+
+window.loadGithubConsolePageFiles = async function (path = "") {
+    if (!isAdmin) return;
+
+    const fileList = document.getElementById(
+        "githubConsolePageFileList"
+    );
+
+    const status = document.getElementById(
+        "githubConsolePageStatus"
+    );
+
+    if (!fileList || !status) return;
+
+    githubConsolePageCurrentPath = path;
+
+    fileList.textContent = "Consultando repositorio...";
+    status.textContent = "CONECTANDO CON GITHUB...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "list",
+                    path: path
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.files)
+        ) {
+            throw new Error(
+                data?.error || "No se recibió una lista válida."
+            );
+        }
+
+        fileList.replaceChildren();
+
+        if (path !== "") {
+            const backButton = document.createElement("button");
+
+            backButton.type = "button";
+            backButton.textContent = "↰ ..";
+
+            backButton.onclick = function () {
+                const parentPath = path
+                    .split("/")
+                    .slice(0, -1)
+                    .join("/");
+
+                window.loadGithubConsolePageFiles(parentPath);
+            };
+
+            fileList.appendChild(backButton);
+        }
+
+        if (data.files.length === 0) {
+            const emptyMessage = document.createElement("p");
+
+            emptyMessage.textContent = "Esta carpeta está vacía.";
+
+            fileList.appendChild(emptyMessage);
+        }
+
+        data.files.forEach(function (file) {
+            const fileButton = document.createElement("button");
+
+            fileButton.type = "button";
+
+            if (file.type === "dir") {
+                fileButton.textContent = "📁 " + file.name;
+
+                fileButton.onclick = function () {
+                    window.loadGithubConsolePageFiles(file.path);
+                };
+            } else {
+                fileButton.textContent = "📄 " + file.name;
+
+                fileButton.onclick = function () {
+                    window.readGithubConsolePageFile(file.path);
+                };
+            }
+
+            fileList.appendChild(fileButton);
+        });
+
+        status.textContent =
+            "DIRECTORIO CARGADO: /" + path;
+
+    } catch (error) {
+        fileList.textContent = "No se pudo cargar el directorio.";
+
+        status.textContent =
+            "ERROR: " + (error.message || "Error desconocido");
+    }
+};
