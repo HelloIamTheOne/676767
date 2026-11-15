@@ -102,24 +102,35 @@
     }
 
     function createTitle(commit) {
-        let title = (commit.commit.message || "")
-            .split("\n")[0]
-            .trim();
+    const files = (commit.files || [])
+        .map(file => file.filename.toLowerCase());
 
-        if (!title) {
-            return "Actualización del proyecto";
-        }
-
-        title = title
-            .replace(/^(feat|fix|docs|chore|refactor|update|create|add)(\([^)]+\))?:?\s*/i, "")
-            .trim();
-
-        if (!title) {
-            return "Actualización del proyecto";
-        }
-
-        return title.charAt(0).toUpperCase() + title.slice(1);
+    if (files.some(file => file.includes("profiles.js"))) {
+        return "Mejoras en el sistema de perfiles";
     }
+
+    if (files.some(file => file.includes("updates-admin.js"))) {
+        return "Mejoras en el generador de actualizaciones";
+    }
+
+    if (files.some(file => file.includes("styles.css"))) {
+        return "Renovación visual del proyecto";
+    }
+
+    if (files.some(file => file.includes("build.js"))) {
+        return "Mejoras en el sistema de compilación";
+    }
+
+    if (files.some(file => file.includes("app.js"))) {
+        return "Mejoras en el funcionamiento del sistema";
+    }
+
+    if (files.some(file => file.includes("index.html"))) {
+        return "Actualización de la estructura principal";
+    }
+
+    return "Nueva actualización del proyecto";
+}
 
     function createDescription(commit) {
         const message = (commit.commit.message || "")
