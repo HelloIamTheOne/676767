@@ -1102,41 +1102,46 @@ window.testGithubRead = async function () {
     }
 };
 
+
 window.testGithubWrite = async function () {
     const result = document.getElementById("githubConsoleTestResult");
-
-    result.textContent = "Comprobando escritura...";
+    result.textContent = "Preparando actualización...";
 
     try {
-        const { data: sessionData } = await db.auth.getSession();
-        const token = sessionData.session?.access_token;
+        // 1. Leer el archivo existente y obtener su SHA.
+        const { data: readData, error: readError } =
+            await db.functions.invoke("github-console", {
+                body: {
+                    action: "read",
+                    path: "github-console-test.txt"
+                }
+            });
 
-        if (!token) {
-            throw new Error("No hay una sesión activa.");
+        if (readError) throw readError;
+
+        if (!readData.success || !readData.sha) {
+            throw new Error(
+                readData.error || "No se pudo obtener el SHA del archivo."
+            );
         }
 
-        const response = await fetch(
-            "https://wiwqnlhavvmhnwmoyjtw.supabase.co/functions/v1/github-console",
+        // 2. Actualizar el archivo utilizando su SHA.
+        const { data, error } = await db.functions.invoke(
+            "github-console",
             {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token,
-                    "apikey": "sb_publishable_Gv_HEVvrHYarvp6Exf5OXQ_raWWq59s"
-                },
-                body: JSON.stringify({
+                body: {
                     action: "write",
                     path: "github-console-test.txt",
-                    content: "ARCHIVO DE PRUEBA\nGitHub Console: escritura confirmada."
-                })
+                    sha: readData.sha,
+                    content: "ARCHIVO DE PRUEBA\nGitHub Console: escritura y actualización confirmadas."
+                }
             }
         );
 
-        const responseText = await response.text();
+        if (error) throw error;
 
-        result.textContent =
-            "ESTADO HTTP: " + response.status +
-            "\nRESPUESTA:\n" + responseText;
+        // 3. Mostrar el resultado.
+        result.textContent = JSON.stringify(data, null, 2);
 
     } catch (error) {
         result.textContent = "ERROR: " + error.message;
