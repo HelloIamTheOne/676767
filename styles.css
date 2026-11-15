@@ -43,7 +43,7 @@ body.admin-mode #restorePanel {
 .updates-entry-wrap {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
+    gap: 2px;
     width: fit-content;
     max-width: 100%;
 }
