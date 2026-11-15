@@ -1080,3 +1080,30 @@ window.testGithubConsole = async function () {
         result.textContent = "ERROR: " + error.message;
     }
 };
+
+window.testGithubRead = async function () {
+    const result = document.getElementById("githubConsoleTestResult");
+
+    result.textContent = "Leyendo archivo...";
+
+    try {
+        const { data, error } = await db.functions.invoke(
+            "github-console",
+            {
+                body: {
+                    action: "read",
+                    path: "package.json"
+                }
+            }
+        );
+
+        if (error) throw error;
+
+        result.textContent = data.success
+            ? data.content
+            : JSON.stringify(data, null, 2);
+
+    } catch (error) {
+        result.textContent = "ERROR: " + error.message;
+    }
+};
