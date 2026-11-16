@@ -2229,6 +2229,79 @@ if (githubConsoleEditor) {
     });
 }
 
+// CODE - CERRAR PESTAÑAS
+
+window.closeGithubConsoleTab = function (path, force) {
+    const editor = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    const selectedFile = document.getElementById(
+        "githubConsolePageSelectedFile"
+    );
+
+    const index = githubConsoleOpenTabs.findIndex(
+        function (tab) {
+            return tab.path === path;
+        }
+    );
+
+    if (index === -1) return;
+
+    const tab = githubConsoleOpenTabs[index];
+
+    if (tab.path === githubConsoleActiveTab && editor) {
+        tab.content = editor.value;
+        tab.dirty =
+            editor.value !== tab.savedContent;
+    }
+
+    if (tab.dirty && !force) {
+        const confirmed = window.confirm(
+            "ESTE ARCHIVO TIENE CAMBIOS SIN GUARDAR. " +
+            "¿DESEAS CERRAR LA PESTAÑA Y DESCARTARLOS?"
+        );
+
+        if (!confirmed) return;
+    }
+
+    const wasActive =
+        tab.path === githubConsoleActiveTab;
+
+    githubConsoleOpenTabs.splice(index, 1);
+
+    if (wasActive) {
+        githubConsoleActiveTab = "";
+
+        if (githubConsoleOpenTabs.length > 0) {
+            const nextIndex = Math.min(
+                index,
+                githubConsoleOpenTabs.length - 1
+            );
+
+            window.activateGithubConsoleTab(
+                githubConsoleOpenTabs[nextIndex].path
+            );
+        } else {
+            githubConsolePageSelectedPath = "";
+            githubConsolePageSelectedSha = "";
+
+            if (editor) {
+                editor.value = "";
+            }
+
+            if (selectedFile) {
+                selectedFile.textContent =
+                    "NINGÚN ARCHIVO SELECCIONADO.";
+            }
+
+            window.renderGithubConsoleTabs();
+        }
+    } else {
+        window.renderGithubConsoleTabs();
+    }
+};
+
 
 // ========================================
 // CODE - DIAGNÓSTICO DE PESTAÑAS
