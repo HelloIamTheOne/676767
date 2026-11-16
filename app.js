@@ -2044,12 +2044,6 @@ window.deleteGithubConsolePageFile = async function () {
 
         window.closeGithubConsoleTab(path);
 
-        githubConsolePageSelectedPath = "";
-        githubConsolePageSelectedSha = "";
-
-        editor.value = "";
-        selectedFile.textContent = "NINGÚN ARCHIVO SELECCIONADO.";
-
         status.textContent = "ARCHIVO ELIMINADO CORRECTAMENTE.";
 
         await window.loadGithubConsolePageFiles(
