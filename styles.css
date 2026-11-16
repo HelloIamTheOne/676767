@@ -1409,13 +1409,14 @@ body.admin-mode #profileMessage {
     border-radius: 13px;
 
     box-shadow:
-        0 3px 0 #17415e,
-        0 7px 0 #092438,
-        0 11px 0 #03101b,
-        0 16px 22px rgba(0,0,0,.8),
-        inset 0 2px 3px rgba(255,255,255,.35),
-        inset 0 -7px 12px rgba(0,0,0,.65),
-        0 0 13px rgba(54,169,255,.4);
+    0 3px 0 #286486,
+    0 7px 0 #17415e,
+    0 12px 0 #092438,
+    0 17px 0 #03101b,
+    0 23px 25px rgba(0,0,0,.85),
+    inset 0 2px 3px rgba(255,255,255,.45),
+    inset 0 -8px 14px rgba(0,0,0,.7),
+    0 0 16px rgba(54,169,255,.45);
 
     transform:
         translate(-50%,-50%)
