@@ -2054,7 +2054,7 @@ window.deleteGithubConsolePageFile = async function () {
             );
         }
 
-        window.closeGithubConsoleTab(path);
+        window.closeGithubConsoleTab(path, true);
 
         status.textContent = "ARCHIVO ELIMINADO CORRECTAMENTE.";
 
