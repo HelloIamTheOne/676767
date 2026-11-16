@@ -2207,3 +2207,32 @@ window.closeGithubConsoleTab = function (path) {
 
     window.renderGithubConsoleTabs();
 };
+
+
+// ========================================
+// CODE - DIAGNÓSTICO DE PESTAÑAS
+// ========================================
+
+window.diagnoseGithubConsoleTabs = function () {
+    const diagnostic = document.getElementById(
+        "githubConsoleTabDiagnostic"
+    );
+
+    const container = document.getElementById(
+        "githubConsolePageTabs"
+    );
+
+    if (!diagnostic) return;
+
+    diagnostic.style.display = "block";
+
+    diagnostic.textContent =
+        "PESTAÑAS REGISTRADAS: " +
+        githubConsoleOpenTabs.length +
+        " | ARCHIVO ACTIVO: " +
+        (githubConsoleActiveTab || "NINGUNO") +
+        " | CONTENEDOR: " +
+        (container ? "ENCONTRADO" : "NO ENCONTRADO") +
+        " | RENDER: " +
+        (typeof window.renderGithubConsoleTabs);
+};
