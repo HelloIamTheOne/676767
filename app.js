@@ -2086,8 +2086,6 @@ window.closeGithubConsolePage = function () {
 // CODE - SISTEMA DE PESTAÑAS
 // ========================================
 
-let githubConsoleOpenTabs = [];
-let githubConsoleActiveTab = "";
 
 window.renderGithubConsoleTabs = function () {
     const container = document.getElementById(
@@ -2112,23 +2110,36 @@ window.renderGithubConsoleTabs = function () {
         const button = document.createElement("button");
 
         button.type = "button";
-        button.textContent = tab.name;
-
-const closeButton = document.createElement("span");
-
-closeButton.textContent = " ×";
-closeButton.className = "github-console-tab-close";
-
-closeButton.onclick = function (event) {
-    event.stopPropagation();
-    window.closeGithubConsoleTab(tab.path);
-};
-
-button.appendChild(closeButton);
         button.className =
             tab.path === githubConsoleActiveTab
                 ? "github-console-tab active"
                 : "github-console-tab";
+
+        const name = document.createElement("span");
+        name.textContent = tab.name;
+        button.appendChild(name);
+
+        if (tab.dirty) {
+            const warning = document.createElement("span");
+
+            warning.className = "github-console-tab-warning";
+            warning.textContent = "!";
+            warning.title = "CAMBIOS SIN GUARDAR";
+
+            button.appendChild(warning);
+        }
+
+        const closeButton = document.createElement("span");
+
+        closeButton.textContent = "×";
+        closeButton.className = "github-console-tab-close";
+
+        closeButton.onclick = function (event) {
+            event.stopPropagation();
+            window.closeGithubConsoleTab(tab.path);
+        };
+
+        button.appendChild(closeButton);
 
         button.onclick = function () {
             window.activateGithubConsoleTab(tab.path);
@@ -2138,51 +2149,6 @@ button.appendChild(closeButton);
     });
 };
 
-window.activateGithubConsoleTab = function (path) {
-    const editor = document.getElementById(
-        "githubConsolePageTextarea"
-    );
-
-    // Conservar los cambios del archivo que estaba activo.
-    if (githubConsoleActiveTab && editor) {
-        const currentTab = githubConsoleOpenTabs.find(
-            function (item) {
-                return item.path === githubConsoleActiveTab;
-            }
-        );
-
-        if (currentTab) {
-            currentTab.content = editor.value;
-        }
-    }
-
-    const tab = githubConsoleOpenTabs.find(
-        function (item) {
-            return item.path === path;
-        }
-    );
-
-    if (!tab) return;
-
-    githubConsoleActiveTab = path;
-
-    githubConsolePageSelectedPath = tab.path;
-    githubConsolePageSelectedSha = tab.sha || "";
-
-    const selectedFile = document.getElementById(
-        "githubConsolePageSelectedFile"
-    );
-
-    if (selectedFile) {
-        selectedFile.textContent = tab.path;
-    }
-
-    if (editor) {
-        editor.value = tab.content || "";
-    }
-
-    window.renderGithubConsoleTabs();
-};
 
 // ========================================
 // CODE - DIAGNÓSTICO DE PESTAÑAS
