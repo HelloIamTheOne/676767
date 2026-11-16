@@ -2042,6 +2042,8 @@ window.deleteGithubConsolePageFile = async function () {
             );
         }
 
+        window.closeGithubConsoleTab(path);
+
         githubConsolePageSelectedPath = "";
         githubConsolePageSelectedSha = "";
 
