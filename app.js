@@ -1925,6 +1925,17 @@ window.saveGithubConsolePageFile = async function () {
 
         githubConsolePageSelectedSha = data.sha;
 
+        const tab = githubConsoleOpenTabs.find(function (item) {
+            return item.path === path;
+        });
+
+        if (tab) {
+            tab.content = content;
+            tab.sha = data.sha;
+        }
+
+        window.renderGithubConsoleTabs();
+
         status.textContent =
             "CAMBIOS GUARDADOS CORRECTAMENTE.";
 
