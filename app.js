@@ -2139,9 +2139,28 @@ button.appendChild(closeButton);
 };
 
 window.activateGithubConsoleTab = function (path) {
-    const tab = githubConsoleOpenTabs.find(function (item) {
-        return item.path === path;
-    });
+    const editor = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    // Conservar los cambios del archivo que estaba activo.
+    if (githubConsoleActiveTab && editor) {
+        const currentTab = githubConsoleOpenTabs.find(
+            function (item) {
+                return item.path === githubConsoleActiveTab;
+            }
+        );
+
+        if (currentTab) {
+            currentTab.content = editor.value;
+        }
+    }
+
+    const tab = githubConsoleOpenTabs.find(
+        function (item) {
+            return item.path === path;
+        }
+    );
 
     if (!tab) return;
 
@@ -2154,64 +2173,16 @@ window.activateGithubConsoleTab = function (path) {
         "githubConsolePageSelectedFile"
     );
 
-    const textarea = document.getElementById(
-        "githubConsolePageTextarea"
-    );
-
     if (selectedFile) {
         selectedFile.textContent = tab.path;
     }
 
-    if (textarea) {
-        textarea.value = tab.content || "";
+    if (editor) {
+        editor.value = tab.content || "";
     }
 
     window.renderGithubConsoleTabs();
 };
-
-
-window.closeGithubConsoleTab = function (path) {
-    const index = githubConsoleOpenTabs.findIndex(function (tab) {
-        return tab.path === path;
-    });
-
-    if (index === -1) return;
-
-    const wasActive = githubConsoleActiveTab === path;
-
-    githubConsoleOpenTabs.splice(index, 1);
-
-    if (wasActive) {
-        const nextTab =
-            githubConsoleOpenTabs[index] ||
-            githubConsoleOpenTabs[index - 1] ||
-            null;
-
-        if (nextTab) {
-            window.activateGithubConsoleTab(nextTab.path);
-        } else {
-            githubConsoleActiveTab = "";
-            githubConsolePageSelectedPath = "";
-            githubConsolePageSelectedSha = "";
-
-            const editor = document.getElementById(
-                "githubConsolePageTextarea"
-            );
-
-            const selectedFile = document.getElementById(
-                "githubConsolePageSelectedFile"
-            );
-
-            if (editor) editor.value = "";
-            if (selectedFile) {
-                selectedFile.textContent = "NINGÚN ARCHIVO SELECCIONADO";
-            }
-        }
-    }
-
-    window.renderGithubConsoleTabs();
-};
-
 
 // ========================================
 // CODE - DIAGNÓSTICO DE PESTAÑAS
