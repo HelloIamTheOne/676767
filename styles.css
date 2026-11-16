@@ -1344,11 +1344,10 @@ body.admin-mode #profileMessage {
 ======================================== */
 
 #githubConsoleAccess {
-    position: fixed;
-    right: 12px;
-    bottom: 12px;
+    position: relative;
     width: 230px;
     height: 170px;
+    margin: -5px auto 0;
     z-index: 9997;
 }
 
