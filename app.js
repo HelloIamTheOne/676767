@@ -1835,12 +1835,14 @@ window.readGithubConsolePageFile = async function (path) {
         });
 
         if (!tab) {
-            tab = {
-                path: path,
-                name: path.split("/").pop(),
-                content: data.content,
-                sha: data.sha
-            };
+        tab = {
+    path: path,
+    name: path.split("/").pop(),
+    content: data.content,
+    savedContent: data.content,
+    sha: data.sha,
+    dirty: false
+};
 
             githubConsoleOpenTabs.push(tab);
         } else {
