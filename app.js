@@ -2052,3 +2052,49 @@ window.closeGithubConsolePage = function () {
         updateAdmin();
     }
 };
+
+
+
+// ========================================
+// CODE - SISTEMA DE PESTAÑAS
+// ========================================
+
+let githubConsoleOpenTabs = [];
+let githubConsoleActiveTab = "";
+
+window.renderGithubConsoleTabs = function () {
+    const container = document.getElementById(
+        "githubConsolePageTabs"
+    );
+
+    if (!container) return;
+
+    container.replaceChildren();
+
+    if (githubConsoleOpenTabs.length === 0) {
+        const empty = document.createElement("span");
+
+        empty.className = "github-console-empty-tabs";
+        empty.textContent = "NINGÚN ARCHIVO ABIERTO";
+
+        container.appendChild(empty);
+        return;
+    }
+
+    githubConsoleOpenTabs.forEach(function (tab) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.textContent = tab.name;
+        button.className =
+            tab.path === githubConsoleActiveTab
+                ? "github-console-tab active"
+                : "github-console-tab";
+
+        button.onclick = function () {
+            window.activateGithubConsoleTab(tab.path);
+        };
+
+        container.appendChild(button);
+    });
+};
