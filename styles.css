@@ -1124,7 +1124,7 @@ body.admin-mode #profileMessage {
     text-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
 }
 
-#githubConsolePageBrand small {
+#githubConsolePageBrand strong {
     color: #7297b5;
     font-size: 9px;
     letter-spacing: 1.5px;
