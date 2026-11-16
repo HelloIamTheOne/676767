@@ -1785,6 +1785,8 @@ window.loadGithubConsolePageFiles = async function (path = "") {
 
 let githubConsolePageSelectedPath = "";
 let githubConsolePageSelectedSha = "";
+let githubConsoleOpenTabs = [];
+let githubConsoleActiveTab = "";
 
 window.readGithubConsolePageFile = async function (path) {
     if (!isAdmin) return;
