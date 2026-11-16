@@ -2098,3 +2098,34 @@ window.renderGithubConsoleTabs = function () {
         container.appendChild(button);
     });
 };
+
+window.activateGithubConsoleTab = function (path) {
+    const tab = githubConsoleOpenTabs.find(function (item) {
+        return item.path === path;
+    });
+
+    if (!tab) return;
+
+    githubConsoleActiveTab = path;
+
+    githubConsolePageSelectedPath = tab.path;
+    githubConsolePageSelectedSha = tab.sha || "";
+
+    const selectedFile = document.getElementById(
+        "githubConsolePageSelectedFile"
+    );
+
+    const textarea = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    if (selectedFile) {
+        selectedFile.textContent = tab.path;
+    }
+
+    if (textarea) {
+        textarea.value = tab.content || "";
+    }
+
+    window.renderGithubConsoleTabs();
+};
