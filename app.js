@@ -2150,6 +2150,33 @@ window.renderGithubConsoleTabs = function () {
 };
 
 
+
+// CODE - DETECTOR DE CAMBIOS SIN GUARDAR
+
+const githubConsoleEditor = document.getElementById(
+    "githubConsolePageTextarea"
+);
+
+if (githubConsoleEditor) {
+    githubConsoleEditor.addEventListener("input", function () {
+        const activeTab = githubConsoleOpenTabs.find(
+            function (tab) {
+                return tab.path === githubConsoleActiveTab;
+            }
+        );
+
+        if (!activeTab) return;
+
+        activeTab.dirty =
+            githubConsoleEditor.value !== activeTab.savedContent;
+
+        activeTab.content = githubConsoleEditor.value;
+
+        window.renderGithubConsoleTabs();
+    });
+}
+
+
 // ========================================
 // CODE - DIAGNÓSTICO DE PESTAÑAS
 // ========================================
