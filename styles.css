@@ -1360,8 +1360,12 @@ body.admin-mode #profileMessage {
     height: 100%;
     overflow: visible;
     pointer-events: none;
-    filter: drop-shadow(0 0 4px rgba(54,169,255,.65));
-    animation: codeCracksPulse 4s ease-in-out infinite alternate;
+
+    filter:
+        drop-shadow(0 0 1px rgba(54,169,255,.5))
+        drop-shadow(0 0 3px rgba(54,169,255,.2));
+
+    animation: codeCracksPulse 5s ease-in-out infinite alternate;
 }
 
 /* TECLA PRINCIPAL 3D */
