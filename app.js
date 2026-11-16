@@ -1830,10 +1830,25 @@ window.readGithubConsolePageFile = async function (path) {
             );
         }
 
-        editor.value = data.content;
+        let tab = githubConsoleOpenTabs.find(function (item) {
+            return item.path === path;
+        });
 
-        githubConsolePageSelectedPath = path;
-        githubConsolePageSelectedSha = data.sha;
+        if (!tab) {
+            tab = {
+                path: path,
+                name: path.split("/").pop(),
+                content: data.content,
+                sha: data.sha
+            };
+
+            githubConsoleOpenTabs.push(tab);
+        } else {
+            tab.content = data.content;
+            tab.sha = data.sha;
+        }
+
+        window.activateGithubConsoleTab(path);
 
         selectedFile.textContent = "ARCHIVO: " + path;
         status.textContent = "ARCHIVO CARGADO CORRECTAMENTE.";
@@ -1845,7 +1860,6 @@ window.readGithubConsolePageFile = async function (path) {
             "ERROR: " + (error.message || "Error desconocido");
     }
 };
-
 
 
 // ========================================
