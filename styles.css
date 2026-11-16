@@ -1226,3 +1226,113 @@ body.admin-mode #profileMessage {
 .github-console-tab-close:hover {
     color: #ff7777;
 }
+
+
+
+/* INDICADOR CELESTE DE CAMBIOS SIN GUARDAR */
+
+.github-console-tab-warning {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    margin: 0 3px;
+    color: #b8eeff;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow:
+        0 0 3px #ffffff,
+        0 0 6px #87CEFA,
+        0 0 12px #00bfff,
+        0 0 20px #00aaff,
+        0 0 32px #008cff;
+    filter: drop-shadow(0 0 5px #87CEFA);
+    animation:
+        celesteWarningPulse 1.2s ease-in-out infinite,
+        celesteWarningFlash 2.4s linear infinite;
+    transform-origin: center;
+}
+
+.github-console-tab-warning::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 1px solid rgba(135, 206, 250, 0.8);
+    border-radius: 50%;
+    box-shadow:
+        0 0 7px #87CEFA,
+        inset 0 0 7px #00bfff;
+    animation: celesteWarningHalo 1.8s ease-out infinite;
+    pointer-events: none;
+}
+
+.github-console-tab-warning::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(135, 206, 250, 0.35),
+        transparent 70%
+    );
+    animation: celesteWarningGlow 1.2s ease-in-out infinite alternate;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes celesteWarningPulse {
+    0%, 100% {
+        transform: scale(1) rotate(-4deg);
+    }
+    50% {
+        transform: scale(1.28) rotate(4deg);
+    }
+}
+
+@keyframes celesteWarningFlash {
+    0%, 85%, 100% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.45;
+    }
+    95% {
+        opacity: 1;
+    }
+}
+
+@keyframes celesteWarningHalo {
+    0% {
+        transform: scale(0.65);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+@keyframes celesteWarningGlow {
+    from {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+.github-console-tab:hover .github-console-tab-warning {
+    color: #ffffff;
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #87CEFA,
+        0 0 25px #00bfff,
+        0 0 40px #008cff;
+    filter: drop-shadow(0 0 9px #87CEFA);
+}
