@@ -1579,10 +1579,8 @@ body.admin-mode #profileMessage {
 
 @media (max-width: 480px) {
     #githubConsoleAccess {
-        right: 4px;
-        bottom: 8px;
         transform: scale(.9);
-        transform-origin: bottom right;
+        transform-origin: top center;
     }
 }
 
