@@ -1094,7 +1094,7 @@ body.admin-mode #profileMessage {
    CODE - BARRA SUPERIOR Y PESTAÑAS
 ======================================== */
 
-#githubConsolePageTabBar {
+#githubConsolePageTopBar {
     width: 100%;
     min-height: 64px;
     display: flex;
