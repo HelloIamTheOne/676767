@@ -2093,6 +2093,53 @@ window.closeGithubConsolePage = function () {
 // ========================================
 
 
+// CODE - ACTIVAR PESTAÑAS
+
+window.activateGithubConsoleTab = function (path) {
+    const editor = document.getElementById(
+        "githubConsolePageTextarea"
+    );
+
+    const selectedFile = document.getElementById(
+        "githubConsolePageSelectedFile"
+    );
+
+    const currentTab = githubConsoleOpenTabs.find(
+        function (tab) {
+            return tab.path === githubConsoleActiveTab;
+        }
+    );
+
+    if (currentTab && editor) {
+        currentTab.content = editor.value;
+        currentTab.dirty =
+            editor.value !== currentTab.savedContent;
+    }
+
+    const targetTab = githubConsoleOpenTabs.find(
+        function (tab) {
+            return tab.path === path;
+        }
+    );
+
+    if (!targetTab) return;
+
+    githubConsoleActiveTab = targetTab.path;
+    githubConsolePageSelectedPath = targetTab.path;
+    githubConsolePageSelectedSha = targetTab.sha;
+
+    if (editor) {
+        editor.value = targetTab.content;
+    }
+
+    if (selectedFile) {
+        selectedFile.textContent =
+            "ARCHIVO: " + targetTab.path;
+    }
+
+    window.renderGithubConsoleTabs();
+};
+
 window.renderGithubConsoleTabs = function () {
     const container = document.getElementById(
         "githubConsolePageTabs"
