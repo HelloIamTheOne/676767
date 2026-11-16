@@ -1336,3 +1336,199 @@ body.admin-mode #profileMessage {
         0 0 40px #008cff;
     filter: drop-shadow(0 0 9px #87CEFA);
 }
+
+
+
+/* ========================================
+   CODE - BOTÓN 3D PRINCIPAL
+======================================== */
+
+#githubConsoleAccess {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 9997;
+}
+
+#githubConsoleAccessButton {
+    position: relative;
+    width: 172px;
+    min-height: 112px;
+    margin: 0;
+    padding: 17px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    color: #dff8ff;
+    background:
+        linear-gradient(145deg, #163e58, #071522 55%, #02080e);
+
+    border: 1px solid #87cefa;
+    border-radius: 12px;
+
+    box-shadow:
+        0 7px 0 #03101b,
+        0 10px 18px rgba(0,0,0,.75),
+        inset 0 1px 2px rgba(255,255,255,.35),
+        inset 0 -5px 12px rgba(0,0,0,.65),
+        0 0 12px rgba(135,206,250,.45);
+
+    transform: perspective(500px) rotateX(5deg);
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
+}
+
+/* GRIETAS Y FRACTURAS */
+
+#githubConsoleAccessButton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background:
+        linear-gradient(115deg, transparent 46%, #87cefa 47%, transparent 48%),
+        linear-gradient(35deg, transparent 58%, #87cefa 59%, transparent 60%),
+        linear-gradient(165deg, transparent 69%, #87cefa 70%, transparent 71%),
+        linear-gradient(75deg, transparent 28%, rgba(135,206,250,.8) 29%, transparent 30%);
+
+    opacity: .35;
+}
+
+/* DESTELLO SUPERFICIAL */
+
+#githubConsoleAccessButton::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -60%;
+    width: 45%;
+    height: 300%;
+    pointer-events: none;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(190,235,255,.3),
+        transparent
+    );
+
+    transform: rotate(25deg);
+    animation: codeSurfaceFlash 5s ease-in-out infinite;
+}
+
+/* NÚMEROS BINARIOS */
+
+#githubConsoleAccessButton .github-console-binary {
+    color: #87cefa;
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-shadow:
+        0 0 5px #87cefa,
+        0 0 12px #36a9ff;
+
+    animation: codeBinaryGlow 2s ease-in-out infinite alternate;
+}
+
+/* TÍTULO */
+
+#githubConsoleAccessButton .github-console-access-title {
+    color: #eafaff;
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 0 5px #87cefa,
+        0 0 12px #36a9ff,
+        2px 3px 0 #123b57;
+}
+
+/* SUBTÍTULO */
+
+#githubConsoleAccessButton .github-console-access-subtitle {
+    color: #87cefa;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 7px #36a9ff;
+}
+
+/* EFECTO AL INTERACTUAR */
+
+#githubConsoleAccessButton:hover {
+    filter: brightness(1.3);
+
+    transform:
+        perspective(500px)
+        rotateX(0deg)
+        translateY(-4px);
+
+    box-shadow:
+        0 10px 0 #03101b,
+        0 15px 25px rgba(0,0,0,.8),
+        inset 0 1px 3px rgba(255,255,255,.5),
+        0 0 18px #36a9ff,
+        0 0 35px rgba(135,206,250,.4);
+}
+
+#githubConsoleAccessButton:active {
+    transform:
+        perspective(500px)
+        rotateX(8deg)
+        translateY(5px);
+
+    box-shadow:
+        0 2px 0 #03101b,
+        0 4px 9px rgba(0,0,0,.8),
+        inset 0 3px 9px rgba(0,0,0,.7);
+}
+
+/* ANIMACIONES */
+
+@keyframes codeBinaryGlow {
+    from {
+        opacity: .65;
+        text-shadow: 0 0 4px #87cefa;
+    }
+
+    to {
+        opacity: 1;
+        text-shadow:
+            0 0 8px #87cefa,
+            0 0 17px #36a9ff;
+    }
+}
+
+@keyframes codeSurfaceFlash {
+    0%, 65% {
+        left: -60%;
+    }
+
+    85%, 100% {
+        left: 130%;
+    }
+}
+
+/* ADAPTACIÓN A MÓVILES */
+
+@media (max-width: 480px) {
+    #githubConsoleAccess {
+        right: 12px;
+        bottom: 15px;
+    }
+
+    #githubConsoleAccessButton {
+        width: 155px;
+        min-height: 103px;
+    }
+}
