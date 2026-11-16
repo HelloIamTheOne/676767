@@ -1541,14 +1541,19 @@ body.admin-mode #profileMessage {
 /* ANIMACIÓN DE GRIETAS */
 
 @keyframes codeCracksPulse {
-    from {
-        opacity: .7;
-        filter: drop-shadow(0 0 2px rgba(54,169,255,.4));
+    0% {
+        opacity: .65;
+        filter: drop-shadow(0 0 1px rgba(54,169,255,.25));
     }
 
-    to {
-        opacity: 1;
-        filter: drop-shadow(0 0 7px rgba(54,169,255,.8));
+    50% {
+        opacity: .85;
+        filter: drop-shadow(0 0 3px rgba(54,169,255,.4));
+    }
+
+    100% {
+        opacity: .75;
+        filter: drop-shadow(0 0 2px rgba(135,206,250,.35));
     }
 }
 
