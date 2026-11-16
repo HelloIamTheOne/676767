@@ -2155,3 +2155,46 @@ window.activateGithubConsoleTab = function (path) {
 
     window.renderGithubConsoleTabs();
 };
+
+
+window.closeGithubConsoleTab = function (path) {
+    const index = githubConsoleOpenTabs.findIndex(function (tab) {
+        return tab.path === path;
+    });
+
+    if (index === -1) return;
+
+    const wasActive = githubConsoleActiveTab === path;
+
+    githubConsoleOpenTabs.splice(index, 1);
+
+    if (wasActive) {
+        const nextTab =
+            githubConsoleOpenTabs[index] ||
+            githubConsoleOpenTabs[index - 1] ||
+            null;
+
+        if (nextTab) {
+            window.activateGithubConsoleTab(nextTab.path);
+        } else {
+            githubConsoleActiveTab = "";
+            githubConsolePageSelectedPath = "";
+            githubConsolePageSelectedSha = "";
+
+            const editor = document.getElementById(
+                "githubConsolePageTextarea"
+            );
+
+            const selectedFile = document.getElementById(
+                "githubConsolePageSelectedFile"
+            );
+
+            if (editor) editor.value = "";
+            if (selectedFile) {
+                selectedFile.textContent = "NINGÚN ARCHIVO SELECCIONADO";
+            }
+        }
+    }
+
+    window.renderGithubConsoleTabs();
+};
