@@ -1166,7 +1166,7 @@ body.admin-mode #profileMessage {
 }
 
 @media (max-width: 650px) {
-    #githubConsolePageTabBar {
+    #githubConsolePageTopbar {
         flex-wrap: wrap;
         padding: 12px;
     }
