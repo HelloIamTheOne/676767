@@ -2100,6 +2100,18 @@ window.renderGithubConsoleTabs = function () {
 
         button.type = "button";
         button.textContent = tab.name;
+
+const closeButton = document.createElement("span");
+
+closeButton.textContent = " ×";
+closeButton.className = "github-console-tab-close";
+
+closeButton.onclick = function (event) {
+    event.stopPropagation();
+    window.closeGithubConsoleTab(tab.path);
+};
+
+button.appendChild(closeButton);
         button.className =
             tab.path === githubConsoleActiveTab
                 ? "github-console-tab active"
