@@ -2164,9 +2164,14 @@ window.activateGithubConsoleTab = function (path) {
     githubConsolePageSelectedPath = targetTab.path;
     githubConsolePageSelectedSha = targetTab.sha;
 
-    if (editor) {
-        editor.value = targetTab.content;
-    }
+if (editor) {
+    editor.value = targetTab.content;
+
+    // Evitar que el cambio de pestaña
+    // se interprete como una edición del usuario.
+    targetTab.dirty =
+        editor.value !== targetTab.savedContent;
+}
 
     if (selectedFile) {
         selectedFile.textContent =
