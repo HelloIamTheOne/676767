@@ -1895,6 +1895,7 @@ window.readGithubConsolePageFile = async function (path) {
 // CODE - GUARDAR DESDE CONSOLA
 // ========================================
 
+
 window.saveGithubConsolePageFile = async function () {
     if (!isAdmin) return;
 
@@ -1909,7 +1910,8 @@ window.saveGithubConsolePageFile = async function () {
     if (!editor || !status) return;
 
     if (!githubConsolePageSelectedPath) {
-        status.textContent = "ERROR: NO HAY NINGÚN ARCHIVO SELECCIONADO.";
+        status.textContent =
+            "ERROR: NO HAY NINGÚN ARCHIVO SELECCIONADO.";
         return;
     }
 
@@ -1952,21 +1954,38 @@ window.saveGithubConsolePageFile = async function () {
             );
         }
 
-        githubConsolePageSelectedSha = data.sha;
-
-        const tab = githubConsoleOpenTabs.find(function (item) {
-            return item.path === path;
-        });
+        const tab = githubConsoleOpenTabs.find(
+            function (item) {
+                return item.path === path;
+            }
+        );
 
         if (tab) {
-            tab.content = content;
+            tab.savedContent = content;
             tab.sha = data.sha;
+
+            // Conservar cualquier edición realizada
+            // mientras se procesaba el guardado.
+            if (
+                githubConsolePageSelectedPath === path
+            ) {
+                tab.content = editor.value;
+            }
+
+            tab.dirty =
+                tab.content !== tab.savedContent;
+        }
+
+        if (githubConsolePageSelectedPath === path) {
+            githubConsolePageSelectedSha = data.sha;
         }
 
         window.renderGithubConsoleTabs();
 
         status.textContent =
-            "CAMBIOS GUARDADOS CORRECTAMENTE.";
+            tab && tab.dirty
+                ? "GUARDADO COMPLETADO. HAY CAMBIOS POSTERIORES PENDIENTES."
+                : "CAMBIOS GUARDADOS CORRECTAMENTE.";
 
         await window.loadGithubConsolePageFiles(
             githubConsolePageCurrentPath
@@ -1977,7 +1996,7 @@ window.saveGithubConsolePageFile = async function () {
             "ERROR AL GUARDAR: " +
             (error.message || "Error desconocido");
     }
-};
+}; 
 
 
 
