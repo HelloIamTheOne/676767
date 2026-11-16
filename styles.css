@@ -1147,7 +1147,7 @@ body.admin-mode #profileMessage {
     padding: 10px;
 }
 
-#githubConsolePageConnection {
+#githubConsolePageTopbarInfo {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1176,7 +1176,7 @@ body.admin-mode #profileMessage {
         flex-basis: 100%;
     }
 
-    #githubConsolePageConnection {
+    #githubConsolePageTopbarInfo {
         font-size: 9px;
     }
 }
