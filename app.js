@@ -1847,7 +1847,9 @@ window.readGithubConsolePageFile = async function (path) {
             githubConsoleOpenTabs.push(tab);
         } else {
             tab.content = data.content;
-            tab.sha = data.sha;
+tab.savedContent = data.content;
+tab.sha = data.sha;
+tab.dirty = false;
         }
 
         window.activateGithubConsoleTab(path);
