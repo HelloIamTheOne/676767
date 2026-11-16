@@ -1788,6 +1788,7 @@ let githubConsolePageSelectedSha = "";
 let githubConsoleOpenTabs = [];
 let githubConsoleActiveTab = "";
 
+
 window.readGithubConsolePageFile = async function (path) {
     if (!isAdmin) return;
 
@@ -1804,6 +1805,23 @@ window.readGithubConsolePageFile = async function (path) {
     );
 
     if (!editor || !selectedFile || !status) return;
+
+    // Comprobar si el archivo ya tiene una pestaña abierta.
+    const existingTab = githubConsoleOpenTabs.find(
+        function (item) {
+            return item.path === path;
+        }
+    );
+
+    // Si ya existe, activarla sin volver a leer desde GitHub.
+    if (existingTab) {
+        window.activateGithubConsoleTab(path);
+
+        status.textContent =
+            "PESTAÑA EXISTENTE ACTIVADA. CAMBIOS CONSERVADOS.";
+
+        return;
+    }
 
     selectedFile.textContent = "ABRIENDO: " + path;
     status.textContent = "LEYENDO ARCHIVO...";
@@ -1828,51 +1846,50 @@ window.readGithubConsolePageFile = async function (path) {
             !data.sha
         ) {
             throw new Error(
-                data?.error || "No se pudo obtener el contenido del archivo."
+                data?.error ||
+                "No se pudo obtener el contenido del archivo."
             );
         }
 
-        let tab = githubConsoleOpenTabs.find(function (item) {
-            return item.path === path;
-        });
+        const tab = {
+            path: path,
+            name: path.split("/").pop(),
+            content: data.content,
+            savedContent: data.content,
+            sha: data.sha,
+            dirty: false
+        };
 
-        if (!tab) {
-        tab = {
-    path: path,
-    name: path.split("/").pop(),
-    content: data.content,
-    savedContent: data.content,
-    sha: data.sha,
-    dirty: false
-};
-
-            githubConsoleOpenTabs.push(tab);
-        } else {
-            tab.content = data.content;
-tab.savedContent = data.content;
-tab.sha = data.sha;
-tab.dirty = false;
-        }
+        githubConsoleOpenTabs.push(tab);
 
         window.activateGithubConsoleTab(path);
 
-if (typeof window.diagnoseGithubConsoleTabs === "function") {
-    window.diagnoseGithubConsoleTabs();
-}
+        if (
+            typeof window.diagnoseGithubConsoleTabs === "function"
+        ) {
+            window.diagnoseGithubConsoleTabs();
+        }
 
-console.log("PESTAÑA ACTIVADA:", path, githubConsoleOpenTabs);
-
-        selectedFile.textContent = "ARCHIVO: " + path;
-        status.textContent = "ARCHIVO CARGADO CORRECTAMENTE.";
-
-    } catch (error) {
-        selectedFile.textContent = "ERROR AL ABRIR ARCHIVO.";
+        console.log(
+            "PESTAÑA ACTIVADA:",
+            path,
+            githubConsoleOpenTabs
+        );
 
         status.textContent =
-            "ERROR: " + (error.message || "Error desconocido");
+            "ARCHIVO CARGADO CORRECTAMENTE.";
+
+    } catch (error) {
+        selectedFile.textContent =
+            "ERROR AL ABRIR ARCHIVO.";
+
+        status.textContent =
+            "ERROR: " +
+            (error.message || "Error desconocido");
     }
 };
 
+             
 
 // ========================================
 // CODE - GUARDAR DESDE CONSOLA
