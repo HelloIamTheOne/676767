@@ -1850,6 +1850,8 @@ window.readGithubConsolePageFile = async function (path) {
 
         window.activateGithubConsoleTab(path);
 
+console.log("PESTAÑA ACTIVADA:", path, githubConsoleOpenTabs);
+
         selectedFile.textContent = "ARCHIVO: " + path;
         status.textContent = "ARCHIVO CARGADO CORRECTAMENTE.";
 
