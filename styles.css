@@ -1157,7 +1157,7 @@ body.admin-mode #profileMessage {
     letter-spacing: 1px;
 }
 
-.github-console-status-dot {
+.github-console-status-indicator {
     width: 8px;
     height: 8px;
     border-radius: 50%;
