@@ -1088,3 +1088,96 @@ body.admin-mode #profileMessage {
         width: 100%;
     }
 }
+
+
+/* ========================================
+   CODE - BARRA SUPERIOR Y PESTAÑAS
+======================================== */
+
+#githubConsolePageTabBar {
+    width: 100%;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px 20px;
+    background: #071522;
+    border-bottom: 1px solid #245477;
+    box-shadow: 0 3px 15px rgba(0, 140, 255, 0.12);
+    color: #d8efff;
+}
+
+#githubConsolePageBrand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    flex-shrink: 0;
+}
+
+#githubConsolePageBrand span {
+    color: #87CEFA;
+    font-size: 19px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
+}
+
+#githubConsolePageBrand small {
+    color: #7297b5;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+#githubConsolePageTabs {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.github-console-empty-tabs {
+    color: #66849c;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 10px;
+}
+
+#githubConsolePageConnection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    color: #87CEFA;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.github-console-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #39ff14;
+    box-shadow: 0 0 9px #39ff14;
+}
+
+@media (max-width: 650px) {
+    #githubConsolePageTabBar {
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+
+    #githubConsolePageTabs {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    #githubConsolePageConnection {
+        font-size: 9px;
+    }
+}
+
