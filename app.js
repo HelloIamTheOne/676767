@@ -1261,8 +1261,25 @@ window.toggleGithubConsoleMenu = function () {
 
     if (!menu) return;
 
-    menu.style.display =
-        menu.style.display === "none" ? "block" : "none";
+    const opening = menu.style.display === "none";
+
+    menu.style.display = opening ? "block" : "none";
+
+    if (!opening) return;
+
+    const microCracks = document.querySelectorAll(
+        "#githubConsoleCracks > g:nth-of-type(3) > g > path"
+    );
+
+    microCracks.forEach(path => {
+        path.style.animation = "none";
+    });
+
+    requestAnimationFrame(() => {
+        microCracks.forEach(path => {
+            path.style.animation = "";
+        });
+    });
 };
 
 window.openGithubConsoleWindow = function () {
