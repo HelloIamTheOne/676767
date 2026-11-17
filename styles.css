@@ -1368,6 +1368,22 @@ body.admin-mode #profileMessage {
     animation: codeCracksPulse 5s ease-in-out infinite alternate;
 }
 
+/* PULSACIÓN DEL NÚCLEO DE LAS FISURAS */
+#githubConsoleCracks > g:nth-of-type(3) {
+    animation: codeCrackCorePulse 3s ease-in-out infinite;
+}
+
+@keyframes codeCrackCorePulse {
+    0%, 100% {
+        opacity: .75;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
 /* TECLA PRINCIPAL 3D */
 
 #githubConsoleAccessButton {
