@@ -1385,7 +1385,27 @@ body.admin-mode #profileMessage {
 
 /* PROPAGACIÓN DE ENERGÍA POR LAS RAMIFICACIONES */
 #githubConsoleCracks > g:nth-of-type(2) {
-    animation: codeBranchPulse 4s ease-in-out 1.2s infinite;
+    animation:
+        codeBranchPulse 4s ease-in-out 1.2s infinite,
+        codeBranchFlicker 7s ease-in-out 2s infinite;
+}
+
+@keyframes codeBranchFlicker {
+    0%, 100% {
+        filter: brightness(1);
+    }
+
+    35% {
+        filter: brightness(1.12);
+    }
+
+    42% {
+        filter: brightness(.94);
+    }
+
+    55% {
+        filter: brightness(1.05);
+    }
 }
 
 @keyframes codeBranchPulse {
