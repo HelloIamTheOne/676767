@@ -1645,3 +1645,44 @@ body.admin-mode #profileMessage {
     }
 }
 
+
+/* ========================================
+   APARICIÓN PROGRESIVA DE MICROFISURAS
+======================================== */
+
+#githubConsoleCracks > g:nth-of-type(3) > g > path {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: codeMicroCrackReveal 1.2s ease-out forwards;
+}
+
+/* Superior izquierda */
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(-n+5) {
+    animation-delay: 0s;
+}
+
+/* Superior derecha */
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(n+6):nth-of-type(-n+10) {
+    animation-delay: .22s;
+}
+
+/* Inferior izquierda */
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(n+11):nth-of-type(-n+15) {
+    animation-delay: .44s;
+}
+
+/* Inferior derecha */
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(n+16) {
+    animation-delay: .66s;
+}
+
+@keyframes codeMicroCrackReveal {
+    from {
+        stroke-dashoffset: 100;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+
