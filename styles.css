@@ -1383,6 +1383,20 @@ body.admin-mode #profileMessage {
     }
 }
 
+/* PROPAGACIÓN DE ENERGÍA POR LAS RAMIFICACIONES */
+#githubConsoleCracks > g:nth-of-type(2) {
+    animation: codeBranchPulse 4s ease-in-out 1.2s infinite;
+}
+
+@keyframes codeBranchPulse {
+    0%, 100% {
+        opacity: .45;
+    }
+
+    50% {
+        opacity: .85;
+    }
+}
 
 /* TECLA PRINCIPAL 3D */
 
