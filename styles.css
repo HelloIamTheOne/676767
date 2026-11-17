@@ -1369,7 +1369,7 @@ body.admin-mode #profileMessage {
 }
 
 /* PULSACIÓN DEL NÚCLEO DE LAS FISURAS */
-#githubConsoleCracks > g:nth-of-type(3) {
+#githubConsoleCracks > g:nth-of-type(4) {
     animation: codeCrackCorePulse 3s ease-in-out infinite;
 }
 
@@ -1384,7 +1384,7 @@ body.admin-mode #profileMessage {
 }
 
 /* PROPAGACIÓN DE ENERGÍA POR LAS RAMIFICACIONES */
-#githubConsoleCracks > g:nth-of-type(2) {
+#githubConsoleCracks > g:nth-of-type(3) {
     animation:
         codeBranchPulse 2.8s ease-in-out .5s infinite,
         codeBranchFlicker 5s ease-in-out 1s infinite;
