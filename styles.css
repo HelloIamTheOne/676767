@@ -1657,22 +1657,38 @@ body.admin-mode #profileMessage {
 }
 
 /* Superior izquierda */
-#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(-n+5) {
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(1),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(2),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(3),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(13),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(14) {
     animation-delay: 0s;
 }
 
 /* Superior derecha */
-#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(n+6):nth-of-type(-n+10) {
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(4),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(5),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(6),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(15),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(16) {
     animation-delay: .22s;
 }
 
 /* Inferior izquierda */
-#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(n+11):nth-of-type(-n+15) {
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(7),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(8),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(9),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(17),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(18) {
     animation-delay: .44s;
 }
 
 /* Inferior derecha */
-#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(n+16) {
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(10),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(11),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(12),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(19),
+#githubConsoleCracks > g:nth-of-type(3) > g > path:nth-of-type(20) {
     animation-delay: .66s;
 }
 
