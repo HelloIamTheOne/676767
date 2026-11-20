@@ -1020,6 +1020,15 @@ document.body.classList.remove("profile-session-active");
     profileHistory = [];
     window.currentProfile = null;
     window.currentProfileUser = null;
+    window.currentUserSettings = {};
+    window.closeUserSettingsWindow();
+
+const settingsTrigger =
+    document.getElementById("userSettingsTrigger");
+
+if (settingsTrigger) {
+    settingsTrigger.style.display = "none";
+}
 
     if (typeof window.show === "function") {
         window.show("home");
