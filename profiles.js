@@ -1160,6 +1160,38 @@ window.saveUserSetting = async function(category, value) {
     return true;
 };
 
+
+/* OBTENER TARJETAS DEL REGISTRO DE ACTUALIZACIONES */
+
+function getUpdatesCards() {
+    const container = document.getElementById("updatesList");
+
+    if (!container) return [];
+
+    return Array.from(
+        container.querySelectorAll(".update-entry")
+    ).map(card => {
+        const title = card.querySelector(".update-title, h2");
+
+        const description = card.querySelector(
+            ".update-description, .update-copy p"
+        );
+
+        const date = card.querySelector(".update-date, time");
+
+        const type = card.querySelector(".update-type");
+
+        return {
+            id: card.dataset.updateId || "",
+            title: title?.textContent.trim() || "Sin título",
+            description: description?.textContent.trim() || "",
+            date: date?.textContent.trim() || "",
+            type: type?.textContent.trim() || ""
+        };
+    }).filter(card => card.id);
+}
+
+
 /* MOSTRAR CATEGORÍA */
 
 function renderUserSettingsCategory(category) {
