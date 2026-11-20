@@ -1178,6 +1178,10 @@ const nextSettings = {
     applyUserCardSettings();
 }
 
+if (category === "types") {
+    applyUserTypeSettings();
+}
+
     renderUserSettingsCategory(category);
 
     return true;
