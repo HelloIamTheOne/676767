@@ -480,9 +480,10 @@ window.profileHistoryReady = true;
 
     }
 
-        renderProfileSecrets();
+    renderProfileSecrets();
     renderProfileTime();
     renderProfileLevels();
+    updateUserSettingsAccess();
 
     if (typeof window.updateLevel2UI === "function") {
         window.updateLevel2UI();
