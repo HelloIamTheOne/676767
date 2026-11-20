@@ -1897,3 +1897,10 @@ body.admin-mode #userSettingsTrigger {
         padding:11px;
     }
 }
+
+
+/* OCULTAR TARJETAS DESACTIVADAS */
+
+#updatesList .update-entry[hidden] {
+    display: none !important;
+}
