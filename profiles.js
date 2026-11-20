@@ -1194,6 +1194,7 @@ function getUpdatesCards() {
 
 /* MOSTRAR CATEGORÍA */
 
+
 function renderUserSettingsCategory(category) {
     const content = document.getElementById(
         "userSettingsCategoryContent"
@@ -1208,11 +1209,43 @@ function renderUserSettingsCategory(category) {
 
     content.appendChild(heading);
 
+    if (category === "cards") {
+        const cards = getUpdatesCards();
+
+        if (!cards.length) {
+            const message = document.createElement("p");
+            message.textContent =
+                "No hay tarjetas disponibles en el Registro.";
+            content.appendChild(message);
+            return;
+        }
+
+        const list = document.createElement("div");
+        list.id = "userSettingsCardsList";
+
+        cards.forEach(card => {
+            const item = document.createElement("div");
+            item.className = "user-settings-card-item";
+
+            const title = document.createElement("h4");
+            title.textContent = card.title;
+
+            const details = document.createElement("p");
+            details.textContent =
+                [card.type, card.date].filter(Boolean).join(" · ");
+
+            item.append(title, details);
+            list.appendChild(item);
+        });
+
+        content.appendChild(list);
+        return;
+    }
+
     const saved = window.currentUserSettings[category];
 
     if (saved === undefined) {
         const message = document.createElement("p");
-
         message.textContent =
             "Todavía no hay configuraciones guardadas en esta categoría.";
 
@@ -1221,7 +1254,6 @@ function renderUserSettingsCategory(category) {
     }
 
     const output = document.createElement("pre");
-
     output.style.whiteSpace = "pre-wrap";
     output.style.overflowWrap = "anywhere";
     output.textContent = JSON.stringify(saved, null, 2);
@@ -1229,22 +1261,6 @@ function renderUserSettingsCategory(category) {
     content.appendChild(output);
 }
 
-/* SELECCIONAR CATEGORÍA */
-
-function selectUserSettingsCategory(category) {
-    if (!USER_SETTINGS_CATEGORIES[category]) return;
-
-    document.querySelectorAll(
-        "#userSettingsCategories [data-category]"
-    ).forEach(button => {
-        const selected = button.dataset.category === category;
-
-        button.classList.toggle("active", selected);
-        button.setAttribute("aria-pressed", String(selected));
-    });
-
-    renderUserSettingsCategory(category);
-}
 
 /* ABRIR VENTANA */
 
