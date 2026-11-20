@@ -1475,6 +1475,25 @@ if (category === "cards") {
     content.appendChild(output);
 }
 
+/* SELECCIONAR CATEGORÍA */
+
+function selectUserSettingsCategory(category) {
+    if (!USER_SETTINGS_CATEGORIES[category]) return;
+
+    const buttons = document.querySelectorAll(
+        "#userSettingsCategories [data-category]"
+    );
+
+    buttons.forEach(button => {
+        const selected = button.dataset.category === category;
+
+        button.classList.toggle("active", selected);
+        button.setAttribute("aria-pressed", String(selected));
+    });
+
+    renderUserSettingsCategory(category);
+}
+
 
 /* ABRIR VENTANA */
 
