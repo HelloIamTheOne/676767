@@ -176,8 +176,9 @@ document.body.classList.add("profile-session-active");
         document.getElementById("userProfileName").textContent =
             data.username;
 
-   await loadProfileAvatar();
+await loadProfileAvatar();
 await loadProfileHistory();
+await loadUserSettings();
 
 if (typeof window.refreshUpdatesEntryAlert === "function") {
     window.refreshUpdatesEntryAlert();
