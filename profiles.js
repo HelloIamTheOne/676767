@@ -1300,7 +1300,6 @@ function applyUserTypeSettings() {
 
 /* MOSTRAR CATEGORÍA */
 
-
 function renderUserSettingsCategory(category) {
     const content = document.getElementById(
         "userSettingsCategoryContent"
@@ -1315,6 +1314,49 @@ function renderUserSettingsCategory(category) {
 
     content.appendChild(heading);
 
+if (category === "types") {
+    const cards = getUpdatesCards();
+    const saved = window.currentUserSettings.types || {};
+
+    const types = [...new Set(
+        cards.map(card => card.type).filter(Boolean)
+    )];
+
+    const description = document.createElement("p");
+    description.textContent =
+        "Selecciona qué tipos de actualizaciones deseas mostrar.";
+    content.appendChild(description);
+
+    if (!types.length) {
+        const message = document.createElement("p");
+        message.textContent = "No se encontraron tipos de tarjetas.";
+        content.appendChild(message);
+        return;
+    }
+
+    types.forEach(type => {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.checked = saved[type] ?? true;
+
+        checkbox.addEventListener("change", async () => {
+            try {
+                await window.saveUserSetting("types", {
+                    [type]: checkbox.checked
+                });
+            } catch (error) {
+                alert("No se pudo guardar: " + error.message);
+            }
+        });
+
+        label.append(checkbox, document.createTextNode(" " + type));
+        content.appendChild(label);
+    });
+
+    return;
+}
     
 if (category === "cards") {
     const cards = getUpdatesCards();
