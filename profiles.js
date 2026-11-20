@@ -1139,9 +1139,6 @@ window.saveUserSetting = async function(category, value) {
         [category]: value
     };
 
-    if (category === "cards") {
-    applyUserCardSettings();
-}
 
     const { error } = await profileDB
         .from("profile_user_settings")
@@ -1159,6 +1156,10 @@ window.saveUserSetting = async function(category, value) {
     }
 
     window.currentUserSettings = nextSettings;
+
+    if (category === "cards") {
+    applyUserCardSettings();
+}
 
     renderUserSettingsCategory(category);
 
