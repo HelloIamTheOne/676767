@@ -1041,3 +1041,249 @@ profileDB.auth.onAuthStateChange((event, session) => {
         profileHistory = [];
     }
 });
+
+
+
+/* =================================
+   CONFIGURACIONES DEL USUARIO
+================================= */
+
+const USER_SETTINGS_CATEGORIES = {
+    cards: "Tarjetas",
+    types: "Tipos de tarjetas",
+    windows: "Ventanas desplegables",
+    filters: "Filtros personalizados",
+    appearance: "Apariencia",
+    organization: "Organización",
+    general: "General"
+};
+
+window.currentUserSettings = {};
+
+/* COMPROBAR ACCESO */
+
+function updateUserSettingsAccess() {
+    const trigger = document.getElementById("userSettingsTrigger");
+    if (!trigger) return;
+
+    const level = window.getProfileClassificationLevel
+        ? window.getProfileClassificationLevel()
+        : 1;
+
+    const allowed = !!window.currentProfileUser && level >= 2;
+
+    trigger.style.display = allowed ? "" : "none";
+
+    if (!allowed) {
+        window.closeUserSettingsWindow();
+    }
+}
+
+/* CARGAR CONFIGURACIONES */
+
+async function loadUserSettings() {
+    const user = window.currentProfileUser;
+    if (!user) return;
+
+    const { data, error } = await profileDB
+        .from("profile_user_settings")
+        .select("settings")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Error cargando configuraciones:", error);
+        window.currentUserSettings = {};
+        return;
+    }
+
+    window.currentUserSettings =
+        data?.settings &&
+        typeof data.settings === "object"
+            ? data.settings
+            : {};
+
+    updateUserSettingsAccess();
+}
+
+/* GUARDAR CONFIGURACIONES */
+
+window.saveUserSetting = async function(category, value) {
+    const user = window.currentProfileUser;
+
+    if (!user) {
+        throw new Error("Debes iniciar sesión.");
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(
+        USER_SETTINGS_CATEGORIES,
+        category
+    )) {
+        throw new Error("Categoría no válida.");
+    }
+
+    const nextSettings = {
+        ...window.currentUserSettings,
+        [category]: value
+    };
+
+    const { error } = await profileDB
+        .from("profile_user_settings")
+        .upsert({
+            user_id: user.id,
+            settings: nextSettings,
+            updated_at: new Date().toISOString()
+        }, {
+            onConflict: "user_id"
+        });
+
+    if (error) {
+        console.error("Error guardando configuraciones:", error);
+        throw error;
+    }
+
+    window.currentUserSettings = nextSettings;
+
+    renderUserSettingsCategory(category);
+
+    return true;
+};
+
+/* MOSTRAR CATEGORÍA */
+
+function renderUserSettingsCategory(category) {
+    const content = document.getElementById(
+        "userSettingsCategoryContent"
+    );
+
+    if (!content || !USER_SETTINGS_CATEGORIES[category]) return;
+
+    content.replaceChildren();
+
+    const heading = document.createElement("h3");
+    heading.textContent = USER_SETTINGS_CATEGORIES[category];
+
+    content.appendChild(heading);
+
+    const saved = window.currentUserSettings[category];
+
+    if (saved === undefined) {
+        const message = document.createElement("p");
+
+        message.textContent =
+            "Todavía no hay configuraciones guardadas en esta categoría.";
+
+        content.appendChild(message);
+        return;
+    }
+
+    const output = document.createElement("pre");
+
+    output.style.whiteSpace = "pre-wrap";
+    output.style.overflowWrap = "anywhere";
+    output.textContent = JSON.stringify(saved, null, 2);
+
+    content.appendChild(output);
+}
+
+/* SELECCIONAR CATEGORÍA */
+
+function selectUserSettingsCategory(category) {
+    if (!USER_SETTINGS_CATEGORIES[category]) return;
+
+    document.querySelectorAll(
+        "#userSettingsCategories [data-category]"
+    ).forEach(button => {
+        const selected = button.dataset.category === category;
+
+        button.classList.toggle("active", selected);
+        button.setAttribute("aria-pressed", String(selected));
+    });
+
+    renderUserSettingsCategory(category);
+}
+
+/* ABRIR VENTANA */
+
+window.openUserSettingsWindow = function() {
+    updateUserSettingsAccess();
+
+    const level = window.getProfileClassificationLevel
+        ? window.getProfileClassificationLevel()
+        : 1;
+
+    if (!window.currentProfileUser || level < 2) return;
+
+    const overlay = document.getElementById("userSettingsOverlay");
+    if (!overlay) return;
+
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+
+    const selected = document.querySelector(
+        "#userSettingsCategories [data-category].active"
+    );
+
+    selectUserSettingsCategory(
+        selected?.dataset.category || "cards"
+    );
+};
+
+/* CERRAR VENTANA */
+
+window.closeUserSettingsWindow = function() {
+    const overlay = document.getElementById("userSettingsOverlay");
+    if (!overlay) return;
+
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+};
+
+/* INICIALIZAR CONTROLES */
+
+function setupUserSettingsWindow() {
+    const overlay = document.getElementById("userSettingsOverlay");
+    const categories = document.getElementById("userSettingsCategories");
+
+    if (!overlay || !categories) return;
+
+    if (overlay.dataset.settingsReady === "true") {
+        updateUserSettingsAccess();
+        return;
+    }
+
+    overlay.dataset.settingsReady = "true";
+
+    categories.querySelectorAll("[data-category]").forEach(button => {
+        button.addEventListener("click", () => {
+            selectUserSettingsCategory(button.dataset.category);
+        });
+    });
+
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) {
+            window.closeUserSettingsWindow();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (
+            event.key === "Escape" &&
+            overlay.classList.contains("open")
+        ) {
+            window.closeUserSettingsWindow();
+        }
+    });
+
+    updateUserSettingsAccess();
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        setupUserSettingsWindow,
+        { once: true }
+    );
+} else {
+    setupUserSettingsWindow();
+}
