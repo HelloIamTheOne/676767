@@ -1134,10 +1134,26 @@ window.saveUserSetting = async function(category, value) {
         throw new Error("Categoría no válida.");
     }
 
-    const nextSettings = {
-        ...window.currentUserSettings,
-        [category]: value
-    };
+    const currentCategorySettings =
+    window.currentUserSettings[category];
+
+const nextCategorySettings =
+    value &&
+    typeof value === "object" &&
+    !Array.isArray(value)
+        ? {
+            ...(currentCategorySettings &&
+            typeof currentCategorySettings === "object"
+                ? currentCategorySettings
+                : {}),
+            ...value
+        }
+        : value;
+
+const nextSettings = {
+    ...window.currentUserSettings,
+    [category]: nextCategorySettings
+};
 
 
     const { error } = await profileDB
