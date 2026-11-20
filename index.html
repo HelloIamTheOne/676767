@@ -69,7 +69,7 @@
         <button onclick="logoutProfile()">Cerrar sesión</button>
     </div>
 
-    
+   
 </div>
 
 <!-- VENTANA DE CONFIGURACIONES DEL USUARIO -->
@@ -203,6 +203,15 @@
         <p>Mantente al día con los cambios y novedades de ARCHIVO CLASIFICADO.</p>
       </div>
     </div>
+
+<button
+    type="button"
+    id="userSettingsTrigger"
+    aria-label="Abrir configuraciones"
+    onclick="openUserSettingsWindow()"
+>
+    CONFIGURACIÓN
+</button>
 
     <div class="updates-log-header"><span>REGISTRO DEL SISTEMA</span><span id="updatesPending">CONSULTANDO NOVEDADES...</span></div>
     <div id="updatesList" class="updates-list" aria-live="polite">
