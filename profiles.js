@@ -1277,6 +1277,27 @@ function applyUserCardSettings() {
 }
 
 
+/* APLICAR CONFIGURACIONES DE TIPOS */
+
+function applyUserTypeSettings() {
+    const container = document.getElementById("updatesList");
+    if (!container) return;
+
+    const saved = window.currentUserSettings.types || {};
+
+    container.querySelectorAll(".update-entry").forEach(card => {
+        const typeElement = card.querySelector(".update-type");
+
+        if (!typeElement) return;
+
+        const type = typeElement.textContent.trim();
+        const visible = saved[type] ?? true;
+
+        card.hidden = !visible;
+    });
+}
+
+
 /* MOSTRAR CATEGORÍA */
 
 
