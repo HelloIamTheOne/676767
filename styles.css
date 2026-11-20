@@ -1702,3 +1702,198 @@ body.admin-mode #profileMessage {
 }
 
 
+
+/* =====================================
+   CONFIGURACIONES PERSONALIZADAS
+   ARCHIVO CLASIFICADO
+===================================== */
+
+#userSettingsTrigger {
+    width:190px;
+    margin:0;
+    padding:11px;
+    background:#101010;
+    color:#39ff14;
+    border:1px solid #39ff14;
+    border-radius:9px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+#userSettingsOverlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:100000;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    background:rgba(0,0,0,.88);
+}
+
+#userSettingsOverlay.open {
+    display:flex;
+}
+
+#userSettingsWindow {
+    position:relative;
+    width:100%;
+    max-width:850px;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:18px;
+    background:#080e13;
+    color:#fff;
+    border:2px solid #39ff14;
+    border-radius:15px;
+    box-shadow:0 0 25px rgba(57,255,20,.25);
+    text-align:center;
+}
+
+#userSettingsHeader {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    background:#101820;
+    border:1px solid #24552a;
+    border-radius:10px;
+    text-align:left;
+}
+
+#userSettingsHeader h2 {
+    margin:5px 0;
+    color:#39ff14;
+    font-size:20px;
+    text-shadow:0 0 8px #39ff14;
+}
+
+#userSettingsHeader p {
+    margin:4px 0;
+    color:#aaa;
+    font-size:10px;
+}
+
+#userSettingsClose {
+    min-width:40px;
+    padding:9px;
+    margin:0;
+    background:#300909;
+    color:#ff5555;
+    border:1px solid #ff2020;
+    font-size:17px;
+}
+
+#userSettingsCategories {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+    margin:18px 0;
+}
+
+#userSettingsCategories button {
+    width:100%;
+    min-height:48px;
+    margin:0;
+    padding:10px;
+    background:#101820;
+    color:#39ff14;
+    border:1px solid #24552a;
+    border-radius:8px;
+    font-size:12px;
+}
+
+#userSettingsCategories button.active {
+    background:#17351b;
+    border:1px solid #39ff14;
+    box-shadow:0 0 12px rgba(57,255,20,.3);
+}
+
+#userSettingsContent {
+    min-height:180px;
+    padding:15px;
+    background:#05090d;
+    border:1px solid #24552a;
+    border-radius:10px;
+    text-align:left;
+}
+
+#userSettingsCategoryContent {
+    color:#ddd;
+    line-height:1.7;
+}
+
+/* TEMA ADMINISTRATIVO */
+
+body.admin-mode #userSettingsWindow {
+    background:#061326;
+    color:#87cefa;
+    border-color:#87cefa;
+    box-shadow:0 0 25px rgba(135,206,250,.25);
+}
+
+body.admin-mode #userSettingsHeader {
+    background:#071c2c;
+    border-color:#287bb5;
+}
+
+body.admin-mode #userSettingsHeader h2,
+body.admin-mode #userSettingsHeader p {
+    color:#87cefa;
+    text-shadow:0 0 7px #287bb5;
+}
+
+body.admin-mode #userSettingsCategories button {
+    background:#071c2c;
+    color:#87cefa;
+    border-color:#287bb5;
+}
+
+body.admin-mode #userSettingsCategories button.active {
+    background:#153b55;
+    border-color:#87cefa;
+    box-shadow:0 0 12px rgba(135,206,250,.3);
+}
+
+body.admin-mode #userSettingsContent {
+    background:#061326;
+    border-color:#287bb5;
+}
+
+body.admin-mode #userSettingsCategoryContent {
+    color:#87cefa;
+}
+
+body.admin-mode #userSettingsTrigger {
+    background:#071c2c;
+    color:#87cefa;
+    border-color:#87cefa;
+}
+
+/* DISPOSITIVOS MÓVILES */
+
+@media(max-width:480px) {
+    #userSettingsOverlay {
+        padding:8px;
+    }
+
+    #userSettingsWindow {
+        max-height:94vh;
+        padding:11px;
+    }
+
+    #userSettingsCategories {
+        gap:6px;
+    }
+
+    #userSettingsCategories button {
+        min-height:45px;
+        padding:8px 5px;
+        font-size:11px;
+    }
+
+    #userSettingsContent {
+        padding:11px;
+    }
+}
