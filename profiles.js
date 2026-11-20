@@ -1311,15 +1311,14 @@ if (category === "cards") {
     };
 
     const saveOption = async (key, value) => {
-        try {
-            await window.saveUserSetting("cards", {
-                ...settings,
-                [key]: value
-            });
-        } catch (error) {
-            alert("No se pudo guardar la configuración: " + error.message);
-        }
-    };
+    try {
+        await window.saveUserSetting("cards", {
+            [key]: value
+        });
+    } catch (error) {
+        alert("No se pudo guardar la configuración: " + error.message);
+    }
+};
 
     const options = document.createElement("div");
     options.id = "userSettingsCardOptions";
