@@ -68,6 +68,55 @@
         <button onclick="openProfileSection('levels')">Niveles</button>
         <button onclick="logoutProfile()">Cerrar sesión</button>
     </div>
+
+    <button
+        type="button"
+        id="userSettingsTrigger"
+        aria-label="Abrir configuraciones"
+        onclick="openUserSettingsWindow()"
+    >
+        CONFIGURACIÓN
+    </button>
+</div>
+
+<!-- VENTANA DE CONFIGURACIONES DEL USUARIO -->
+<div id="userSettingsOverlay" aria-hidden="true">
+
+    <div id="userSettingsWindow">
+
+        <header id="userSettingsHeader">
+            <div>
+                <h2>CONFIGURACIONES</h2>
+                <p>PERSONALIZACIÓN DEL USUARIO</p>
+            </div>
+
+            <button
+                type="button"
+                id="userSettingsClose"
+                onclick="closeUserSettingsWindow()"
+                aria-label="Cerrar configuraciones"
+            >
+                X
+            </button>
+        </header>
+
+        <nav id="userSettingsCategories">
+            <button data-category="cards">Tarjetas</button>
+            <button data-category="types">Tipos de tarjetas</button>
+            <button data-category="windows">Ventanas desplegables</button>
+            <button data-category="filters">Filtros personalizados</button>
+            <button data-category="appearance">Apariencia</button>
+            <button data-category="organization">Organización</button>
+            <button data-category="general">General</button>
+        </nav>
+
+        <main id="userSettingsContent">
+            <div id="userSettingsCategoryContent">
+                Selecciona una categoría.
+            </div>
+        </main>
+
+    </div>
 </div>
 
 <!-- SECCIONES DEL PERFIL -->
