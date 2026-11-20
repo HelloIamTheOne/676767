@@ -1116,6 +1116,7 @@ async function loadUserSettings() {
 
     updateUserSettingsAccess();
     applyUserCardSettings();
+    applyUserTypeSettings();
 }
 
 /* GUARDAR CONFIGURACIONES */
