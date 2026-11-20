@@ -1209,38 +1209,168 @@ function renderUserSettingsCategory(category) {
 
     content.appendChild(heading);
 
-    if (category === "cards") {
-        const cards = getUpdatesCards();
+    
+if (category === "cards") {
+    const cards = getUpdatesCards();
 
-        if (!cards.length) {
-            const message = document.createElement("p");
-            message.textContent =
-                "No hay tarjetas disponibles en el Registro.";
-            content.appendChild(message);
-            return;
+    const saved = window.currentUserSettings.cards || {};
+
+    const settings = {
+        showDescriptions: saved.showDescriptions ?? true,
+        showDates: saved.showDates ?? true,
+        showIdentifiers: saved.showIdentifiers ?? false,
+        showSeparators: saved.showSeparators ?? true,
+        density: saved.density || "normal",
+        corners: saved.corners || "rounded",
+        borders: saved.borders ?? true
+    };
+
+    const saveOption = async (key, value) => {
+        try {
+            await window.saveUserSetting("cards", {
+                ...settings,
+                [key]: value
+            });
+        } catch (error) {
+            alert("No se pudo guardar la configuración: " + error.message);
         }
+    };
 
-        const list = document.createElement("div");
-        list.id = "userSettingsCardsList";
+    const options = document.createElement("div");
+    options.id = "userSettingsCardOptions";
 
-        cards.forEach(card => {
-            const item = document.createElement("div");
-            item.className = "user-settings-card-item";
+    const optionTitle = document.createElement("h4");
+    optionTitle.textContent = "PRESENTACIÓN DE LAS TARJETAS";
+    options.appendChild(optionTitle);
 
-            const title = document.createElement("h4");
-            title.textContent = card.title;
+    const toggles = [
+        ["showDescriptions", "Mostrar descripciones"],
+        ["showDates", "Mostrar fechas"],
+        ["showIdentifiers", "Mostrar identificadores"],
+        ["showSeparators", "Mostrar separadores"],
+        ["borders", "Mostrar bordes"]
+    ];
 
-            const details = document.createElement("p");
-            details.textContent =
-                [card.type, card.date].filter(Boolean).join(" · ");
+    toggles.forEach(([key, label]) => {
+        const row = document.createElement("label");
+        const checkbox = document.createElement("input");
 
-            item.append(title, details);
-            list.appendChild(item);
+        checkbox.type = "checkbox";
+        checkbox.checked = settings[key];
+
+        checkbox.addEventListener("change", () => {
+            saveOption(key, checkbox.checked);
         });
 
-        content.appendChild(list);
+        row.append(checkbox, document.createTextNode(label));
+        options.appendChild(row);
+    });
+
+    const densityLabel = document.createElement("label");
+    densityLabel.textContent = "Densidad de las tarjetas";
+
+    const density = document.createElement("select");
+
+    [
+        ["normal", "Normal"],
+        ["compact", "Compacta"],
+        ["spacious", "Espaciosa"]
+    ].forEach(([value, label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        density.appendChild(option);
+    });
+
+    density.value = settings.density;
+
+    density.addEventListener("change", () => {
+        saveOption("density", density.value);
+    });
+
+    densityLabel.appendChild(density);
+    options.appendChild(densityLabel);
+
+    const cornersLabel = document.createElement("label");
+    cornersLabel.textContent = "Esquinas de las tarjetas";
+
+    const corners = document.createElement("select");
+
+    [
+        ["rounded", "Redondeadas"],
+        ["square", "Rectas"]
+    ].forEach(([value, label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        corners.appendChild(option);
+    });
+
+    corners.value = settings.corners;
+
+    corners.addEventListener("change", () => {
+        saveOption("corners", corners.value);
+    });
+
+    cornersLabel.appendChild(corners);
+    options.appendChild(cornersLabel);
+
+    content.appendChild(options);
+
+    const listTitle = document.createElement("h4");
+    listTitle.textContent = "TARJETAS DETECTADAS";
+    content.appendChild(listTitle);
+
+    if (!cards.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "No hay tarjetas disponibles en el Registro.";
+        content.appendChild(message);
         return;
     }
+
+    const list = document.createElement("div");
+    list.id = "userSettingsCardsList";
+
+    cards.forEach(card => {
+        const item = document.createElement("div");
+        item.className = "user-settings-card-item";
+
+        const title = document.createElement("h4");
+        title.textContent = card.title;
+
+        item.appendChild(title);
+
+        if (settings.showDescriptions && card.description) {
+            const description = document.createElement("p");
+            description.textContent = card.description;
+            item.appendChild(description);
+        }
+
+        if (settings.showDates && card.date) {
+            const date = document.createElement("p");
+            date.textContent = card.date;
+            item.appendChild(date);
+        }
+
+        if (settings.showIdentifiers) {
+            const identifier = document.createElement("small");
+            identifier.textContent = "ID: " + card.id;
+            item.appendChild(identifier);
+        }
+
+        if (card.type) {
+            const type = document.createElement("p");
+            type.textContent = card.type;
+            item.appendChild(type);
+        }
+
+        list.appendChild(item);
+    });
+
+    content.appendChild(list);
+    return;
+}
 
     const saved = window.currentUserSettings[category];
 
