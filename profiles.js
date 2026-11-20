@@ -1192,6 +1192,69 @@ function getUpdatesCards() {
 }
 
 
+/* APLICAR CONFIGURACIONES A LAS TARJETAS */
+
+function applyUserCardSettings() {
+    const container = document.getElementById("updatesList");
+    if (!container) return;
+
+    const saved = window.currentUserSettings.cards || {};
+
+    const settings = {
+        showDescriptions: saved.showDescriptions ?? true,
+        showDates: saved.showDates ?? true,
+        showIdentifiers: saved.showIdentifiers ?? false,
+        showSeparators: saved.showSeparators ?? true,
+        density: saved.density || "normal",
+        corners: saved.corners || "rounded",
+        borders: saved.borders ?? true
+    };
+
+    container.querySelectorAll(".update-entry").forEach(card => {
+        const description = card.querySelector(".update-description");
+        const date = card.querySelector("time");
+        const identifier = card.dataset.updateId;
+
+        if (description) {
+            description.hidden = !settings.showDescriptions;
+        }
+
+        if (date) {
+            date.hidden = !settings.showDates;
+        }
+
+        let idElement = card.querySelector(".user-update-identifier");
+
+        if (settings.showIdentifiers && !idElement) {
+            idElement = document.createElement("small");
+            idElement.className = "user-update-identifier";
+            idElement.textContent = "ID: " + identifier;
+            card.appendChild(idElement);
+        } else if (!settings.showIdentifiers && idElement) {
+            idElement.remove();
+        }
+
+        card.style.borderBottom = settings.showSeparators
+            ? ""
+            : "none";
+
+        card.style.border = settings.borders
+            ? ""
+            : "none";
+
+        card.style.borderRadius = settings.corners === "square"
+            ? "0"
+            : "";
+
+        card.style.padding = settings.density === "compact"
+            ? "12px"
+            : settings.density === "spacious"
+                ? "28px"
+                : "";
+    });
+}
+
+
 /* MOSTRAR CATEGORÍA */
 
 
