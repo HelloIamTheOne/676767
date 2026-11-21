@@ -1183,6 +1183,10 @@ if (category === "types") {
     applyUserTypeSettings();
 }
 
+if (category === "filters") {
+    applyUserTypeSettings();
+}
+
 if (category === "windows") {
     renderUpdatesCustomWindowButtons();
 }
