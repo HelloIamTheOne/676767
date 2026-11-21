@@ -2178,6 +2178,114 @@ if (category === "appearance") {
 }
 
 
+if (category === "organization") {
+    const saved = window.currentUserSettings.organization || {};
+
+    const settings = {
+        sortOrder: saved.sortOrder || "newest",
+        temporalSeparators: saved.temporalSeparators ?? true,
+        grouping: saved.grouping || "none"
+    };
+
+    const options = document.createElement("div");
+    options.id = "userSettingsOrganizationOptions";
+
+    const title = document.createElement("h4");
+    title.textContent = "ORGANIZACIÓN DEL REGISTRO";
+    options.appendChild(title);
+
+    // ORDEN DE VISUALIZACIÓN
+
+    const sortLabel = document.createElement("label");
+    sortLabel.textContent = "Orden de visualización";
+
+    const sortSelect = document.createElement("select");
+
+    [
+        ["newest", "Más recientes primero"],
+        ["oldest", "Más antiguas primero"]
+    ].forEach(([value, text]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = text;
+        sortSelect.appendChild(option);
+    });
+
+    sortSelect.value = settings.sortOrder;
+
+    sortSelect.addEventListener("change", async () => {
+        try {
+            await window.saveUserSetting("organization", {
+                sortOrder: sortSelect.value
+            });
+        } catch (error) {
+            alert("No se pudo guardar la configuración: " + error.message);
+        }
+    });
+
+    sortLabel.appendChild(sortSelect);
+    options.appendChild(sortLabel);
+
+    // SEPARACIÓN TEMPORAL
+
+    const separatorLabel = document.createElement("label");
+    separatorLabel.textContent = "Mostrar separadores temporales";
+
+    const separatorCheckbox = document.createElement("input");
+    separatorCheckbox.type = "checkbox";
+    separatorCheckbox.checked = settings.temporalSeparators;
+
+    separatorCheckbox.addEventListener("change", async () => {
+        try {
+            await window.saveUserSetting("organization", {
+                temporalSeparators: separatorCheckbox.checked
+            });
+        } catch (error) {
+            alert("No se pudo guardar la configuración: " + error.message);
+        }
+    });
+
+    separatorLabel.appendChild(separatorCheckbox);
+    options.appendChild(separatorLabel);
+
+    // AGRUPACIÓN POR FECHAS
+
+    const groupingLabel = document.createElement("label");
+    groupingLabel.textContent = "Agrupación por fechas";
+
+    const groupingSelect = document.createElement("select");
+
+    [
+        ["none", "Sin agrupación"],
+        ["day", "Agrupar por día"],
+        ["month", "Agrupar por mes"]
+    ].forEach(([value, text]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = text;
+        groupingSelect.appendChild(option);
+    });
+
+    groupingSelect.value = settings.grouping;
+
+    groupingSelect.addEventListener("change", async () => {
+        try {
+            await window.saveUserSetting("organization", {
+                grouping: groupingSelect.value
+            });
+        } catch (error) {
+            alert("No se pudo guardar la configuración: " + error.message);
+        }
+    });
+
+    groupingLabel.appendChild(groupingSelect);
+    options.appendChild(groupingLabel);
+
+    content.appendChild(options);
+    return;
+}
+
+
     const saved = window.currentUserSettings[category];
 
     if (saved === undefined) {
