@@ -442,7 +442,7 @@ if (technicalDetails) {
 
       if (typeof applyUserOrganizationSettings === "function") {
     applyUserOrganizationSettings();
-}
+    }
 
     }
 
