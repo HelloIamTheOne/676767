@@ -1749,11 +1749,8 @@ if (category === "filters") {
 
         const newFilter = {
             id: "filter-" + Date.now(),
-
             name: name.trim(),
-
             createdAt: new Date().toISOString(),
-
             criteria: {
                 keyword: "",
                 types: [],
@@ -1778,6 +1775,34 @@ if (category === "filters") {
     });
 
     content.appendChild(createButton);
+
+    if (filters.length > 0) {
+        const deleteAllButton = document.createElement("button");
+
+        deleteAllButton.type = "button";
+        deleteAllButton.textContent = "ELIMINAR TODOS LOS FILTROS";
+
+        deleteAllButton.addEventListener("click", async () => {
+            if (!confirm(
+                "¿Estás seguro de que deseas eliminar TODOS los filtros personalizados? Esta acción no se puede deshacer."
+            )) {
+                return;
+            }
+
+            try {
+                await window.saveUserSetting("filters", {
+                    items: [],
+                    activeId: null
+                });
+
+                alert("Todos los filtros personalizados han sido eliminados.");
+            } catch (error) {
+                alert("No se pudieron eliminar los filtros: " + error.message);
+            }
+        });
+
+        content.appendChild(deleteAllButton);
+    }
 
     const message = document.createElement("p");
 
