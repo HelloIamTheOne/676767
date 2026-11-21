@@ -1588,6 +1588,129 @@ function applyUserTypeSettings() {
 }
 
 
+/* APLICAR CONFIGURACIÓN DE ORGANIZACIÓN */
+
+function applyUserOrganizationSettings() {
+    const container = document.getElementById("updatesList");
+    if (!container) return;
+
+    const saved = window.currentUserSettings.organization || {};
+
+    const settings = {
+        sortOrder: saved.sortOrder || "newest",
+        temporalSeparators: saved.temporalSeparators ?? true,
+        grouping: saved.grouping || "none"
+    };
+
+    // Eliminar separadores anteriores.
+    container.querySelectorAll(".user-organization-separator")
+        .forEach(element => element.remove());
+
+    // Obtener las tarjetas.
+    const entries = Array.from(
+        container.querySelectorAll(":scope > .update-entry")
+    );
+
+    // Obtener la fecha de cada tarjeta.
+    function getEntryDate(entry) {
+        const dateElement = entry.querySelector(".update-date, time");
+
+        if (!dateElement) return null;
+
+        const rawDate =
+            dateElement.getAttribute("datetime") ||
+            dateElement.textContent.trim();
+
+        const parsed = new Date(rawDate);
+
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    // Ordenar las tarjetas.
+    entries.sort((a, b) => {
+        const dateA = getEntryDate(a);
+        const dateB = getEntryDate(b);
+
+        if (!dateA && !dateB) return 0;
+        if (!dateA) return 1;
+        if (!dateB) return -1;
+
+        return settings.sortOrder === "oldest"
+            ? dateA - dateB
+            : dateB - dateA;
+    });
+
+    // Reconstruir el registro.
+    const fragment = document.createDocumentFragment();
+    let previousGroup = null;
+
+    entries.forEach(entry => {
+        const date = getEntryDate(entry);
+
+        let groupKey = null;
+        let groupLabel = "";
+
+        if (date && settings.grouping === "day") {
+            groupKey = [
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate()
+            ].join("-");
+
+            groupLabel = date.toLocaleDateString("es-CR", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+        } else if (date && settings.grouping === "month") {
+            groupKey = [
+                date.getFullYear(),
+                date.getMonth()
+            ].join("-");
+
+            groupLabel = date.toLocaleDateString("es-CR", {
+                month: "long",
+                year: "numeric"
+            });
+
+        } else if (date && settings.temporalSeparators) {
+            groupKey = [
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate()
+            ].join("-");
+
+            groupLabel = date.toLocaleDateString("es-CR", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+        }
+
+        if (
+            groupKey !== null &&
+            groupKey !== previousGroup
+        ) {
+            const separator = document.createElement("div");
+
+            separator.className =
+                "user-organization-separator";
+
+            separator.textContent = groupLabel.toUpperCase();
+
+            fragment.appendChild(separator);
+        }
+
+        fragment.appendChild(entry);
+
+        previousGroup = groupKey;
+    });
+
+    container.appendChild(fragment);
+}
+
+
 /* MOSTRAR CATEGORÍA */
 
 function renderUserSettingsCategory(category) {
