@@ -2074,6 +2074,217 @@ window.openUserFiltersMenu = function() {
 };
 
 
+/* EDITOR DE FILTROS PERSONALIZADOS */
+
+window.openUserFilterEditor = function(filterId) {
+    document.getElementById(
+        "userFilterEditorOverlay"
+    )?.remove();
+
+    const saved = window.currentUserSettings.filters || {};
+
+    const filters = Array.isArray(saved.items)
+        ? saved.items
+        : [];
+
+    const filter = filters.find(item => item.id === filterId);
+
+    if (!filter) return;
+
+    const criteria = filter.criteria || {};
+
+    const overlay = document.createElement("div");
+    overlay.id = "userFilterEditorOverlay";
+
+    const panel = document.createElement("section");
+    panel.id = "userFilterEditorPanel";
+
+    const header = document.createElement("header");
+
+    const title = document.createElement("h2");
+    title.textContent = "EDITAR FILTRO";
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = "X";
+
+    closeButton.addEventListener("click", () => {
+        overlay.remove();
+    });
+
+    header.append(title, closeButton);
+
+    const form = document.createElement("div");
+    form.id = "userFilterEditorForm";
+
+    /* 1. PALABRAS CLAVE */
+
+    const keywordLabel = document.createElement("label");
+    keywordLabel.textContent =
+        "1. PALABRAS CLAVE EN TÍTULO O DESCRIPCIÓN";
+
+    const keywordInput = document.createElement("input");
+    keywordInput.type = "text";
+    keywordInput.placeholder = "Escribe una palabra o frase...";
+    keywordInput.value = criteria.keyword || "";
+
+    keywordLabel.appendChild(keywordInput);
+
+    /* 2. TIPOS DE ACTUALIZACIÓN */
+
+    const typesTitle = document.createElement("h3");
+    typesTitle.textContent = "2. TIPOS DE ACTUALIZACIÓN";
+
+    const typesContainer = document.createElement("div");
+    typesContainer.id = "userFilterEditorTypes";
+
+    const availableTypes = [
+        ...new Set(
+            getUpdatesCards()
+                .map(card => card.type)
+                .filter(Boolean)
+        )
+    ];
+
+    const selectedTypes = Array.isArray(criteria.types)
+        ? criteria.types
+        : [];
+
+    const typeInputs = [];
+
+    availableTypes.forEach(type => {
+        const label = document.createElement("label");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = type;
+        checkbox.checked = selectedTypes.includes(type);
+
+        typeInputs.push(checkbox);
+
+        label.append(checkbox, document.createTextNode(type));
+        typesContainer.appendChild(label);
+    });
+
+    if (!availableTypes.length) {
+        const emptyTypes = document.createElement("p");
+        emptyTypes.textContent =
+            "No se encontraron tipos de actualización.";
+        typesContainer.appendChild(emptyTypes);
+    }
+
+    /* 3. INTERVALO DE FECHAS */
+
+    const datesTitle = document.createElement("h3");
+    datesTitle.textContent = "3. INTERVALO DE FECHAS";
+
+    const dateFromLabel = document.createElement("label");
+    dateFromLabel.textContent = "Desde:";
+
+    const dateFromInput = document.createElement("input");
+    dateFromInput.type = "date";
+    dateFromInput.value = criteria.dateFrom || "";
+
+    dateFromLabel.appendChild(dateFromInput);
+
+    const dateToLabel = document.createElement("label");
+    dateToLabel.textContent = "Hasta:";
+
+    const dateToInput = document.createElement("input");
+    dateToInput.type = "date";
+    dateToInput.value = criteria.dateTo || "";
+
+    dateToLabel.appendChild(dateToInput);
+
+    /* 4. IDENTIFICADOR */
+
+    const identifierLabel = document.createElement("label");
+    identifierLabel.textContent = "4. IDENTIFICADOR";
+
+    const identifierInput = document.createElement("input");
+    identifierInput.type = "text";
+    identifierInput.placeholder = "Escribe un identificador...";
+    identifierInput.value = criteria.identifier || "";
+
+    identifierLabel.appendChild(identifierInput);
+
+    /* GUARDAR */
+
+    const saveButton = document.createElement("button");
+    saveButton.type = "button";
+    saveButton.textContent = "GUARDAR CRITERIOS";
+
+    saveButton.addEventListener("click", async () => {
+        if (
+            dateFromInput.value &&
+            dateToInput.value &&
+            dateFromInput.value > dateToInput.value
+        ) {
+            alert("La fecha inicial no puede ser posterior a la fecha final.");
+            return;
+        }
+
+        const nextCriteria = {
+            keyword: keywordInput.value.trim(),
+
+            types: typeInputs
+                .filter(input => input.checked)
+                .map(input => input.value),
+
+            dateFrom: dateFromInput.value,
+
+            dateTo: dateToInput.value,
+
+            identifier: identifierInput.value.trim()
+        };
+
+        const current = window.currentUserSettings.filters || {};
+
+        const nextItems = filters.map(item =>
+            item.id === filterId
+                ? {
+                    ...item,
+                    criteria: nextCriteria
+                }
+                : item
+        );
+
+        try {
+            await window.saveUserSetting("filters", {
+                items: nextItems
+            });
+
+            overlay.remove();
+            window.openUserFiltersMenu();
+        } catch (error) {
+            alert("No se pudieron guardar los criterios: " + error.message);
+        }
+    });
+
+    form.append(
+        keywordLabel,
+        typesTitle,
+        typesContainer,
+        datesTitle,
+        dateFromLabel,
+        dateToLabel,
+        identifierLabel,
+        saveButton
+    );
+
+    panel.append(header, form);
+    overlay.appendChild(panel);
+
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) {
+            overlay.remove();
+        }
+    });
+
+    document.body.appendChild(overlay);
+};
+
+
 /* SELECCIONAR CATEGORÍA */
 
 function selectUserSettingsCategory(category) {
