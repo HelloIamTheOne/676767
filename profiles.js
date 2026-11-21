@@ -1388,8 +1388,15 @@ function applyUserTypeSettings() {
     const savedTypes = window.currentUserSettings.types || {};
     const savedFilters = window.currentUserSettings.filters || {};
 
-    const query = (savedFilters.query || "").trim().toLowerCase();
-    const selectedType = savedFilters.type || "";
+    const filters = Array.isArray(savedFilters.items)
+        ? savedFilters.items
+        : [];
+
+    const activeFilter = filters.find(
+        filter => filter.id === savedFilters.activeId
+    );
+
+    const query = (activeFilter?.query || "").trim().toLowerCase();
 
     container.querySelectorAll(".update-entry").forEach(card => {
         const typeElement = card.querySelector(".update-type");
@@ -1400,14 +1407,7 @@ function applyUserTypeSettings() {
         const textMatches = !query ||
             card.textContent.toLowerCase().includes(query);
 
-        const selectedTypeMatches =
-            !selectedType || type === selectedType;
-
-        card.hidden = !(
-            typeVisible &&
-            textMatches &&
-            selectedTypeMatches
-        );
+        card.hidden = !(typeVisible && textMatches);
     });
 }
 
