@@ -1635,14 +1635,19 @@ if (category === "windows") {
 
 if (category === "filters") {
     const saved = window.currentUserSettings.filters || {};
-    const filters = Array.isArray(saved.items) ? saved.items : [];
+    const filters = Array.isArray(saved.items)
+        ? saved.items
+        : [];
 
     const description = document.createElement("p");
+
     description.textContent =
-        "Crea y administra filtros personalizados para el Registro de actualizaciones.";
+        "Crea filtros personalizados para organizar y localizar actualizaciones mediante criterios independientes.";
+
     content.appendChild(description);
 
     const createButton = document.createElement("button");
+
     createButton.type = "button";
     createButton.textContent = "+ CREAR FILTRO";
 
@@ -1651,15 +1656,25 @@ if (category === "filters") {
 
         if (!name || !name.trim()) return;
 
+        const newFilter = {
+            id: "filter-" + Date.now(),
+
+            name: name.trim(),
+
+            createdAt: new Date().toISOString(),
+
+            criteria: {
+                keyword: "",
+                types: [],
+                dateFrom: "",
+                dateTo: "",
+                identifier: ""
+            }
+        };
+
         const nextFilters = [
             ...filters,
-            {
-                id: "filter-" + Date.now(),
-                name: name.trim(),
-                query: "",
-                type: "",
-                active: false
-            }
+            newFilter
         ];
 
         try {
@@ -1673,98 +1688,13 @@ if (category === "filters") {
 
     content.appendChild(createButton);
 
-    if (!filters.length) {
-        const message = document.createElement("p");
-        message.textContent =
-            "Todavía no has creado filtros personalizados.";
-        content.appendChild(message);
-        return;
-    }
+    const message = document.createElement("p");
 
-    filters.forEach((filter, index) => {
-        const panel = document.createElement("section");
-        panel.className = "user-settings-filter-item";
+    message.textContent = filters.length
+        ? "Tus filtros se administrarán desde el menú MOSTRAR FILTROS del Registro de actualizaciones."
+        : "Todavía no has creado filtros personalizados.";
 
-        const title = document.createElement("h4");
-        title.textContent = filter.name;
-        panel.appendChild(title);
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.textContent = "EDITAR";
-
-        editButton.addEventListener("click", async () => {
-            const name = prompt("Nombre del filtro:", filter.name);
-            if (!name || !name.trim()) return;
-
-            const query = prompt(
-                "Palabra o texto que debe contener la tarjeta:",
-                filter.query || ""
-            );
-
-            if (query === null) return;
-
-            const nextFilters = [...filters];
-            nextFilters[index] = {
-                ...filter,
-                name: name.trim(),
-                query: query.trim()
-            };
-
-            try {
-                await window.saveUserSetting("filters", {
-                    items: nextFilters
-                });
-            } catch (error) {
-                alert("No se pudo editar: " + error.message);
-            }
-        });
-
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.textContent = "ELIMINAR";
-
-        deleteButton.addEventListener("click", async () => {
-            if (!confirm("¿Eliminar este filtro?")) return;
-
-            const nextFilters = filters.filter(
-                item => item.id !== filter.id
-            );
-
-            try {
-                await window.saveUserSetting("filters", {
-                    items: nextFilters,
-                    activeId: saved.activeId === filter.id
-                        ? null
-                        : saved.activeId
-                });
-            } catch (error) {
-                alert("No se pudo eliminar: " + error.message);
-            }
-        });
-
-        const activateButton = document.createElement("button");
-        activateButton.type = "button";
-        activateButton.textContent =
-            saved.activeId === filter.id
-                ? "FILTRO ACTIVO"
-                : "ACTIVAR";
-
-        activateButton.disabled = saved.activeId === filter.id;
-
-        activateButton.addEventListener("click", async () => {
-            try {
-                await window.saveUserSetting("filters", {
-                    activeId: filter.id
-                });
-            } catch (error) {
-                alert("No se pudo activar: " + error.message);
-            }
-        });
-
-        panel.append(editButton, deleteButton, activateButton);
-        content.appendChild(panel);
-    });
+    content.appendChild(message);
 
     return;
 }
