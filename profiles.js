@@ -1986,10 +1986,6 @@ function renderUpdatesCustomFilterButton() {
         return;
     }
 
-    let button = document.getElementById(
-        "updatesShowFiltersButton"
-    );
-
     const filters = window.currentUserSettings.filters?.items || [];
 
     const level = window.getProfileClassificationLevel
@@ -2023,7 +2019,7 @@ function renderUpdatesCustomFilterButton() {
             button
         );
     }
-}
+}    
 
 
 /* MENÚ DE FILTROS PERSONALIZADOS */
