@@ -2212,8 +2212,8 @@ window.openUserFilterEditor = function(filterId) {
     closeButton.textContent = "X";
 
     closeButton.addEventListener("click", () => {
-        overlay.remove();
-    });
+    closeUserFilterOverlay(overlay);
+});
 
     header.append(title, closeButton);
 
