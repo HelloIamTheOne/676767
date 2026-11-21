@@ -1193,8 +1193,10 @@ if (category === "types") {
     applyUserTypeSettings();
 }
 
+
 if (category === "filters") {
     applyUserTypeSettings();
+    renderUpdatesCustomFilterButton();
 }
 
 
