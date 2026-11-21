@@ -1591,75 +1591,137 @@ if (category === "windows") {
 
 
 if (category === "filters") {
-    const cards = getUpdatesCards();
     const saved = window.currentUserSettings.filters || {};
+    const filters = Array.isArray(saved.items) ? saved.items : [];
 
     const description = document.createElement("p");
     description.textContent =
-        "Personaliza la búsqueda y visualización de las actualizaciones.";
+        "Crea y administra filtros personalizados para el Registro de actualizaciones.";
     content.appendChild(description);
 
-    const searchLabel = document.createElement("label");
-    searchLabel.textContent = "BUSCAR POR TEXTO";
+    const createButton = document.createElement("button");
+    createButton.type = "button";
+    createButton.textContent = "+ CREAR FILTRO";
 
-    const searchInput = document.createElement("input");
-    searchInput.type = "search";
-    searchInput.placeholder = "Escribe para buscar...";
-    searchInput.value = saved.query || "";
+    createButton.addEventListener("click", async () => {
+        const name = prompt("Nombre del nuevo filtro:");
 
-    searchInput.addEventListener("change", async () => {
+        if (!name || !name.trim()) return;
+
+        const nextFilters = [
+            ...filters,
+            {
+                id: "filter-" + Date.now(),
+                name: name.trim(),
+                query: "",
+                type: "",
+                active: false
+            }
+        ];
+
         try {
             await window.saveUserSetting("filters", {
-                query: searchInput.value.trim()
+                items: nextFilters
             });
         } catch (error) {
-            alert("No se pudo guardar el filtro: " + error.message);
+            alert("No se pudo crear el filtro: " + error.message);
         }
     });
 
-    searchLabel.appendChild(searchInput);
-    content.appendChild(searchLabel);
+    content.appendChild(createButton);
 
-    const typeLabel = document.createElement("label");
-    typeLabel.textContent = "FILTRAR POR TIPO";
+    if (!filters.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "Todavía no has creado filtros personalizados.";
+        content.appendChild(message);
+        return;
+    }
 
-    const typeSelect = document.createElement("select");
+    filters.forEach((filter, index) => {
+        const panel = document.createElement("section");
+        panel.className = "user-settings-filter-item";
 
-    const allOption = document.createElement("option");
-    allOption.value = "";
-    allOption.textContent = "Todos los tipos";
-    typeSelect.appendChild(allOption);
+        const title = document.createElement("h4");
+        title.textContent = filter.name;
+        panel.appendChild(title);
 
-    const types = [...new Set(
-        cards.map(card => card.type).filter(Boolean)
-    )];
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "EDITAR";
 
-    types.forEach(type => {
-        const option = document.createElement("option");
-        option.value = type;
-        option.textContent = type;
-        typeSelect.appendChild(option);
+        editButton.addEventListener("click", async () => {
+            const name = prompt("Nombre del filtro:", filter.name);
+            if (!name || !name.trim()) return;
+
+            const query = prompt(
+                "Palabra o texto que debe contener la tarjeta:",
+                filter.query || ""
+            );
+
+            if (query === null) return;
+
+            const nextFilters = [...filters];
+            nextFilters[index] = {
+                ...filter,
+                name: name.trim(),
+                query: query.trim()
+            };
+
+            try {
+                await window.saveUserSetting("filters", {
+                    items: nextFilters
+                });
+            } catch (error) {
+                alert("No se pudo editar: " + error.message);
+            }
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "ELIMINAR";
+
+        deleteButton.addEventListener("click", async () => {
+            if (!confirm("¿Eliminar este filtro?")) return;
+
+            const nextFilters = filters.filter(
+                item => item.id !== filter.id
+            );
+
+            try {
+                await window.saveUserSetting("filters", {
+                    items: nextFilters,
+                    activeId: saved.activeId === filter.id
+                        ? null
+                        : saved.activeId
+                });
+            } catch (error) {
+                alert("No se pudo eliminar: " + error.message);
+            }
+        });
+
+        const activateButton = document.createElement("button");
+        activateButton.type = "button";
+        activateButton.textContent =
+            saved.activeId === filter.id
+                ? "FILTRO ACTIVO"
+                : "ACTIVAR";
+
+        activateButton.disabled = saved.activeId === filter.id;
+
+        activateButton.addEventListener("click", async () => {
+            try {
+                await window.saveUserSetting("filters", {
+                    activeId: filter.id
+                });
+            } catch (error) {
+                alert("No se pudo activar: " + error.message);
+            }
+        });
+
+        panel.append(editButton, deleteButton, activateButton);
+        content.appendChild(panel);
     });
-
-    typeSelect.value = saved.type || "";
-
-    typeSelect.addEventListener("change", async () => {
-        try {
-            await window.saveUserSetting("filters", {
-                type: typeSelect.value
-            });
-        } catch (error) {
-            alert("No se pudo guardar el filtro: " + error.message);
-        }
-    });
-
-    typeLabel.appendChild(typeSelect);
-    content.appendChild(typeLabel);
-
-    const info = document.createElement("p");
-    info.textContent =
-        cards.length + " tarjetas disponibles para filtrar.";
-    content.appendChild(info);
 
     return;
 }
