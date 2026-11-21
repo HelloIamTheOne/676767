@@ -1362,7 +1362,69 @@ if (category === "types") {
 
     return;
 }
-    
+  
+  
+if (category === "windows") {
+    const cards = getUpdatesCards();
+    const saved = window.currentUserSettings.windows || {};
+
+    const description = document.createElement("p");
+    description.textContent =
+        "Selecciona las tarjetas que aparecerán en las ventanas desplegables.";
+    content.appendChild(description);
+
+    const windowTitle = document.createElement("h4");
+    windowTitle.textContent = "TARJETAS DISPONIBLES";
+    content.appendChild(windowTitle);
+
+    if (!cards.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "No hay tarjetas disponibles en el Registro.";
+        content.appendChild(message);
+        return;
+    }
+
+    const selectedCards = Array.isArray(saved.selectedCards)
+        ? saved.selectedCards
+        : [];
+
+    cards.forEach(card => {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.checked = selectedCards.includes(card.id);
+
+        checkbox.addEventListener("change", async () => {
+            const nextSelected = checkbox.checked
+                ? [...selectedCards, card.id]
+                : selectedCards.filter(id => id !== card.id);
+
+            try {
+                await window.saveUserSetting("windows", {
+                    selectedCards: nextSelected
+                });
+            } catch (error) {
+                alert(
+                    "No se pudo guardar la selección: " +
+                    error.message
+                );
+            }
+        });
+
+        label.append(
+            checkbox,
+            document.createTextNode(" " + card.title)
+        );
+
+        content.appendChild(label);
+    });
+
+    return;
+}
+
+
 if (category === "cards") {
     const cards = getUpdatesCards();
 
