@@ -2191,3 +2191,63 @@ body.admin-mode #userSettingsTrigger {
         max-height: calc(100vh - 40px);
     }
 }
+
+
+/* PERSONALIZACIÓN VISUAL DEL USUARIO */
+
+#updatesList .update-entry {
+    background:
+        radial-gradient(
+            ellipse at top right,
+            color-mix(
+                in srgb,
+                var(--update-glow) var(--user-glow-strength),
+                transparent
+            ),
+            transparent 65%
+        ),
+        linear-gradient(
+            135deg,
+            color-mix(
+                in srgb,
+                var(--update-bg) var(--user-background-opacity),
+                transparent
+            ),
+            #030b14 85%
+        );
+
+    box-shadow:
+        0 0 12px color-mix(
+            in srgb,
+            #000 var(--user-shadow-strength),
+            transparent
+        ),
+        inset 0 0 14px color-mix(
+            in srgb,
+            var(--update-glow) var(--user-glow-strength),
+            transparent
+        );
+}
+
+#updatesList .update-entry:hover {
+    box-shadow:
+        0 0 14px color-mix(
+            in srgb,
+            var(--update-glow) var(--user-glow-strength),
+            transparent
+        ),
+        0 0 25px color-mix(
+            in srgb,
+            var(--update-glow) var(--user-glow-strength),
+            transparent
+        ),
+        inset 0 0 18px color-mix(
+            in srgb,
+            var(--update-glow) var(--user-glow-strength),
+            transparent
+        );
+}
+
+#updatesList .update-entry::before {
+    opacity: var(--user-effects-strength);
+}
