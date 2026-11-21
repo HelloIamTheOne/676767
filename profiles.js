@@ -1187,6 +1187,94 @@ if (category === "windows") {
     renderUpdatesCustomWindowButtons();
 }
 
+
+/* ABRIR VENTANA PERSONALIZADA */
+
+window.openUpdatesCustomWindow = function(windowId) {
+    const windows = window.currentUserSettings.windows?.items || [];
+
+    const selectedWindow = windows.find(item => item.id === windowId);
+
+    if (!selectedWindow) return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "updatesCustomWindowOverlay";
+
+    const panel = document.createElement("section");
+    panel.id = "updatesCustomWindowPanel";
+
+    const header = document.createElement("header");
+
+    const title = document.createElement("h3");
+    title.textContent = selectedWindow.name;
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = "X";
+    closeButton.setAttribute("aria-label", "Cerrar ventana");
+    closeButton.addEventListener("click", closeUpdatesCustomWindow);
+
+    header.append(title, closeButton);
+
+    const content = document.createElement("div");
+    content.id = "updatesCustomWindowContent";
+
+    const selectedCards = Array.isArray(selectedWindow.selectedCards)
+        ? selectedWindow.selectedCards
+        : [];
+
+    const container = document.getElementById("updatesList");
+
+    selectedCards.forEach(cardId => {
+        const original = Array.from(
+            container?.querySelectorAll(".update-entry") || []
+        ).find(card => card.dataset.updateId === cardId);
+
+        if (!original || original.hidden) return;
+
+        const copy = original.cloneNode(true);
+
+        copy.removeAttribute("id");
+        copy.querySelectorAll("[id]").forEach(element => {
+            element.removeAttribute("id");
+        });
+
+        content.appendChild(copy);
+    });
+
+    if (!content.children.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "Esta ventana todavía no tiene tarjetas visibles.";
+        content.appendChild(message);
+    }
+
+    panel.append(header, content);
+    overlay.appendChild(panel);
+
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) {
+            closeUpdatesCustomWindow();
+        }
+    });
+
+    document.body.appendChild(overlay);
+
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", selectedWindow.name);
+};
+
+
+/* CERRAR VENTANA PERSONALIZADA */
+
+window.closeUpdatesCustomWindow = function() {
+    document.getElementById(
+        "updatesCustomWindowOverlay"
+    )?.remove();
+};
+
+
     renderUserSettingsCategory(category);
 
     return true;
