@@ -1221,6 +1221,12 @@ const nextSettings = {
     applyUserCardSettings();
 }
 
+
+if (category === "appearance") {
+    applyUserAppearanceSettings();
+}
+
+
 if (category === "types") {
     applyUserTypeSettings();
 }
