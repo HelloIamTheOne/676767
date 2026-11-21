@@ -2022,6 +2022,17 @@ function renderUpdatesCustomFilterButton() {
 }    
 
 
+function closeUserFilterOverlay(overlay) {
+    if (!overlay || overlay.classList.contains("closing")) return;
+
+    overlay.classList.add("closing");
+
+    setTimeout(() => {
+        overlay.remove();
+    }, 200);
+}
+
+
 /* MENÚ DE FILTROS PERSONALIZADOS */
 
 window.openUserFiltersMenu = function() {
