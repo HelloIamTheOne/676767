@@ -1158,6 +1158,7 @@ async function loadUserSettings() {
     applyUserCardSettings();
     applyUserAppearanceSettings(); 
     applyUserTypeSettings();
+    applyUserOrganizationSettings();
     renderUpdatesCustomWindowButtons();
     renderUpdatesCustomFilterButton();
 }
