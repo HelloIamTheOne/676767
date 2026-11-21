@@ -2217,11 +2217,11 @@ body.admin-mode #userSettingsTrigger {
         );
 
     box-shadow:
-        0 0 12px color-mix(
-            in srgb,
-            #000 var(--user-shadow-strength),
-            transparent
-        ),
+    0 0 24px color-mix(
+        in srgb,
+        var(--update-color) var(--user-shadow-strength),
+        transparent
+    ),
         inset 0 0 14px color-mix(
             in srgb,
             var(--update-glow) var(--user-glow-strength),
