@@ -1375,60 +1375,35 @@ function applyUserCardSettings() {
 }
 
 
-/* APLICAR CONFIGURACIONES DE TIPOS */
+/* APLICAR TIPOS Y FILTROS PERSONALIZADOS */
 
 function applyUserTypeSettings() {
     const container = document.getElementById("updatesList");
     if (!container) return;
 
-    const saved = window.currentUserSettings.types || {};
+    const savedTypes = window.currentUserSettings.types || {};
+    const savedFilters = window.currentUserSettings.filters || {};
+
+    const query = (savedFilters.query || "").trim().toLowerCase();
+    const selectedType = savedFilters.type || "";
 
     container.querySelectorAll(".update-entry").forEach(card => {
         const typeElement = card.querySelector(".update-type");
+        const type = typeElement?.textContent.trim() || "";
 
-        if (!typeElement) return;
+        const typeVisible = savedTypes[type] ?? true;
 
-        const type = typeElement.textContent.trim();
-        const visible = saved[type] ?? true;
+        const textMatches = !query ||
+            card.textContent.toLowerCase().includes(query);
 
-        card.hidden = !visible;
-    });
-}
+        const selectedTypeMatches =
+            !selectedType || type === selectedType;
 
-
-/* BOTONES DE ACCESO A VENTANAS PERSONALIZADAS */
-
-function renderUpdatesCustomWindowButtons() {
-    const trigger = document.getElementById("userSettingsTrigger");
-
-    if (!trigger) return;
-
-    let container = document.getElementById(
-        "updatesCustomWindowButtons"
-    );
-
-    if (!container) {
-        container = document.createElement("div");
-        container.id = "updatesCustomWindowButtons";
-        trigger.insertAdjacentElement("afterend", container);
-    }
-
-    container.replaceChildren();
-
-    const windows = window.currentUserSettings.windows?.items || [];
-
-    windows.forEach(item => {
-        const button = document.createElement("button");
-
-        button.type = "button";
-        button.className = "updates-custom-window-button";
-        button.textContent = item.name;
-
-        button.addEventListener("click", () => {
-            window.openUpdatesCustomWindow(item.id);
-        });
-
-        container.appendChild(button);
+        card.hidden = !(
+            typeVisible &&
+            textMatches &&
+            selectedTypeMatches
+        );
     });
 }
 
