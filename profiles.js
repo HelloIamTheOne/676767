@@ -1030,6 +1030,15 @@ if (settingsTrigger) {
     settingsTrigger.style.display = "none";
 }
 
+const customWindowButtons = document.getElementById(
+    "updatesCustomWindowButtons"
+);
+
+if (customWindowButtons) {
+    customWindowButtons.replaceChildren();
+}
+
+
     if (typeof window.show === "function") {
         window.show("home");
     }
