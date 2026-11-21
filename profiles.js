@@ -1611,6 +1611,81 @@ if (category === "windows") {
 }
 
 
+if (category === "filters") {
+    const cards = getUpdatesCards();
+    const saved = window.currentUserSettings.filters || {};
+
+    const description = document.createElement("p");
+    description.textContent =
+        "Personaliza la búsqueda y visualización de las actualizaciones.";
+    content.appendChild(description);
+
+    const searchLabel = document.createElement("label");
+    searchLabel.textContent = "BUSCAR POR TEXTO";
+
+    const searchInput = document.createElement("input");
+    searchInput.type = "search";
+    searchInput.placeholder = "Escribe para buscar...";
+    searchInput.value = saved.query || "";
+
+    searchInput.addEventListener("change", async () => {
+        try {
+            await window.saveUserSetting("filters", {
+                query: searchInput.value.trim()
+            });
+        } catch (error) {
+            alert("No se pudo guardar el filtro: " + error.message);
+        }
+    });
+
+    searchLabel.appendChild(searchInput);
+    content.appendChild(searchLabel);
+
+    const typeLabel = document.createElement("label");
+    typeLabel.textContent = "FILTRAR POR TIPO";
+
+    const typeSelect = document.createElement("select");
+
+    const allOption = document.createElement("option");
+    allOption.value = "";
+    allOption.textContent = "Todos los tipos";
+    typeSelect.appendChild(allOption);
+
+    const types = [...new Set(
+        cards.map(card => card.type).filter(Boolean)
+    )];
+
+    types.forEach(type => {
+        const option = document.createElement("option");
+        option.value = type;
+        option.textContent = type;
+        typeSelect.appendChild(option);
+    });
+
+    typeSelect.value = saved.type || "";
+
+    typeSelect.addEventListener("change", async () => {
+        try {
+            await window.saveUserSetting("filters", {
+                type: typeSelect.value
+            });
+        } catch (error) {
+            alert("No se pudo guardar el filtro: " + error.message);
+        }
+    });
+
+    typeLabel.appendChild(typeSelect);
+    content.appendChild(typeLabel);
+
+    const info = document.createElement("p");
+    info.textContent =
+        cards.length + " tarjetas disponibles para filtrar.";
+    content.appendChild(info);
+
+    return;
+}
+
+
 if (category === "cards") {
     const cards = getUpdatesCards();
 
