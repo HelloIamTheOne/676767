@@ -1022,6 +1022,7 @@ document.body.classList.remove("profile-session-active");
     window.currentProfileUser = null;
     window.currentUserSettings = {};
     window.closeUserSettingsWindow();
+    renderUpdatesCustomFilterButton();
 
 const settingsTrigger =
     document.getElementById("userSettingsTrigger");
