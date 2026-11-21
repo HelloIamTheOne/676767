@@ -2064,8 +2064,8 @@ window.openUserFiltersMenu = function() {
     closeButton.textContent = "X";
 
     closeButton.addEventListener("click", () => {
-        overlay.remove();
-    });
+    closeUserFilterOverlay(overlay);
+});
 
     header.append(title, closeButton);
 
