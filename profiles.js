@@ -1156,6 +1156,7 @@ async function loadUserSettings() {
 
     updateUserSettingsAccess();
     applyUserCardSettings();
+    applyUserAppearanceSettings(); 
     applyUserTypeSettings();
     renderUpdatesCustomWindowButtons();
     renderUpdatesCustomFilterButton();
@@ -2073,25 +2074,6 @@ if (category === "cards") {
     return;
 }
 
-    const saved = window.currentUserSettings[category];
-
-    if (saved === undefined) {
-        const message = document.createElement("p");
-        message.textContent =
-            "Todavía no hay configuraciones guardadas en esta categoría.";
-
-        content.appendChild(message);
-        return;
-    }
-
-    const output = document.createElement("pre");
-    output.style.whiteSpace = "pre-wrap";
-    output.style.overflowWrap = "anywhere";
-    output.textContent = JSON.stringify(saved, null, 2);
-
-    content.appendChild(output);
-}
-
 
 if (category === "appearance") {
     const saved = window.currentUserSettings.appearance || {};
@@ -2176,6 +2158,26 @@ if (category === "appearance") {
     options.appendChild(resetButton);
     content.appendChild(options);
     return;
+}
+
+
+    const saved = window.currentUserSettings[category];
+
+    if (saved === undefined) {
+        const message = document.createElement("p");
+        message.textContent =
+            "Todavía no hay configuraciones guardadas en esta categoría.";
+
+        content.appendChild(message);
+        return;
+    }
+
+    const output = document.createElement("pre");
+    output.style.whiteSpace = "pre-wrap";
+    output.style.overflowWrap = "anywhere";
+    output.textContent = JSON.stringify(saved, null, 2);
+
+    content.appendChild(output);
 }
 
 
