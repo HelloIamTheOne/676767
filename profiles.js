@@ -2120,10 +2120,14 @@ overlay.style.setProperty(
         activateButton.addEventListener("click", async () => {
             try {
                 await window.saveUserSetting("filters", {
-                    activeId: filter.id
-                });
+    activeId: filter.id
+});
 
-                window.openUserFiltersMenu();
+closeUserFilterOverlay(overlay);
+
+setTimeout(() => {
+    window.openUserFiltersMenu();
+}, 200);
             } catch (error) {
                 alert("No se pudo activar el filtro: " + error.message);
             }
