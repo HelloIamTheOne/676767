@@ -2174,6 +2174,7 @@ if (nextItems.length) {
         window.openUserFiltersMenu();
     }, 200);
 }
+            renderUpdatesCustomFilterButton();
             } catch (error) {
                 alert("No se pudo eliminar el filtro: " + error.message);
             }
