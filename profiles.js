@@ -2169,9 +2169,9 @@ window.openUserFiltersMenu = function() {
 
     overlay.addEventListener("click", event => {
         if (event.target === overlay) {
-            overlay.remove();
-        }
-    });
+    closeUserFilterOverlay(overlay);
+     }
+        });
 
     document.body.appendChild(overlay);
 };
