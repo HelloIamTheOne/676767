@@ -401,7 +401,9 @@ if (technicalDetails) {
 
             if (dateElement) {
                 const [year, month, day] = update.date.split("-");
-                dateElement.textContent = `${day}/${month}/${year}`;
+                dateElement.textContent = `${day}/${month}/${year} 
+`;
+          dateElement.setAttribute("datetime", update.date);
             }
 
             if (typeElement) {
