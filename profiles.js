@@ -1627,10 +1627,17 @@ function applyUserOrganizationSettings() {
             dateElement.getAttribute("datetime") ||
             dateElement.textContent.trim();
 
-        const parsed = new Date(rawDate);
+        let parsed;
 
-        return Number.isNaN(parsed.getTime()) ? null : parsed;
-    }
+if (/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) {
+    const [year, month, day] = rawDate.split("-").map(Number);
+    parsed = new Date(year, month - 1, day);
+} else {
+    parsed = new Date(rawDate);
+}
+
+return Number.isNaN(parsed.getTime()) ? null : parsed;
+
 
     // Ordenar las tarjetas.
     entries.sort((a, b) => {
