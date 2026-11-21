@@ -1930,6 +1930,150 @@ function renderUpdatesCustomFilterButton() {
 }
 
 
+/* MENÚ DE FILTROS PERSONALIZADOS */
+
+window.openUserFiltersMenu = function() {
+    document.getElementById(
+        "userFiltersMenuOverlay"
+    )?.remove();
+
+    const saved = window.currentUserSettings.filters || {};
+
+    const filters = Array.isArray(saved.items)
+        ? saved.items
+        : [];
+
+    if (!filters.length) return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "userFiltersMenuOverlay";
+
+    const panel = document.createElement("section");
+    panel.id = "userFiltersMenuPanel";
+
+    const header = document.createElement("header");
+
+    const title = document.createElement("h2");
+    title.textContent = "FILTROS PERSONALIZADOS";
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = "X";
+
+    closeButton.addEventListener("click", () => {
+        overlay.remove();
+    });
+
+    header.append(title, closeButton);
+
+    const list = document.createElement("div");
+    list.id = "userFiltersMenuList";
+
+    filters.forEach(filter => {
+        const card = document.createElement("article");
+        card.className = "user-filter-card";
+
+        const name = document.createElement("h3");
+        name.textContent = filter.name || "Filtro sin nombre";
+
+        const date = document.createElement("p");
+        date.textContent = "CREADO: " +
+            (filter.createdAt
+                ? new Date(filter.createdAt).toLocaleDateString("es-CR")
+                : "Fecha desconocida");
+
+        const status = document.createElement("p");
+        status.textContent =
+            saved.activeId === filter.id
+                ? "ESTADO: ACTIVO"
+                : "ESTADO: INACTIVO";
+
+        const actions = document.createElement("div");
+        actions.className = "user-filter-card-actions";
+
+        const activateButton = document.createElement("button");
+        activateButton.type = "button";
+        activateButton.textContent = "ACTIVAR";
+
+        activateButton.addEventListener("click", async () => {
+            try {
+                await window.saveUserSetting("filters", {
+                    activeId: filter.id
+                });
+
+                window.openUserFiltersMenu();
+            } catch (error) {
+                alert("No se pudo activar el filtro: " + error.message);
+            }
+        });
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "EDITAR";
+
+        editButton.addEventListener("click", () => {
+            window.openUserFilterEditor(filter.id);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "ELIMINAR";
+
+        deleteButton.addEventListener("click", async () => {
+            if (!confirm("¿Eliminar este filtro personalizado?")) {
+                return;
+            }
+
+            const current = window.currentUserSettings.filters || {};
+            const currentItems = Array.isArray(current.items)
+                ? current.items
+                : [];
+
+            const nextItems = currentItems.filter(
+                item => item.id !== filter.id
+            );
+
+            try {
+                await window.saveUserSetting("filters", {
+                    items: nextItems,
+                    activeId: current.activeId === filter.id
+                        ? null
+                        : current.activeId
+                });
+
+                if (!nextItems.length) {
+                    overlay.remove();
+                } else {
+                    window.openUserFiltersMenu();
+                }
+            } catch (error) {
+                alert("No se pudo eliminar el filtro: " + error.message);
+            }
+        });
+
+        actions.append(
+            activateButton,
+            editButton,
+            deleteButton
+        );
+
+        card.append(name, date, status, actions);
+        list.appendChild(card);
+    });
+
+    panel.append(header, list);
+    overlay.appendChild(panel);
+
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) {
+            overlay.remove();
+        }
+    });
+
+    document.body.appendChild(overlay);
+};
+
+
 /* SELECCIONAR CATEGORÍA */
 
 function selectUserSettingsCategory(category) {
