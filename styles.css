@@ -1906,6 +1906,23 @@ body.admin-mode #userSettingsTrigger {
 }
 
 
+/* SEPARADORES DE ORGANIZACIÓN */
+
+#updatesList .user-organization-separator {
+    width: 100%;
+    margin: 18px 0 10px;
+    padding: 9px 12px;
+    color: #31d8f4;
+    background: rgba(10, 41, 64, 0.65);
+    border-left: 3px solid #31d8f4;
+    border-bottom: 1px solid rgba(49, 216, 244, 0.3);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
 
 /* VENTANAS PERSONALIZADAS DEL REGISTRO */
 
