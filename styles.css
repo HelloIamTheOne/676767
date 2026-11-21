@@ -2114,7 +2114,7 @@ body.admin-mode #userSettingsTrigger {
     text-align: left;
 }
 
-#userFilterEditorPanel label {
+#userFilterEditorForm label {
     display: block;
     margin: 13px 0 5px;
     color: var(--filter-accent);
