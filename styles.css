@@ -1996,3 +1996,198 @@ body.admin-mode #userSettingsTrigger {
         transform: translateY(0);
     }
 }
+
+
+/* =====================================
+   FILTROS PERSONALIZADOS
+   MENÚ Y EDITOR
+===================================== */
+
+#userFiltersMenuOverlay,
+#userFilterEditorOverlay {
+    --filter-accent: #39ff14;
+    --filter-glow: rgba(57,255,20,.25);
+
+    position: fixed;
+    inset: 0;
+    z-index: 100001;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 45px 14px 20px;
+    overflow-y: auto;
+    background: rgba(0,0,0,.86);
+    animation: filterOverlayOpen .25s ease both;
+}
+
+#userFiltersMenuPanel,
+#userFilterEditorPanel {
+    width: 100%;
+    max-width: 600px;
+    max-height: calc(100vh - 65px);
+    overflow-y: auto;
+    padding: 17px;
+    color: #fff;
+    background: #080e13;
+    border: 1px solid var(--filter-accent);
+    border-radius: 13px;
+    box-shadow:
+        0 0 12px var(--filter-glow),
+        0 0 28px var(--filter-glow);
+    animation: filterPanelOpen .32s ease both;
+}
+
+#userFiltersMenuPanel > header,
+#userFilterEditorPanel > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px;
+    border-bottom: 1px solid var(--filter-accent);
+    text-align: left;
+}
+
+#userFiltersMenuPanel h2,
+#userFilterEditorPanel h2 {
+    margin: 5px 0;
+    color: var(--filter-accent);
+    font-family: monospace;
+    font-size: 17px;
+    text-shadow: 0 0 8px var(--filter-glow);
+}
+
+#userFiltersMenuPanel > header button,
+#userFilterEditorPanel > header button {
+    min-width: 38px;
+    padding: 8px;
+    margin: 0;
+    color: #ff5555;
+    background: #250909;
+    border: 1px solid #ff5555;
+    border-radius: 6px;
+}
+
+#userFiltersMenuList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.user-filter-card {
+    padding: 14px;
+    background: #101820;
+    border: 1px solid var(--filter-accent);
+    border-left: 4px solid var(--filter-accent);
+    border-radius: 9px;
+    box-shadow: 0 0 9px var(--filter-glow);
+    text-align: left;
+}
+
+.user-filter-card h3 {
+    margin: 0 0 8px;
+    color: var(--filter-accent);
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.user-filter-card p {
+    color: #b9c9d5;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.user-filter-card button,
+#userFilterEditorPanel form button {
+    padding: 9px 12px;
+    margin: 5px 4px 0 0;
+    color: var(--filter-accent);
+    background: #101820;
+    border: 1px solid var(--filter-accent);
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+#userFilterEditorPanel form {
+    padding-top: 12px;
+    text-align: left;
+}
+
+#userFilterEditorPanel label {
+    display: block;
+    margin: 13px 0 5px;
+    color: var(--filter-accent);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#userFilterEditorPanel input,
+#userFilterEditorPanel select {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 6px 0;
+    padding: 11px;
+    color: #fff;
+    background: #101820;
+    border: 1px solid var(--filter-accent);
+    border-radius: 6px;
+}
+
+#userFilterEditorPanel input[type="checkbox"] {
+    display: inline-block;
+    width: auto;
+    margin: 5px 8px 5px 0;
+    accent-color: var(--filter-accent);
+}
+
+@keyframes filterOverlayOpen {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes filterPanelOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-25px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#userFiltersMenuOverlay.closing,
+#userFilterEditorOverlay.closing {
+    animation: filterOverlayClose .2s ease both;
+}
+
+#userFiltersMenuOverlay.closing #userFiltersMenuPanel,
+#userFilterEditorOverlay.closing #userFilterEditorPanel {
+    animation: filterPanelClose .2s ease both;
+}
+
+@keyframes filterOverlayClose {
+    to { opacity: 0; }
+}
+
+@keyframes filterPanelClose {
+    to {
+        opacity: 0;
+        transform: translateY(-15px) scale(.97);
+    }
+}
+
+@media(max-width:480px) {
+    #userFiltersMenuOverlay,
+    #userFilterEditorOverlay {
+        padding: 25px 8px 12px;
+    }
+
+    #userFiltersMenuPanel,
+    #userFilterEditorPanel {
+        padding: 12px;
+        max-height: calc(100vh - 40px);
+    }
+}
