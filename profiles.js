@@ -2106,37 +2106,48 @@ if (category === "appearance") {
     ];
 
     controls.forEach(([key, label]) => {
-        const row = document.createElement("label");
-        row.textContent = label;
+    const row = document.createElement("div");
+    row.className = "appearance-control";
 
-        const value = document.createElement("span");
-        value.textContent = settings[key] + "%";
+    const header = document.createElement("div");
+    header.className = "appearance-control-header";
 
-        const slider = document.createElement("input");
-        slider.type = "range";
-        slider.min = "0";
-        slider.max = "100";
-        slider.value = settings[key];
+    const name = document.createElement("span");
+    name.textContent = label;
 
-        slider.addEventListener("change", async () => {
-            value.textContent = slider.value + "%";
+    const value = document.createElement("span");
+    value.className = "appearance-control-value";
+    value.textContent = settings[key] + "%";
 
-            try {
-                await window.saveUserSetting("appearance", {
-                    [key]: Number(slider.value)
-                });
-            } catch (error) {
-                alert(
-                    "No se pudo guardar la configuración: " +
-                    error.message
-                );
-            }
-        });
+    header.appendChild(name);
+    header.appendChild(value);
 
-        row.appendChild(slider);
-        row.appendChild(value);
-        options.appendChild(row);
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.min = "0";
+    slider.max = "100";
+    slider.value = settings[key];
+
+    slider.addEventListener("change", async () => {
+        value.textContent = slider.value + "%";
+
+        try {
+            await window.saveUserSetting("appearance", {
+                [key]: Number(slider.value)
+            });
+        } catch (error) {
+            alert(
+                "No se pudo guardar la configuración: " +
+                error.message
+            );
+        }
     });
+
+    row.appendChild(header);
+    row.appendChild(slider);
+    options.appendChild(row);
+});
+
 
     const resetButton = document.createElement("button");
     resetButton.textContent = "RESTAURAR VALORES PREDETERMINADOS";
