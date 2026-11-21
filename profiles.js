@@ -2051,6 +2051,25 @@ window.openUserFiltersMenu = function() {
     const overlay = document.createElement("div");
     overlay.id = "userFiltersMenuOverlay";
 
+    const level = window.getProfileClassificationLevel
+    ? window.getProfileClassificationLevel()
+    : 2;
+
+const filterColors = {
+    2: "#39ff14",
+    3: "#ff3030",
+    4: "#ffffff",
+    5: "#87cefa"
+};
+
+const accent = filterColors[level] || "#39ff14";
+
+overlay.style.setProperty("--filter-accent", accent);
+overlay.style.setProperty(
+    "--filter-glow",
+    accent + "40"
+);
+
     const panel = document.createElement("section");
     panel.id = "userFiltersMenuPanel";
 
