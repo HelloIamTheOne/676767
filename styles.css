@@ -1904,3 +1904,95 @@ body.admin-mode #userSettingsTrigger {
 #updatesList .update-entry[hidden] {
     display: none !important;
 }
+
+
+
+/* VENTANAS PERSONALIZADAS DEL REGISTRO */
+
+#updatesCustomWindowOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 55px 16px 20px;
+    background: rgba(0, 0, 0, 0.75);
+    overflow-y: auto;
+    animation: updatesOverlayAppear 0.25s ease;
+}
+
+#updatesCustomWindowPanel {
+    width: 100%;
+    max-width: 650px;
+    max-height: calc(100vh - 75px);
+    overflow-y: auto;
+    background: #101923;
+    color: #fff;
+    border: 1px solid #39ff14;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(57, 255, 20, 0.18);
+    animation: updatesWindowAppear 0.35s ease;
+}
+
+#updatesCustomWindowPanel > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+#updatesCustomWindowPanel h3 {
+    margin: 0;
+    color: #39ff14;
+    overflow-wrap: anywhere;
+}
+
+#updatesCustomWindowPanel header button {
+    padding: 8px 12px;
+    background: #250909;
+    color: #ff5555;
+    border: 1px solid #ff5555;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#updatesCustomWindowContent {
+    padding: 16px;
+}
+
+#updatesCustomWindowContent .update-entry {
+    margin-bottom: 12px;
+}
+
+.updates-custom-window-button {
+    margin: 6px;
+    padding: 10px 15px;
+    background: #101923;
+    color: #39ff14;
+    border: 1px solid #39ff14;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.updates-custom-window-button:hover {
+    background: #18301b;
+}
+
+@keyframes updatesOverlayAppear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes updatesWindowAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
