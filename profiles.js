@@ -1976,7 +1976,15 @@ if (category === "cards") {
 
 function renderUpdatesCustomFilterButton() {
     const trigger = document.getElementById("userSettingsTrigger");
-    if (!trigger) return;
+
+    let button = document.getElementById(
+        "updatesShowFiltersButton"
+    );
+
+    if (!trigger) {
+        button?.remove();
+        return;
+    }
 
     let button = document.getElementById(
         "updatesShowFiltersButton"
