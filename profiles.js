@@ -1362,63 +1362,119 @@ if (category === "types") {
 
     return;
 }
-  
-  
+   
+
 if (category === "windows") {
     const cards = getUpdatesCards();
     const saved = window.currentUserSettings.windows || {};
 
+    const windows = Array.isArray(saved.items)
+        ? saved.items
+        : [];
+
     const description = document.createElement("p");
     description.textContent =
-        "Selecciona las tarjetas que aparecerán en las ventanas desplegables.";
+        "Crea ventanas independientes y selecciona las tarjetas que aparecerán en cada una.";
     content.appendChild(description);
 
-    const windowTitle = document.createElement("h4");
-    windowTitle.textContent = "TARJETAS DISPONIBLES";
-    content.appendChild(windowTitle);
+    const createButton = document.createElement("button");
+    createButton.type = "button";
+    createButton.textContent = "+ CREAR VENTANA";
+
+    createButton.addEventListener("click", async () => {
+        const name = prompt("Nombre de la nueva ventana:");
+
+        if (!name || !name.trim()) return;
+
+        const nextWindows = [
+            ...windows,
+            {
+                id: "window-" + Date.now(),
+                name: name.trim(),
+                selectedCards: []
+            }
+        ];
+
+        try {
+            await window.saveUserSetting("windows", {
+                items: nextWindows
+            });
+        } catch (error) {
+            alert("No se pudo crear la ventana: " + error.message);
+        }
+    });
+
+    content.appendChild(createButton);
 
     if (!cards.length) {
         const message = document.createElement("p");
         message.textContent =
             "No hay tarjetas disponibles en el Registro.";
         content.appendChild(message);
+    }
+
+    if (!windows.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "Todavía no has creado ninguna ventana.";
+        content.appendChild(message);
         return;
     }
 
-    const selectedCards = Array.isArray(saved.selectedCards)
-        ? saved.selectedCards
-        : [];
+    windows.forEach((item, index) => {
+        const panel = document.createElement("section");
+        panel.className = "user-settings-window-item";
 
-    cards.forEach(card => {
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
+        const title = document.createElement("h4");
+        title.textContent = item.name;
 
-        checkbox.type = "checkbox";
-        checkbox.checked = selectedCards.includes(card.id);
+        panel.appendChild(title);
 
-        checkbox.addEventListener("change", async () => {
-            const nextSelected = checkbox.checked
-                ? [...selectedCards, card.id]
-                : selectedCards.filter(id => id !== card.id);
+        const selectedCards = Array.isArray(item.selectedCards)
+            ? item.selectedCards
+            : [];
 
-            try {
-                await window.saveUserSetting("windows", {
+        const cardTitle = document.createElement("p");
+        cardTitle.textContent = "TARJETAS DE ESTA VENTANA";
+        panel.appendChild(cardTitle);
+
+        cards.forEach(card => {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+
+            checkbox.type = "checkbox";
+            checkbox.checked = selectedCards.includes(card.id);
+
+            checkbox.addEventListener("change", async () => {
+                const nextWindows = [...windows];
+
+                const nextSelected = checkbox.checked
+                    ? [...selectedCards, card.id]
+                    : selectedCards.filter(id => id !== card.id);
+
+                nextWindows[index] = {
+                    ...item,
                     selectedCards: nextSelected
-                });
-            } catch (error) {
-                alert(
-                    "No se pudo guardar la selección: " +
-                    error.message
-                );
-            }
+                };
+
+                try {
+                    await window.saveUserSetting("windows", {
+                        items: nextWindows
+                    });
+                } catch (error) {
+                    alert("No se pudo guardar: " + error.message);
+                }
+            });
+
+            label.append(
+                checkbox,
+                document.createTextNode(" " + card.title)
+            );
+
+            panel.appendChild(label);
         });
 
-        label.append(
-            checkbox,
-            document.createTextNode(" " + card.title)
-        );
-
-        content.appendChild(label);
+        content.appendChild(panel);
     });
 
     return;
