@@ -1233,6 +1233,11 @@ if (category === "types") {
 }
 
 
+if (category === "organization") {
+    applyUserOrganizationSettings();
+}
+
+
 if (category === "filters") {
     applyUserTypeSettings();
     renderUpdatesCustomFilterButton();
