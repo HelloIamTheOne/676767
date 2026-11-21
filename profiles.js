@@ -2058,6 +2058,92 @@ if (category === "cards") {
 }
 
 
+if (category === "appearance") {
+    const saved = window.currentUserSettings.appearance || {};
+
+    const settings = {
+        shadow: saved.shadow ?? 50,
+        glow: saved.glow ?? 30,
+        backgroundOpacity: saved.backgroundOpacity ?? 100,
+        effects: saved.effects ?? 50
+    };
+
+    const options = document.createElement("div");
+    options.id = "userSettingsAppearanceOptions";
+
+    const title = document.createElement("h4");
+    title.textContent = "PERSONALIZACIÓN VISUAL";
+    options.appendChild(title);
+
+    const controls = [
+        ["shadow", "Intensidad de sombras"],
+        ["glow", "Intensidad de brillo"],
+        ["backgroundOpacity", "Transparencia de fondos"],
+        ["effects", "Intensidad de efectos visuales"]
+    ];
+
+    controls.forEach(([key, label]) => {
+        const row = document.createElement("label");
+        row.textContent = label;
+
+        const value = document.createElement("span");
+        value.textContent = settings[key] + "%";
+
+        const slider = document.createElement("input");
+        slider.type = "range";
+        slider.min = "0";
+        slider.max = "100";
+        slider.value = settings[key];
+
+        slider.addEventListener("change", async () => {
+            value.textContent = slider.value + "%";
+
+            try {
+                await window.saveUserSetting("appearance", {
+                    [key]: Number(slider.value)
+                });
+            } catch (error) {
+                alert(
+                    "No se pudo guardar la configuración: " +
+                    error.message
+                );
+            }
+        });
+
+        row.appendChild(slider);
+        row.appendChild(value);
+        options.appendChild(row);
+    });
+
+    const resetButton = document.createElement("button");
+    resetButton.textContent = "RESTAURAR VALORES PREDETERMINADOS";
+
+    resetButton.addEventListener("click", async () => {
+        if (!confirm(
+            "¿Restaurar todas las opciones de apariencia?"
+        )) return;
+
+        try {
+            await window.saveUserSetting("appearance", {
+                shadow: 50,
+                glow: 30,
+                backgroundOpacity: 100,
+                effects: 50
+            });
+        } catch (error) {
+            alert(
+                "No se pudieron restaurar los valores: " +
+                error.message
+            );
+        }
+    });
+
+    options.appendChild(resetButton);
+    content.appendChild(options);
+    return;
+}
+
+
 /* BOTÓN PARA MOSTRAR FILTROS */
 
 function renderUpdatesCustomFilterButton() {
