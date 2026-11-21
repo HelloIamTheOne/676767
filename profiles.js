@@ -1649,6 +1649,35 @@ if (category === "windows") {
 
     content.appendChild(createButton);
 
+    if (windows.length > 0) {
+        const deleteAllButton = document.createElement("button");
+
+        deleteAllButton.type = "button";
+        deleteAllButton.textContent = "ELIMINAR TODAS LAS VENTANAS";
+
+        deleteAllButton.addEventListener("click", async () => {
+            const confirmed = confirm(
+                "¿Seguro que quieres eliminar todas tus ventanas desplegables?"
+            );
+
+            if (!confirmed) return;
+
+            try {
+                await window.saveUserSetting("windows", {
+                    items: []
+                });
+
+                window.closeUpdatesCustomWindow();
+
+                alert("Todas las ventanas han sido eliminadas.");
+            } catch (error) {
+                alert("No se pudieron eliminar las ventanas: " + error.message);
+            }
+        });
+
+        content.appendChild(deleteAllButton);
+    }
+
     if (!cards.length) {
         const message = document.createElement("p");
         message.textContent =
@@ -1664,7 +1693,7 @@ if (category === "windows") {
         return;
     }
 
-    windows.forEach((item, index) => {
+    windows.forEach((item) => {
         const panel = document.createElement("section");
         panel.className = "user-settings-window-item";
 
@@ -1672,6 +1701,34 @@ if (category === "windows") {
         title.textContent = item.name;
 
         panel.appendChild(title);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "ELIMINAR";
+
+        deleteButton.addEventListener("click", async () => {
+            const confirmed = confirm(
+                `¿Seguro que quieres eliminar la ventana "${item.name}"?`
+            );
+
+            if (!confirmed) return;
+
+            const nextWindows = windows.filter(
+                win => win.id !== item.id
+            );
+
+            try {
+                await window.saveUserSetting("windows", {
+                    items: nextWindows
+                });
+
+                window.closeUpdatesCustomWindow();
+            } catch (error) {
+                alert("No se pudo eliminar la ventana: " + error.message);
+            }
+        });
+
+        panel.appendChild(deleteButton);
 
         const selectedCards = Array.isArray(item.selectedCards)
             ? item.selectedCards
@@ -1695,7 +1752,11 @@ if (category === "windows") {
                     ? [...selectedCards, card.id]
                     : selectedCards.filter(id => id !== card.id);
 
-                nextWindows[index] = {
+                const windowIndex = nextWindows.findIndex(
+                    win => win.id === item.id
+                );
+
+                nextWindows[windowIndex] = {
                     ...item,
                     selectedCards: nextSelected
                 };
@@ -1721,7 +1782,7 @@ if (category === "windows") {
     });
 
     return;
-}
+}       
 
 
 if (category === "filters") {
