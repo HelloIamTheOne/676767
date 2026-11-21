@@ -1054,12 +1054,39 @@ profileDB.auth.onAuthStateChange((event, session) => {
         setTimeout(() => {
             loadProfile(session.user);
         }, 0);
-    } else if (event === "SIGNED_OUT") {
-       document.body.classList.remove("profile-session-active"); document.getElementById("userProfileArea").style.display = "none";
+        } else if (event === "SIGNED_OUT") {
+        document.body.classList.remove("profile-session-active");
+
+        const profileArea = document.getElementById("userProfileArea");
+        if (profileArea) {
+            profileArea.style.display = "none";
+        }
 
         window.currentProfile = null;
         window.currentProfileUser = null;
+        window.currentUserSettings = {};
+
         profileHistory = [];
+        window.profileHistoryReady = false;
+
+        window.closeUserSettingsWindow();
+        window.closeUpdatesCustomWindow();
+
+        const settingsTrigger =
+            document.getElementById("userSettingsTrigger");
+
+        if (settingsTrigger) {
+            settingsTrigger.style.display = "none";
+        }
+
+        const customWindowButtons =
+            document.getElementById("updatesCustomWindowButtons");
+
+        if (customWindowButtons) {
+            customWindowButtons.replaceChildren();
+        }
+
+        renderUpdatesCustomFilterButton();
     }
 });
 
