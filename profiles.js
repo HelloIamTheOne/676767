@@ -2395,8 +2395,11 @@ overlay.style.setProperty(
                 items: nextItems
             });
 
-            overlay.remove();
-            window.openUserFiltersMenu();
+                        closeUserFilterOverlay(overlay);
+
+            setTimeout(() => {
+                window.openUserFiltersMenu();
+            }, 200);
         } catch (error) {
             alert("No se pudieron guardar los criterios: " + error.message);
         }
