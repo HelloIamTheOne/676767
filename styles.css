@@ -2099,7 +2099,7 @@ body.admin-mode #userSettingsTrigger {
 }
 
 .user-filter-card button,
-#userFilterEditorPanel form button {
+#userFilterEditorPanel button {
     padding: 9px 12px;
     margin: 5px 4px 0 0;
     color: var(--filter-accent);
