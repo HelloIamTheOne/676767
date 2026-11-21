@@ -1072,6 +1072,9 @@ profileDB.auth.onAuthStateChange((event, session) => {
         window.closeUserSettingsWindow();
         window.closeUpdatesCustomWindow();
 
+document.getElementById("userFiltersMenuOverlay")?.remove();
+document.getElementById("userFilterEditorOverlay")?.remove();
+
         const settingsTrigger =
             document.getElementById("userSettingsTrigger");
 
