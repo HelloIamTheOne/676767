@@ -1456,6 +1456,41 @@ function applyUserCardSettings() {
 }
 
 
+function applyUserAppearanceSettings() {
+    const container = document.getElementById("updatesList");
+    if (!container) return;
+
+    const saved = window.currentUserSettings.appearance || {};
+
+    const settings = {
+        shadow: saved.shadow ?? 50,
+        glow: saved.glow ?? 30,
+        backgroundOpacity: saved.backgroundOpacity ?? 100,
+        effects: saved.effects ?? 50
+    };
+
+    container.style.setProperty(
+        "--user-shadow-strength",
+        settings.shadow + "%"
+    );
+
+    container.style.setProperty(
+        "--user-glow-strength",
+        settings.glow + "%"
+    );
+
+    container.style.setProperty(
+        "--user-background-opacity",
+        settings.backgroundOpacity + "%"
+    );
+
+    container.style.setProperty(
+        "--user-effects-strength",
+        settings.effects + "%"
+    );
+}
+
+
 /* APLICAR TIPOS Y FILTROS PERSONALIZADOS */
 
 
