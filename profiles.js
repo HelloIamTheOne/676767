@@ -2167,11 +2167,13 @@ setTimeout(() => {
                         : current.activeId
                 });
 
-                if (!nextItems.length) {
-                    overlay.remove();
-                } else {
-                    window.openUserFiltersMenu();
-                }
+                closeUserFilterOverlay(overlay);
+
+if (nextItems.length) {
+    setTimeout(() => {
+        window.openUserFiltersMenu();
+    }, 200);
+}
             } catch (error) {
                 alert("No se pudo eliminar el filtro: " + error.message);
             }
