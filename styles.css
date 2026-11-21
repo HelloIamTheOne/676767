@@ -2109,7 +2109,7 @@ body.admin-mode #userSettingsTrigger {
     font-size: 11px;
 }
 
-#userFilterEditorPanel form {
+#userFilterEditorForm {
     padding-top: 12px;
     text-align: left;
 }
