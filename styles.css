@@ -2135,7 +2135,7 @@ body.admin-mode #userSettingsTrigger {
     border-radius: 6px;
 }
 
-#userFilterEditorPanel input[type="checkbox"] {
+#userFilterEditorForm input[type="checkbox"] {
     display: inline-block;
     width: auto;
     margin: 5px 8px 5px 0;
