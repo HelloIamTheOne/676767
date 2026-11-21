@@ -1303,6 +1303,43 @@ function applyUserTypeSettings() {
 }
 
 
+/* BOTONES DE ACCESO A VENTANAS PERSONALIZADAS */
+
+function renderUpdatesCustomWindowButtons() {
+    const trigger = document.getElementById("userSettingsTrigger");
+
+    if (!trigger) return;
+
+    let container = document.getElementById(
+        "updatesCustomWindowButtons"
+    );
+
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "updatesCustomWindowButtons";
+        trigger.insertAdjacentElement("afterend", container);
+    }
+
+    container.replaceChildren();
+
+    const windows = window.currentUserSettings.windows?.items || [];
+
+    windows.forEach(item => {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "updates-custom-window-button";
+        button.textContent = item.name;
+
+        button.addEventListener("click", () => {
+            window.openUpdatesCustomWindow(item.id);
+        });
+
+        container.appendChild(button);
+    });
+}
+
+
 /* MOSTRAR CATEGORÍA */
 
 function renderUserSettingsCategory(category) {
