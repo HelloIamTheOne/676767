@@ -1427,6 +1427,7 @@ function applyUserCardSettings() {
 
 /* APLICAR TIPOS Y FILTROS PERSONALIZADOS */
 
+
 function applyUserTypeSettings() {
     const container = document.getElementById("updatesList");
     if (!container) return;
@@ -1442,7 +1443,17 @@ function applyUserTypeSettings() {
         filter => filter.id === savedFilters.activeId
     );
 
-    const query = (activeFilter?.query || "").trim().toLowerCase();
+    const criteria = activeFilter?.criteria || {};
+
+    const keyword = (criteria.keyword || "").trim().toLowerCase();
+    const identifier = (criteria.identifier || "").trim().toLowerCase();
+
+    const selectedTypes = Array.isArray(criteria.types)
+        ? criteria.types
+        : [];
+
+    const dateFrom = criteria.dateFrom || "";
+    const dateTo = criteria.dateTo || "";
 
     container.querySelectorAll(".update-entry").forEach(card => {
         const typeElement = card.querySelector(".update-type");
@@ -1450,10 +1461,56 @@ function applyUserTypeSettings() {
 
         const typeVisible = savedTypes[type] ?? true;
 
-        const textMatches = !query ||
-            card.textContent.toLowerCase().includes(query);
+        const title = card.querySelector(".update-title, h2")
+            ?.textContent.trim() || "";
 
-        card.hidden = !(typeVisible && textMatches);
+        const description = card.querySelector(
+            ".update-description, .update-copy p"
+        )?.textContent.trim() || "";
+
+        const textMatches = !keyword ||
+            (title + " " + description).toLowerCase().includes(keyword);
+
+        const selectedTypeMatches =
+            !selectedTypes.length || selectedTypes.includes(type);
+
+        const identifierMatches = !identifier ||
+            (card.dataset.updateId || "").toLowerCase().includes(identifier);
+
+        const dateElement = card.querySelector(".update-date, time");
+
+        let cardDate = "";
+
+        if (dateElement) {
+            const rawDate = dateElement.getAttribute("datetime") ||
+                dateElement.textContent.trim();
+
+            const parsedDate = new Date(rawDate);
+
+            if (!Number.isNaN(parsedDate.getTime())) {
+                cardDate = [
+                    parsedDate.getFullYear(),
+                    String(parsedDate.getMonth() + 1).padStart(2, "0"),
+                    String(parsedDate.getDate()).padStart(2, "0")
+                ].join("-");
+            }
+        }
+
+        const dateMatches =
+            (!dateFrom && !dateTo) ||
+            (
+                !!cardDate &&
+                (!dateFrom || cardDate >= dateFrom) &&
+                (!dateTo || cardDate <= dateTo)
+            );
+
+        card.hidden = !(
+            typeVisible &&
+            textMatches &&
+            selectedTypeMatches &&
+            identifierMatches &&
+            dateMatches
+        );
     });
 }
 
