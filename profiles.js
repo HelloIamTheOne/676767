@@ -2379,10 +2379,10 @@ window.openUserFilterEditor = function(filterId) {
     overlay.appendChild(panel);
 
     overlay.addEventListener("click", event => {
-        if (event.target === overlay) {
-            overlay.remove();
-        }
-    });
+    if (event.target === overlay) {
+        closeUserFilterOverlay(overlay);
+    }
+});
 
     document.body.appendChild(overlay);
 };
