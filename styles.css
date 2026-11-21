@@ -2251,3 +2251,35 @@ body.admin-mode #userSettingsTrigger {
 #updatesList .update-entry::before {
     opacity: var(--user-effects-strength);
 }
+
+
+/* ORGANIZACIÓN DE LOS CONTROLES DE APARIENCIA */
+
+.appearance-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin: 16px 0;
+    text-align: left;
+}
+
+.appearance-control-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.appearance-control-value {
+    flex-shrink: 0;
+    font-weight: bold;
+    text-align: right;
+}
+
+.appearance-control input[type="range"] {
+    display: block;
+    width: 100%;
+    margin: 0;
+}
