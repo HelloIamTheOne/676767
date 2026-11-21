@@ -1880,6 +1880,53 @@ if (category === "cards") {
     content.appendChild(output);
 }
 
+
+/* BOTÓN PARA MOSTRAR FILTROS */
+
+function renderUpdatesCustomFilterButton() {
+    const trigger = document.getElementById("userSettingsTrigger");
+    if (!trigger) return;
+
+    let button = document.getElementById(
+        "updatesShowFiltersButton"
+    );
+
+    const filters = window.currentUserSettings.filters?.items || [];
+
+    const level = window.getProfileClassificationLevel
+        ? window.getProfileClassificationLevel()
+        : 1;
+
+    const allowed = !!window.currentProfileUser && level >= 2;
+
+    if (!filters.length || !allowed) {
+        button?.remove();
+        return;
+    }
+
+    if (!button) {
+        button = document.createElement("button");
+        button.id = "updatesShowFiltersButton";
+        button.type = "button";
+        button.className = "updates-show-filters-button";
+        button.textContent = "MOSTRAR FILTROS";
+
+        button.addEventListener("click", () => {
+            window.openUserFiltersMenu();
+        });
+
+        const windowsContainer = document.getElementById(
+            "updatesCustomWindowButtons"
+        );
+
+        (windowsContainer || trigger).insertAdjacentElement(
+            "afterend",
+            button
+        );
+    }
+}
+
+
 /* SELECCIONAR CATEGORÍA */
 
 function selectUserSettingsCategory(category) {
