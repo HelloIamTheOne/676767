@@ -1187,8 +1187,50 @@ if (category === "filters") {
     applyUserTypeSettings();
 }
 
+
 if (category === "windows") {
     renderUpdatesCustomWindowButtons();
+}
+
+renderUserSettingsCategory(category);
+
+return true;
+};
+
+
+/* BOTONES DE ACCESO A VENTANAS PERSONALIZADAS */
+
+function renderUpdatesCustomWindowButtons() {
+    const trigger = document.getElementById("userSettingsTrigger");
+    if (!trigger) return;
+
+    let container = document.getElementById(
+        "updatesCustomWindowButtons"
+    );
+
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "updatesCustomWindowButtons";
+        trigger.insertAdjacentElement("afterend", container);
+    }
+
+    container.replaceChildren();
+
+    const windows = window.currentUserSettings.windows?.items || [];
+
+    windows.forEach(item => {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "updates-custom-window-button";
+        button.textContent = item.name;
+
+        button.addEventListener("click", () => {
+            window.openUpdatesCustomWindow(item.id);
+        });
+
+        container.appendChild(button);
+    });
 }
 
 
@@ -1196,10 +1238,14 @@ if (category === "windows") {
 
 window.openUpdatesCustomWindow = function(windowId) {
     const windows = window.currentUserSettings.windows?.items || [];
-
     const selectedWindow = windows.find(item => item.id === windowId);
 
     if (!selectedWindow) return;
+
+    const container = document.getElementById("updatesList");
+    if (!container) return;
+
+    window.closeUpdatesCustomWindow();
 
     const overlay = document.createElement("div");
     overlay.id = "updatesCustomWindowOverlay";
@@ -1215,30 +1261,25 @@ window.openUpdatesCustomWindow = function(windowId) {
     const closeButton = document.createElement("button");
     closeButton.type = "button";
     closeButton.textContent = "X";
-    closeButton.setAttribute("aria-label", "Cerrar ventana");
-    closeButton.addEventListener("click", closeUpdatesCustomWindow);
+    closeButton.addEventListener("click", window.closeUpdatesCustomWindow);
 
     header.append(title, closeButton);
 
     const content = document.createElement("div");
     content.id = "updatesCustomWindowContent";
 
-    const selectedCards = Array.isArray(selectedWindow.selectedCards)
-        ? selectedWindow.selectedCards
-        : [];
-
-    const container = document.getElementById("updatesList");
+    const selectedCards = selectedWindow.selectedCards || [];
 
     selectedCards.forEach(cardId => {
         const original = Array.from(
-            container?.querySelectorAll(".update-entry") || []
+            container.querySelectorAll(".update-entry")
         ).find(card => card.dataset.updateId === cardId);
 
         if (!original || original.hidden) return;
 
         const copy = original.cloneNode(true);
-
         copy.removeAttribute("id");
+
         copy.querySelectorAll("[id]").forEach(element => {
             element.removeAttribute("id");
         });
@@ -1258,15 +1299,14 @@ window.openUpdatesCustomWindow = function(windowId) {
 
     overlay.addEventListener("click", event => {
         if (event.target === overlay) {
-            closeUpdatesCustomWindow();
+            window.closeUpdatesCustomWindow();
         }
     });
 
-    document.body.appendChild(overlay);
-
     overlay.setAttribute("role", "dialog");
     overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-label", selectedWindow.name);
+
+    document.body.appendChild(overlay);
 };
 
 
@@ -1276,12 +1316,6 @@ window.closeUpdatesCustomWindow = function() {
     document.getElementById(
         "updatesCustomWindowOverlay"
     )?.remove();
-};
-
-
-    renderUserSettingsCategory(category);
-
-    return true;
 };
 
 
