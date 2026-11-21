@@ -439,6 +439,11 @@ if (technicalDetails) {
 
             updatesList.prepend(card);
         });
+
+      if (typeof applyUserOrganizationSettings === "function") {
+    applyUserOrganizationSettings();
+}
+
     }
 
     window.loadPublishedUpdates = loadPublishedUpdates;
