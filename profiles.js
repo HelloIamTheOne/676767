@@ -1117,6 +1117,7 @@ async function loadUserSettings() {
     updateUserSettingsAccess();
     applyUserCardSettings();
     applyUserTypeSettings();
+    renderUpdatesCustomWindowButtons();
 }
 
 /* GUARDAR CONFIGURACIONES */
@@ -1180,6 +1181,10 @@ const nextSettings = {
 
 if (category === "types") {
     applyUserTypeSettings();
+}
+
+if (category === "windows") {
+    renderUpdatesCustomWindowButtons();
 }
 
     renderUserSettingsCategory(category);
