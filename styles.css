@@ -2348,3 +2348,303 @@ body.admin-mode #userSettingsTrigger {
         max-width: 52%;
     }
 }
+
+
+
+/* =========================================
+   PANEL PRINCIPAL DE CUENTA
+   ========================================= */
+
+#userProfileArea {
+    position: relative;
+}
+
+#userProfileMenu {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+
+    top: calc(100% + 12px);
+    right: 0;
+
+    width: 290px;
+    max-width: calc(100vw - 30px);
+
+    padding: 0;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 23, 38, 0.98),
+            rgba(2, 9, 19, 0.99)
+        );
+
+    border: 1px solid rgba(135, 206, 250, 0.4);
+    border-radius: 14px;
+
+    box-shadow:
+        0 0 15px rgba(135, 206, 250, 0.10),
+        0 0 35px rgba(0, 0, 0, 0.6),
+        inset 0 0 20px rgba(135, 206, 250, 0.025);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    overflow: hidden;
+}
+
+#userProfileMenu.open {
+    display: block;
+    animation: profileMenuAppear 0.22s ease-out;
+}
+
+
+/* ANIMACIÓN DE APERTURA */
+
+@keyframes profileMenuAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* ENCABEZADO */
+
+#userProfileMenu .profile-menu-header {
+    padding: 18px 17px 15px;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(135, 206, 250, 0.08),
+            transparent
+        );
+
+    border-bottom: 1px solid rgba(135, 206, 250, 0.15);
+}
+
+#userProfileMenu .profile-menu-code {
+    display: block;
+
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    color: #87cefa;
+    opacity: 0.75;
+
+    margin-bottom: 8px;
+}
+
+#userProfileMenu .profile-menu-header h3 {
+    margin: 0;
+
+    color: #e8f7ff;
+
+    font-size: 17px;
+    letter-spacing: 2px;
+}
+
+#userProfileMenu .profile-menu-subtitle {
+    display: block;
+
+    margin-top: 7px;
+
+    font-size: 9px;
+    letter-spacing: 1px;
+
+    color: #7194aa;
+}
+
+
+/* OPCIONES */
+
+#userProfileMenu .profile-menu-options {
+    padding: 10px;
+}
+
+#userProfileMenu .profile-menu-options button {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 62px;
+
+    margin: 5px 0;
+    padding: 10px;
+
+    background: rgba(135, 206, 250, 0.025);
+
+    border: 1px solid rgba(135, 206, 250, 0.10);
+    border-radius: 9px;
+
+    text-align: left;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ICONOS */
+
+#userProfileMenu .profile-menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+
+    margin-right: 11px;
+
+    color: #87cefa;
+
+    background: rgba(135, 206, 250, 0.07);
+
+    border: 1px solid rgba(135, 206, 250, 0.18);
+    border-radius: 8px;
+
+    font-size: 19px;
+}
+
+
+/* TEXTOS */
+
+#userProfileMenu .profile-menu-option-text {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+    gap: 4px;
+}
+
+#userProfileMenu .profile-menu-option-text strong {
+    color: #d9efff;
+
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+#userProfileMenu .profile-menu-option-text small {
+    color: #7792a5;
+
+    font-size: 10px;
+}
+
+
+/* FLECHAS */
+
+#userProfileMenu .profile-menu-arrow {
+    color: #87cefa;
+
+    font-size: 23px;
+
+    opacity: 0.5;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+/* INTERACCIÓN */
+
+#userProfileMenu .profile-menu-options button:hover {
+    background: rgba(135, 206, 250, 0.09);
+
+    border-color: rgba(135, 206, 250, 0.45);
+
+    box-shadow:
+        0 0 12px rgba(135, 206, 250, 0.07);
+
+    transform: translateX(2px);
+}
+
+#userProfileMenu .profile-menu-options button:hover
+.profile-menu-arrow {
+    transform: translateX(3px);
+    opacity: 1;
+}
+
+
+/* PIE DEL MENÚ */
+
+#userProfileMenu .profile-menu-footer {
+    padding: 10px 12px 13px;
+
+    border-top: 1px solid rgba(135, 206, 250, 0.12);
+}
+
+
+/* CERRAR SESIÓN */
+
+#userProfileMenu .profile-menu-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    width: 100%;
+
+    padding: 11px;
+
+    background: rgba(255, 65, 65, 0.04);
+
+    border: 1px solid rgba(255, 65, 65, 0.18);
+    border-radius: 8px;
+
+    color: #ff8585;
+
+    font-size: 10px;
+    letter-spacing: 1.5px;
+
+    transition: 0.2s ease;
+}
+
+#userProfileMenu .profile-menu-logout:hover {
+    background: rgba(255, 65, 65, 0.12);
+
+    border-color: rgba(255, 65, 65, 0.5);
+
+    box-shadow:
+        0 0 12px rgba(255, 65, 65, 0.08);
+}
+
+
+/* IDENTIFICADOR INFERIOR */
+
+#userProfileMenu .profile-menu-footer-code {
+    display: block;
+
+    margin-top: 10px;
+
+    text-align: center;
+
+    font-size: 8px;
+    letter-spacing: 1.5px;
+
+    color: #516879;
+
+    opacity: 0.7;
+}
+
+
+/* ADAPTACIÓN A TELÉFONOS */
+
+@media (max-width: 480px) {
+
+    #userProfileMenu {
+        right: 0;
+        width: 280px;
+    }
+
+}
