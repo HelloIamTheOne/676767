@@ -2502,6 +2502,36 @@ body.admin-mode #userSettingsTrigger {
         border-color .2s,
         transform .2s,
         box-shadow .2s;
+
+    opacity: 0;
+    transform: translateY(9px);
+}
+
+#userProfileMenu.open .profile-menu-options button {
+    animation: accountOptionEnter .35s ease forwards;
+}
+
+#userProfileMenu.open .profile-menu-options button:nth-child(1) {
+    animation-delay: .05s;
+}
+
+#userProfileMenu.open .profile-menu-options button:nth-child(2) {
+    animation-delay: .10s;
+}
+
+#userProfileMenu.open .profile-menu-options button:nth-child(3) {
+    animation-delay: .15s;
+}
+
+@keyframes accountOptionEnter {
+    from {
+        opacity: 0;
+        transform: translateY(9px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ICONOS */
