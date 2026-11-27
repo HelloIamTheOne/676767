@@ -2351,63 +2351,49 @@ body.admin-mode #userSettingsTrigger {
 
 
 
-/* =========================================
-   PANEL PRINCIPAL DE CUENTA
-   ========================================= */
 
-#userProfileArea {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 1000;
-}
+/* =========================================
+   MENÚ DE CUENTA — ARCHIVO CLASIFICADO
+   ========================================= */
 
 #userProfileMenu {
     display: none;
     position: absolute;
-    z-index: 9999;
-
     top: calc(100% + 12px);
     right: 0;
+    z-index: 9999;
 
     width: 290px;
-    max-width: calc(100vw - 30px);
-
+    max-width: calc(100vw - 24px);
     padding: 0;
 
+    color: #d9efff;
     background:
-        linear-gradient(
-            145deg,
-            rgba(8, 23, 38, 0.98),
-            rgba(2, 9, 19, 0.99)
-        );
+        linear-gradient(145deg, #0a1c2d, #030912 85%);
 
-    border: 1px solid rgba(135, 206, 250, 0.4);
+    border: 1px solid #39ff14;
     border-radius: 14px;
 
     box-shadow:
-        0 0 15px rgba(135, 206, 250, 0.10),
-        0 0 35px rgba(0, 0, 0, 0.6),
-        inset 0 0 20px rgba(135, 206, 250, 0.025);
-
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+        0 0 12px rgba(57,255,20,.12),
+        0 0 30px rgba(57,255,20,.08),
+        0 15px 40px rgba(0,0,0,.65);
 
     overflow: hidden;
+    text-align: left;
 }
 
 #userProfileMenu.open {
     display: block;
-    animation: profileMenuAppear 0.22s ease-out;
+    animation: accountMenuOpen .25s ease-out;
 }
 
+/* APERTURA */
 
-/* ANIMACIÓN DE APERTURA */
-
-@keyframes profileMenuAppear {
+@keyframes accountMenuOpen {
     from {
         opacity: 0;
-        transform: translateY(-8px) scale(0.97);
+        transform: translateY(-12px) scale(.96);
     }
 
     to {
@@ -2416,85 +2402,107 @@ body.admin-mode #userSettingsTrigger {
     }
 }
 
-
-/* ENCABEZADO */
+/* CABECERA */
 
 #userProfileMenu .profile-menu-header {
-    padding: 18px 17px 15px;
+    position: relative;
+    padding: 18px;
+    overflow: hidden;
 
     background:
         linear-gradient(
-            120deg,
-            rgba(135, 206, 250, 0.08),
-            transparent
+            110deg,
+            rgba(57,255,20,.09),
+            transparent 75%
         );
 
-    border-bottom: 1px solid rgba(135, 206, 250, 0.15);
+    border-bottom: 1px solid rgba(57,255,20,.25);
+}
+
+#userProfileMenu .profile-menu-header::after {
+    content: "";
+    position: absolute;
+    right: -35px;
+    top: -35px;
+
+    width: 100px;
+    height: 100px;
+
+    border: 1px solid rgba(57,255,20,.12);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 12px rgba(57,255,20,.025),
+        0 0 0 25px rgba(57,255,20,.02);
+
+    pointer-events: none;
 }
 
 #userProfileMenu .profile-menu-code {
     display: block;
+    margin-bottom: 8px;
 
+    color: #39ff14;
+    font-family: monospace;
     font-size: 9px;
     letter-spacing: 3px;
-
-    color: #87cefa;
-    opacity: 0.75;
-
-    margin-bottom: 8px;
 }
 
 #userProfileMenu .profile-menu-header h3 {
     margin: 0;
 
-    color: #e8f7ff;
-
+    color: #eaffea;
     font-size: 17px;
     letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(57,255,20,.25);
 }
 
 #userProfileMenu .profile-menu-subtitle {
     display: block;
-
     margin-top: 7px;
 
+    color: #8aa88a;
+    font-family: monospace;
     font-size: 9px;
     letter-spacing: 1px;
-
-    color: #7194aa;
 }
-
 
 /* OPCIONES */
 
 #userProfileMenu .profile-menu-options {
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px;
 }
 
 #userProfileMenu .profile-menu-options button {
+    position: relative;
+
     display: flex;
     align-items: center;
+    gap: 11px;
 
     width: 100%;
     min-height: 62px;
 
-    margin: 5px 0;
+    margin: 0;
     padding: 10px;
 
-    background: rgba(135, 206, 250, 0.025);
+    color: #d9efff;
+    background: rgba(57,255,20,.025);
 
-    border: 1px solid rgba(135, 206, 250, 0.10);
+    border: 1px solid rgba(57,255,20,.14);
     border-radius: 9px;
 
     text-align: left;
 
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        background .2s,
+        border-color .2s,
+        transform .2s,
+        box-shadow .2s;
 }
-
 
 /* ICONOS */
 
@@ -2503,90 +2511,84 @@ body.admin-mode #userSettingsTrigger {
     align-items: center;
     justify-content: center;
 
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
 
-    margin-right: 11px;
+    margin: 0;
 
-    color: #87cefa;
+    color: #39ff14;
+    background: rgba(57,255,20,.06);
 
-    background: rgba(135, 206, 250, 0.07);
-
-    border: 1px solid rgba(135, 206, 250, 0.18);
+    border: 1px solid rgba(57,255,20,.2);
     border-radius: 8px;
 
     font-size: 19px;
 }
 
-
-/* TEXTOS */
+/* TEXTO */
 
 #userProfileMenu .profile-menu-option-text {
     display: flex;
     flex-direction: column;
-
     flex: 1;
-    gap: 4px;
+    gap: 5px;
+    min-width: 0;
 }
 
 #userProfileMenu .profile-menu-option-text strong {
-    color: #d9efff;
-
+    color: #eaffea;
     font-size: 11px;
     letter-spacing: 1.5px;
 }
 
 #userProfileMenu .profile-menu-option-text small {
-    color: #7792a5;
-
+    color: #819aab;
     font-size: 10px;
+    line-height: 1.4;
 }
 
-
-/* FLECHAS */
+/* FLECHA */
 
 #userProfileMenu .profile-menu-arrow {
-    color: #87cefa;
+    flex-shrink: 0;
 
-    font-size: 23px;
-
-    opacity: 0.5;
+    color: #39ff14;
+    font-size: 22px;
+    opacity: .45;
 
     transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
+        transform .2s,
+        opacity .2s;
 }
-
 
 /* INTERACCIÓN */
 
 #userProfileMenu .profile-menu-options button:hover {
-    background: rgba(135, 206, 250, 0.09);
-
-    border-color: rgba(135, 206, 250, 0.45);
+    background: rgba(57,255,20,.07);
+    border-color: rgba(57,255,20,.45);
 
     box-shadow:
-        0 0 12px rgba(135, 206, 250, 0.07);
+        inset 0 0 12px rgba(57,255,20,.035),
+        0 0 10px rgba(57,255,20,.06);
 
-    transform: translateX(2px);
+    transform: translateX(3px);
 }
 
 #userProfileMenu .profile-menu-options button:hover
 .profile-menu-arrow {
-    transform: translateX(3px);
+    transform: translateX(4px);
     opacity: 1;
 }
 
-
-/* PIE DEL MENÚ */
+/* PIE */
 
 #userProfileMenu .profile-menu-footer {
-    padding: 10px 12px 13px;
+    padding: 12px;
+    background: rgba(0,0,0,.2);
 
-    border-top: 1px solid rgba(135, 206, 250, 0.12);
+    border-top: 1px solid rgba(57,255,20,.15);
 }
-
 
 /* CERRAR SESIÓN */
 
@@ -2597,57 +2599,137 @@ body.admin-mode #userSettingsTrigger {
     gap: 9px;
 
     width: 100%;
-
-    padding: 11px;
-
-    background: rgba(255, 65, 65, 0.04);
-
-    border: 1px solid rgba(255, 65, 65, 0.18);
-    border-radius: 8px;
+    margin: 0;
+    padding: 12px;
 
     color: #ff8585;
+    background: rgba(255,32,32,.035);
+
+    border: 1px solid rgba(255,32,32,.22);
+    border-radius: 8px;
 
     font-size: 10px;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
 
-    transition: 0.2s ease;
+    transition: .2s;
 }
 
 #userProfileMenu .profile-menu-logout:hover {
-    background: rgba(255, 65, 65, 0.12);
-
-    border-color: rgba(255, 65, 65, 0.5);
-
-    box-shadow:
-        0 0 12px rgba(255, 65, 65, 0.08);
+    background: rgba(255,32,32,.1);
+    border-color: rgba(255,32,32,.55);
+    box-shadow: 0 0 12px rgba(255,32,32,.08);
 }
 
-
-/* IDENTIFICADOR INFERIOR */
+/* IDENTIFICADOR */
 
 #userProfileMenu .profile-menu-footer-code {
     display: block;
-
     margin-top: 10px;
 
-    text-align: center;
-
+    color: #536a7b;
+    font-family: monospace;
     font-size: 8px;
     letter-spacing: 1.5px;
 
-    color: #516879;
-
-    opacity: 0.7;
+    text-align: center;
 }
 
+/* ADMINISTRADOR — CELESTE */
 
-/* ADAPTACIÓN A TELÉFONOS */
+body.admin-mode #userProfileMenu {
+    color: #d9efff;
+    background:
+        linear-gradient(145deg, #0a2033, #030912 85%);
+
+    border-color: #87cefa;
+
+    box-shadow:
+        0 0 14px rgba(135,206,250,.15),
+        0 0 32px rgba(135,206,250,.08),
+        0 15px 40px rgba(0,0,0,.65);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-header {
+    background:
+        linear-gradient(
+            110deg,
+            rgba(135,206,250,.1),
+            transparent 75%
+        );
+
+    border-color: rgba(135,206,250,.25);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-header::after {
+    border-color: rgba(135,206,250,.12);
+    box-shadow:
+        0 0 0 12px rgba(135,206,250,.025),
+        0 0 0 25px rgba(135,206,250,.02);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-code,
+body.admin-mode #userProfileMenu .profile-menu-icon,
+body.admin-mode #userProfileMenu .profile-menu-arrow {
+    color: #87cefa;
+}
+
+body.admin-mode #userProfileMenu .profile-menu-header h3,
+body.admin-mode #userProfileMenu .profile-menu-option-text strong {
+    color: #e8f7ff;
+}
+
+body.admin-mode #userProfileMenu .profile-menu-subtitle {
+    color: #7194aa;
+}
+
+body.admin-mode #userProfileMenu .profile-menu-options button {
+    background: rgba(135,206,250,.025);
+    border-color: rgba(135,206,250,.14);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-icon {
+    background: rgba(135,206,250,.06);
+    border-color: rgba(135,206,250,.2);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-options button:hover {
+    background: rgba(135,206,250,.08);
+    border-color: rgba(135,206,250,.45);
+    box-shadow: 0 0 12px rgba(135,206,250,.07);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-footer {
+    border-color: rgba(135,206,250,.15);
+}
+
+body.admin-mode #userProfileMenu .profile-menu-footer-code {
+    color: #58768b;
+}
+
+/* MÓVILES */
 
 @media (max-width: 480px) {
-
     #userProfileMenu {
-        right: 0;
         width: 280px;
+        max-width: calc(100vw - 20px);
     }
 
+    #userProfileMenu .profile-menu-header {
+        padding: 15px;
+    }
+
+    #userProfileMenu .profile-menu-options {
+        padding: 9px;
+        gap: 6px;
+    }
+
+    #userProfileMenu .profile-menu-options button {
+        min-height: 57px;
+        padding: 8px;
+    }
+
+    #userProfileMenu .profile-menu-icon {
+        width: 34px;
+        height: 34px;
+    }
 }
