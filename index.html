@@ -62,15 +62,64 @@
     <button id="userProfileMenuButton"
             onclick="toggleProfileMenu()">!!!</button>
 
+    
     <div id="userProfileMenu">
-        <button onclick="openProfileSection('secrets')">Secretos</button>
-        <button onclick="openProfileSection('time')">Tiempo</button>
-        <button onclick="openProfileSection('levels')">Niveles</button>
-        <button onclick="logoutProfile()">Cerrar sesión</button>
+
+        <div class="profile-menu-header">
+            <span class="profile-menu-code">USER / ACCESS</span>
+            <h3>PANEL DE CUENTA</h3>
+            <span class="profile-menu-subtitle">
+                CENTRO DE INFORMACIÓN PERSONAL
+            </span>
+        </div>
+
+        <div class="profile-menu-options">
+
+            <button onclick="openProfileSection('secrets')">
+                <span class="profile-menu-icon">◈</span>
+                <span class="profile-menu-option-text">
+                    <strong>SECRETOS</strong>
+                    <small>Historial de descubrimientos</small>
+                </span>
+                <span class="profile-menu-arrow">›</span>
+            </button>
+
+            <button onclick="openProfileSection('time')">
+                <span class="profile-menu-icon">◷</span>
+                <span class="profile-menu-option-text">
+                    <strong>TIEMPO</strong>
+                    <small>Actividad y estadísticas</small>
+                </span>
+                <span class="profile-menu-arrow">›</span>
+            </button>
+
+            <button onclick="openProfileSection('levels')">
+                <span class="profile-menu-icon">◇</span>
+                <span class="profile-menu-option-text">
+                    <strong>CLASIFICACIÓN</strong>
+                    <small>Progreso y nivel de acceso</small>
+                </span>
+                <span class="profile-menu-arrow">›</span>
+            </button>
+
+        </div>
+
+        <div class="profile-menu-footer">
+
+            <button class="profile-menu-logout"
+                    onclick="logoutProfile()">
+                <span>⏻</span>
+                CERRAR SESIÓN
+            </button>
+
+            <span class="profile-menu-footer-code">
+                ARCHIVO CLASIFICADO / USER SYSTEM
+            </span>
+
+        </div>
+
     </div>
 
-   
-</div>
 
 <!-- VENTANA DE CONFIGURACIONES DEL USUARIO -->
 <div id="userSettingsOverlay" aria-hidden="true">
