@@ -949,6 +949,21 @@ function openProfileSection(section) {
     const target = sections[section];
     if (!target || !window.currentProfileUser) return;
 
+// Marcar la opción actualmente seleccionada.
+document.querySelectorAll(
+    "#userProfileMenu .profile-menu-options button"
+).forEach(button => {
+    button.classList.remove("selected");
+});
+
+const selectedButton = document.querySelector(
+    `#userProfileMenu .profile-menu-options button[data-section="${section}"]`
+);
+
+if (selectedButton) {
+    selectedButton.classList.add("selected");
+}
+
     document.querySelectorAll(".page").forEach(page => {
         page.classList.remove("active");
     });
