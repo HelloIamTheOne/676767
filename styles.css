@@ -2843,6 +2843,18 @@ body.admin-mode #userProfileMenu .profile-menu-icon {
     border-color: rgba(135,206,250,.2);
 }
 
+body.admin-mode #userProfileMenu
+.profile-menu-options button.selected
+.profile-menu-icon {
+    color: #87cefa;
+    background: rgba(135,206,250,.10);
+    border-color: rgba(135,206,250,.55);
+
+    box-shadow:
+        0 0 8px rgba(135,206,250,.2),
+        inset 0 0 8px rgba(135,206,250,.08);
+}
+
 
 /* BRILLO CELESTE DEL ICONO SELECCIONADO */
 
