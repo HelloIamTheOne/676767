@@ -2391,11 +2391,28 @@ body.admin-mode #userSettingsTrigger {
 /* OPCIÓN SELECCIONADA */
 
 #userProfileMenu .profile-menu-options button.selected {
-    background: rgba(57,255,20,.09);
-    border-color: rgba(57,255,20,.55);
+    background: rgba(57,255,20,.11);
+    border-color: rgba(57,255,20,.65);
+
     box-shadow:
-        inset 0 0 12px rgba(57,255,20,.05),
-        0 0 12px rgba(57,255,20,.09);
+        inset 0 0 14px rgba(57,255,20,.07),
+        0 0 14px rgba(57,255,20,.13);
+
+    animation: selectedOptionGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes selectedOptionGlow {
+    from {
+        box-shadow:
+            inset 0 0 10px rgba(57,255,20,.04),
+            0 0 8px rgba(57,255,20,.07);
+    }
+
+    to {
+        box-shadow:
+            inset 0 0 16px rgba(57,255,20,.10),
+            0 0 17px rgba(57,255,20,.17);
+    }
 }
 
 #userProfileMenu .profile-menu-options button.selected
