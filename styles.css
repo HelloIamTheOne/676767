@@ -2658,6 +2658,31 @@ body.admin-mode #userSettingsTrigger {
     opacity: 1;
 }
 
+
+/* BRILLO DINÁMICO DE LOS ICONOS */
+
+#userProfileMenu .profile-menu-options button:hover
+.profile-menu-icon {
+    box-shadow:
+        0 0 8px rgba(57,255,20,.18),
+        inset 0 0 8px rgba(57,255,20,.08);
+
+    border-color: rgba(57,255,20,.5);
+    transform: scale(1.06);
+    transition: .2s ease;
+}
+
+body.admin-mode #userProfileMenu
+.profile-menu-options button:hover
+.profile-menu-icon {
+    box-shadow:
+        0 0 8px rgba(135,206,250,.2),
+        inset 0 0 8px rgba(135,206,250,.08);
+
+    border-color: rgba(135,206,250,.5);
+}
+
+
 #userProfileMenu .profile-menu-options button:active {
     transform: scale(.96) translateY(1px);
 
