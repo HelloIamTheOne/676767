@@ -2849,11 +2849,28 @@ body.admin-mode #userProfileMenu .profile-menu-footer-code {
 
 body.admin-mode #userProfileMenu
 .profile-menu-options button.selected {
-    background: rgba(135,206,250,.10);
-    border-color: rgba(135,206,250,.6);
+    background: rgba(135,206,250,.12);
+    border-color: rgba(135,206,250,.65);
+
     box-shadow:
-        inset 0 0 12px rgba(135,206,250,.05),
-        0 0 12px rgba(135,206,250,.10);
+        inset 0 0 14px rgba(135,206,250,.07),
+        0 0 14px rgba(135,206,250,.13);
+
+    animation: selectedOptionGlowAdmin 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes selectedOptionGlowAdmin {
+    from {
+        box-shadow:
+            inset 0 0 10px rgba(135,206,250,.04),
+            0 0 8px rgba(135,206,250,.07);
+    }
+
+    to {
+        box-shadow:
+            inset 0 0 16px rgba(135,206,250,.10),
+            0 0 17px rgba(135,206,250,.17);
+    }
 }
 
 body.admin-mode #userProfileMenu
