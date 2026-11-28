@@ -2877,7 +2877,9 @@ body.admin-mode #userProfileMenu
         inset 0 0 14px rgba(135,206,250,.07),
         0 0 14px rgba(135,206,250,.13);
 
-    animation: selectedOptionGlowAdmin 2.5s ease-in-out infinite alternate;
+    animation:
+    accountOptionEnter .35s ease forwards,
+    selectedOptionGlowAdmin 2.5s ease-in-out infinite alternate;
 }
 
 @keyframes selectedOptionGlowAdmin {
