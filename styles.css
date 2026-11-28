@@ -2388,6 +2388,22 @@ body.admin-mode #userSettingsTrigger {
     animation: accountMenuOpen .25s ease-out;
 }
 
+/* OPCIÓN SELECCIONADA */
+
+#userProfileMenu .profile-menu-options button.selected {
+    background: rgba(57,255,20,.09);
+    border-color: rgba(57,255,20,.55);
+    box-shadow:
+        inset 0 0 12px rgba(57,255,20,.05),
+        0 0 12px rgba(57,255,20,.09);
+}
+
+#userProfileMenu .profile-menu-options button.selected
+.profile-menu-arrow {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
 /* APERTURA */
 
 @keyframes accountMenuOpen {
@@ -2754,6 +2770,15 @@ body.admin-mode #userProfileMenu .profile-menu-footer {
 
 body.admin-mode #userProfileMenu .profile-menu-footer-code {
     color: #58768b;
+}
+
+body.admin-mode #userProfileMenu
+.profile-menu-options button.selected {
+    background: rgba(135,206,250,.10);
+    border-color: rgba(135,206,250,.6);
+    box-shadow:
+        inset 0 0 12px rgba(135,206,250,.05),
+        0 0 12px rgba(135,206,250,.10);
 }
 
 /* MÓVILES */
