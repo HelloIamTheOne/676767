@@ -2525,6 +2525,7 @@ body.admin-mode #userSettingsTrigger {
 
 #userProfileMenu.open .profile-menu-options button {
     animation: accountOptionEnter .35s ease forwards;
+    transform-origin: left center;
 }
 
 #userProfileMenu.open .profile-menu-options button:nth-child(1) {
