@@ -2781,6 +2781,13 @@ body.admin-mode #userProfileMenu
         0 0 12px rgba(135,206,250,.10);
 }
 
+body.admin-mode #userProfileMenu
+.profile-menu-options button.selected
+.profile-menu-arrow {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
 /* MÓVILES */
 
 @media (max-width: 480px) {
